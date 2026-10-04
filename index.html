@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>لَكِ شيءٌ صغير 🤍</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =================================
+         شاشة البداية
+    ================================== -->
+
+    <main id="experience">
+
+        <section class="screen active" id="start-screen">
+
+            <div class="content">
+
+                <span class="small-label">
+                    تجربة صغيرة
+                </span>
+
+                <h1>
+                    عندي لكِ حاجة بسيطة...
+                </h1>
+
+                <p>
+                    بس لازم تكمليها للآخر.
+                </p>
+
+                <button class="main-btn" id="startBtn">
+                    نبدأ
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             المرحلة الأولى
+        ================================== -->
+
+       
+<section class="screen" id="level-1">
+
+    <div class="content">
+
+        <span class="level-number">
+            ١
+        </span>
+
+        <h2>
+            مين المختلف؟ 👀
+        </h2>
+
+        <p>
+            واحدة بس مش شبه الباقي...
+            <br>
+            شوفي هتلاقيها ولا لأ.
+        </p>
+
+        <div class="observation-puzzle" id="observationPuzzle">
+
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star different">✧</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+            <button class="puzzle-star">✦</button>
+
+        </div>
+
+        <p class="puzzle-feedback" id="puzzleFeedback"></p>
+
+        <button class="main-btn next-btn puzzle-next" id="puzzleNext">
+            كملي
+        </button>
+
+    </div>
+
+</section>
+
+
+        <!-- =================================
+             المرحلة الثانية
+        ================================== -->
+
+        <!-- =================================
+     المرحلة الثانية
+================================== -->
+
+<section class="screen" id="level-2">
+
+    <div class="content">
+
+        <span class="level-number">
+            ٢
+        </span>
+
+        <h2>
+            عندك ٣ حاجات مستخبية 👀
+        </h2>
+
+        <p>
+            دوري عليهم واحدة واحدة...
+            <br>
+            وكل واحدة هتقولك حرف.
+        </p>
+
+        <!-- الحروف التي تم اكتشافها -->
+
+        <div class="secret-code" id="secretCode">
+
+            <span class="code-letter">؟</span>
+            <span class="code-letter">؟</span>
+            <span class="code-letter">؟</span>
+
+        </div>
+
+
+        <!-- منطقة البحث -->
+
+        <div class="hidden-items">
+
+            <button
+                class="hidden-item item-one"
+                data-letter="س"
+                aria-label="عنصر مخفي">
+                ✦
+            </button>
+
+            <button
+                class="hidden-item item-two"
+                data-letter="م"
+                aria-label="عنصر مخفي">
+                ♡
+            </button>
+
+            <button
+                class="hidden-item item-three"
+                data-letter="ا"
+                aria-label="عنصر مخفي">
+                ✧
+            </button>
+
+
+            <!-- عناصر للتمويه -->
+
+            <span class="decoy-item decoy-one">
+                ✦
+            </span>
+
+            <span class="decoy-item decoy-two">
+                ·
+            </span>
+
+            <span class="decoy-item decoy-three">
+                ✧
+            </span>
+
+            <span class="decoy-item decoy-four">
+                ♡
+            </span>
+
+            <span class="decoy-item decoy-five">
+                ·
+            </span>
+
+        </div>
+
+
+        <p class="code-feedback" id="codeFeedback"></p>
+
+
+        <button
+    class="main-btn puzzle-next next-btn"
+    id="codeNext">
+    كملي
+</button>
+
+    </div>
+
+</section>
+
+
+        <!-- =================================
+             المرحلة الثالثة
+        ================================== -->
+
+<!-- PUZZLE 3 -->
+<section class="screen" id="level-3">
+  <div class="content">
+
+    <span class="level-number">٣</span>
+
+    <h2>رتّبي الرموز بالترتيب الصح 👀</h2>
+
+    <p>
+      كل رمز له مكانه...
+      <br>
+      حاولي تعرفي الترتيب الصحيح.
+    </p>
+
+    <div class="symbol-puzzle" id="symbolPuzzle">
+
+      <div class="symbol-slot" data-position="1"></div>
+      <div class="symbol-slot" data-position="2"></div>
+      <div class="symbol-slot" data-position="3"></div>
+      <div class="symbol-slot" data-position="4"></div>
+
+    </div>
+
+    <div class="symbols">
+
+      <button class="symbol" data-symbol="moon">☾</button>
+
+      <button class="symbol" data-symbol="star">✦</button>
+
+      <button class="symbol" data-symbol="heart">♡</button>
+
+      <button class="symbol" data-symbol="sparkle">✧</button>
+
+    </div>
+
+    <p class="symbol-feedback" id="symbolFeedback"></p>
+
+    <button
+      class="main-btn puzzle-next next-btn"
+      id="symbolNext"
+    >
+      كملي
+    </button>
+
+  </div>
+</section>
+        
+        <!-- =================================
+             المرحلة الرابعة
+        ================================== -->
+
+<!-- PUZZLE 4 -->
+<section class="screen" id="level-4">
+
+  <div class="content">
+
+    <span class="level-number">٤</span>
+
+    <h2>في حاجة مقفولة هنا 🔐</h2>
+
+    <p>
+      محتاجة ٣ أرقام عشان تفتحيها...
+      <br>
+      ركزي في الإشارات 👀
+    </p>
+
+    <div class="lock-box">
+
+      <div class="lock-screen">
+        <span id="lockDigit1">_</span>
+        <span id="lockDigit2">_</span>
+        <span id="lockDigit3">_</span>
+      </div>
+
+      <div class="lock-hint">
+        <p>🌙 + 🌙 = 8</p>
+        <p>🌙 + ⭐ = 11</p>
+        <p>⭐ + ⭐ = 14</p>
+      </div>
+
+      <div class="lock-inputs">
+
+        <button class="lock-number" data-number="0">0</button>
+        <button class="lock-number" data-number="1">1</button>
+        <button class="lock-number" data-number="2">2</button>
+        <button class="lock-number" data-number="3">3</button>
+        <button class="lock-number" data-number="4">4</button>
+        <button class="lock-number" data-number="5">5</button>
+        <button class="lock-number" data-number="6">6</button>
+        <button class="lock-number" data-number="7">7</button>
+        <button class="lock-number" data-number="8">8</button>
+        <button class="lock-number" data-number="9">9</button>
+
+      </div>
+
+      <button class="lock-clear" id="lockClear">
+        مسح
+      </button>
+
+    </div>
+
+    <p class="lock-feedback" id="lockFeedback"></p>
+
+    <button
+      class="main-btn puzzle-next next-btn"
+      id="lockNext"
+    >
+      افتحي اللي بعده
+    </button>
+
+  </div>
+
+</section>
+
+
+        <!-- =================================
+             مرحلة التحول
+        ================================== -->
+
+        <!-- PUZZLE 5 -->
+<section class="screen" id="level-5">
+
+  <div class="content">
+
+    <span class="level-number">٥</span>
+
+    <h2>واحد بس هو الطريق الصح 👀</h2>
+
+    <p>
+      اختاري باب واحد...
+      <br>
+      وماتستعجليش 🤍
+    </p>
+
+    <div class="doors">
+
+      <button class="door door-moon" data-door="moon">
+        <span class="door-icon">🌙</span>
+        <span class="door-label">الباب الأول</span>
+      </button>
+
+      <button class="door door-rose" data-door="rose">
+        <span class="door-icon">🌹</span>
+        <span class="door-label">الباب الثاني</span>
+      </button>
+
+      <button class="door door-star" data-door="star">
+        <span class="door-icon">⭐</span>
+        <span class="door-label">الباب الثالث</span>
+      </button>
+
+    </div>
+
+    <p class="door-feedback" id="doorFeedback"></p>
+
+    <button
+      class="main-btn puzzle-next next-btn"
+      id="doorNext"
+    >
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+        <!-- =================================
+             القسم الشخصي
+        ================================== -->
+
+       <!-- PERSONAL MESSAGE -->
+<section class="screen" id="personal-screen">
+
+  <div class="personal-content">
+
+    <span class="personal-name">دكتورة سما...</span>
+
+    <h2 class="personal-title">
+      يمكن إحنا مش أكتر اتنين عاشوا حكاية كبيرة.
+    </h2>
+
+    <div class="personal-text">
+
+      <p>
+        مفيش بينا صور كتير.
+      </p>
+
+      <p>
+        مفيش مئات الخروجات.
+      </p>
+
+      <p>
+        ومفيش ذكريات بالشكل اللي الناس بتفتكر إن الحب لازم يبقى عليه.
+      </p>
+
+      <p class="highlight">
+        بس الغريب...
+      </p>
+
+      <p>
+        إنك فضلتي واحدة من الناس اللي وجودهم بيفضل له معنى.
+      </p>
+
+    </div>
+
+    <button class="main-btn personal-next" id="personalNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     PERSONAL PART 2
+========================= -->
+
+<section class="screen love-section" id="love-part-2">
+
+  <div class="love-content">
+
+    <span class="love-small">في حاجات بحبها فيكي...</span>
+
+    <h2>
+      يمكن إنتِ نفسك مش واخدة بالك منها.
+    </h2>
+
+    <div class="love-lines">
+
+      <p>بحب صوتك.</p>
+
+      <p>بحب طموحك.</p>
+
+      <p>بحب طريقتك في التعامل مع الناس.</p>
+
+      <p>وبحب أكتر الطريقة اللي بتعاملي بيها معايا.</p>
+
+    </div>
+
+    <div class="love-highlight">
+      <span>وأكتر حاجة...</span>
+
+      <strong>
+        بحب قلبك.
+      </strong>
+    </div>
+
+    <button class="main-btn final-next" id="loveNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     HER JOURNEY
+========================= -->
+
+<section class="screen love-section" id="her-journey">
+
+  <div class="love-content">
+
+    <span class="love-small">
+      ودلوقتي...
+    </span>
+
+    <h2>
+      عايز أقولك حاجة عنك.
+    </h2>
+
+    <div class="journey-text">
+
+      <p>
+        أنا شايف البنت اللي تعبت عشان توصل للمكان اللي هي فيه دلوقتي.
+      </p>
+
+      <p class="doctor-line">
+        دكتورة سما.
+      </p>
+
+      <p>
+        الاسم اللي الناس بتشوفه دلوقتي وتقول:
+        ما شاء الله، وصلت.
+      </p>
+
+      <p>
+        بس الوصول مش بيحكي كل حاجة.
+      </p>
+
+      <p>
+        مش بيحكي عن الأيام التقيلة...
+      </p>
+
+      <p>
+        ولا التعب...
+      </p>
+
+      <p>
+        ولا الأيام اللي كان مجرد إنك تكملي فيها
+        إنجاز لوحده.
+      </p>
+
+    </div>
+
+    <button class="main-btn final-next" id="journeyNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     COMFORT
+========================= -->
+
+<section class="screen love-section comfort-section" id="comfort">
+
+  <div class="love-content">
+
+    <span class="love-small">
+      وفي حاجة تانية...
+    </span>
+
+    <h2>
+      أتمنى تفضلي فاكرة دايمًا
+    </h2>
+
+    <div class="comfort-text">
+
+      <p>
+        إنك تستحقي الراحة زي ما تستحقي النجاح.
+      </p>
+
+      <p>
+        وإن الأيام الصعبة اللي عديتي بيها
+        مش بتقلل أبدًا من جمال اللي وصلتي له.
+      </p>
+
+      <p>
+        وعارفة إيه؟
+      </p>
+
+      <p class="strong-line">
+        إنتِ أقوى مما تتخيلي.
+      </p>
+
+      <p>
+        وأجمل مما بتدي لنفسك فرصة تصدقي.
+      </p>
+
+    </div>
+
+    <button class="main-btn final-next" id="comfortNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     MEMORY
+========================= -->
+
+<section class="screen love-section memory-section" id="memory">
+
+  <div class="love-content">
+
+    <span class="love-small">
+      وفي حاجة صغيرة منك...
+    </span>
+
+    <h2>
+      يمكن إنتِ نسيتيها.
+    </h2>
+
+    <div class="memory-text">
+
+      <p>
+        أنا لأ.
+      </p>
+
+      <p>
+        يوم ما ظهرت نتيجتي في تالتة ثانوي...
+      </p>
+
+      <p>
+        فرحتك بيا كانت من الحاجات اللي فضلت معايا.
+      </p>
+
+      <p>
+        مش عشان كانت مناسبة كبيرة.
+      </p>
+
+      <p>
+        لكن عشان حسيت إن فرحتي فرحتك فعلًا.
+      </p>
+
+      <p class="memory-highlight">
+        ودي حاجة حبيتها فيكي جدًا.
+      </p>
+
+      <p class="heart-word">
+        قلبك.
+      </p>
+
+    </div>
+
+    <button class="main-btn final-next" id="memoryNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONFESSION INTRO
+========================= -->
+
+<section class="screen confession-section" id="confession-intro">
+
+  <div class="confession-content">
+
+    <span class="confession-small">
+      وعشان كده...
+    </span>
+
+    <h2>
+      أنا عملت كل ده عشان حاجة واحدة.
+    </h2>
+
+    <p class="confession-line">
+      حاجة كان نفسي أقولها كاملة...
+    </p>
+
+    <p class="confession-line">
+      من غير خوف.
+    </p>
+
+    <p class="confession-line">
+      ومن غير ما أسيب نص الكلام جوايا.
+    </p>
+
+    <button class="main-btn confession-btn" id="confessionNext">
+      اسمعيني 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONFESSION
+========================= -->
+
+<section class="screen confession-main" id="confession">
+
+  <div class="confession-content">
+
+    <div class="rose-glow">
+      🌹
+    </div>
+
+    <p class="confession-before">
+      دكتورة سما...
+    </p>
+
+    <h1 class="confession-title">
+      أنا بحبك.
+    </h1>
+
+    <p class="confession-text">
+      مش إعجاب عابر.
+      <br>
+      ومش كلمة قلتها وخلاص.
+    </p>
+
+    <p class="confession-text">
+      أنا فعلًا وقعت فيكي.
+    </p>
+
+    <div class="big-confession">
+      أنا دوبت فيكي<br>
+      <span>يا سموكتي 🤍</span>
+    </div>
+
+    <button class="main-btn confession-btn" id="responseNext">
+      كملي 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     NO PRESSURE
+========================= -->
+
+<section class="screen love-section response-section" id="response">
+
+  <div class="love-content">
+
+    <span class="love-small">
+      ومش مطلوب منك حاجة.
+    </span>
+
+    <h2>
+      أنا بس حبيت أقولها.
+    </h2>
+
+    <div class="response-text">
+
+      <p>
+        مش مطلوب منك تعرفي تقولي إيه دلوقتي.
+      </p>
+
+      <p>
+        ولا مطلوب منك تردي بطريقة معينة.
+      </p>
+
+      <p>
+        أنا بس حبيت المرة دي أقولها كاملة.
+      </p>
+
+      <p class="response-highlight">
+        من غير ما أخاف.
+      </p>
+
+      <p>
+        ومن غير ما أسيب نص الكلام جوايا.
+      </p>
+
+    </div>
+
+    <button class="main-btn final-next" id="lastNext">
+      آخر حاجة 🤍
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FINAL
+========================= -->
+
+<section class="screen final-love" id="final-love">
+
+  <div class="final-content">
+
+    <div class="final-rose">
+      🌹
+    </div>
+
+    <p class="final-small">
+      دكتورة سما
+    </p>
+
+    <h1>
+      سموكتي 🤍
+    </h1>
+
+    <p class="final-message">
+      إنتِ تستحقي حاجات جميلة كتير.
+    </p>
+
+    <p class="final-message">
+      وأنا أتمنى أشوفك دايمًا بتوصلي
+      لكل حاجة نفسك فيها.
+    </p>
+
+    <p class="final-message">
+      وحتى لو أنا مش عارف بكرة هيحصل فيه إيه...
+    </p>
+
+    <p class="final-last">
+      النهارده أنا عارف حاجة واحدة.
+    </p>
+
+    <div class="final-i-love-you">
+      أنا بحبك.
+    </div>
+
+    <p class="flower-message">
+      ودي وردتك...
+      <br>
+      اللي معرفتش أجيبهالك وقتها. 🌹
+    </p>
+
+  </div>
+
+</section>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
