@@ -439,7 +439,7 @@ doors.forEach((door) => {
 
       doorFeedback.textContent =
         ". كُلُّ إتجاه إلى عَينكِ يأخُذني 
-‏مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟";
+‏مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟ ";
 
       doorFeedback.classList.add("show");
 
@@ -457,13 +457,15 @@ doors.forEach((door) => {
       if (selectedDoor === "moon") {
 
         doorFeedback.textContent =
-          "حلو... بس لسه مش ده 👀";
+          ". لا تَسْأَليني هَلْ أُحِبُّهُما ؟
+عَيْناكِ إنّي مِنهُما لَهُما";
 
       } else {
 
         doorFeedback.textContent =
-          "  ";
-
+ "لا تَسْأَليني هَلْ أُحِبُّهُما ؟
+عَيْناكِ إنّي مِنهُما لَهُما
+";
       }
 
       doorFeedback.classList.add("show");
