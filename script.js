@@ -373,7 +373,7 @@ function checkLock() {
   } else {
 
     lockFeedback.textContent =
-      "مش هو ده... جربي تاني 👀";
+      "الاجابه ديما بتبقا قدام عينينا واحنا مش عارفين";
 
     lockFeedback.classList.add("show");
 
@@ -438,7 +438,8 @@ doors.forEach((door) => {
 
 
       doorFeedback.textContent =
-        "واضح إنك بدأتي توصلي... 🌹";
+        ". كُلُّ إتجاه إلى عَينكِ يأخُذني 
+‏مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟";
 
       doorFeedback.classList.add("show");
 
@@ -461,7 +462,7 @@ doors.forEach((door) => {
       } else {
 
         doorFeedback.textContent =
-          "قريبة... جربي باب تاني ✨";
+          "  ";
 
       }
 
