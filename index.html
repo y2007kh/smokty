@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, viewport-fit=cover"
@@ -10,681 +12,385 @@
     <title>لَكِ شيءٌ صغير 🤍</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <!--
-        تعديلات خاصة بالموبايل والـ Scroll
-        موجودة هنا حتى تضمن إن الشاشات الطويلة
-        تقدر تتسحب طبيعي من غير Zoom.
-    -->
-    <style>
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        body {
-            overflow: hidden;
-            min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        #experience {
-            width: 100%;
-            min-height: 100vh;
-            min-height: 100dvh;
-            position: relative;
-        }
-
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-
-            width: 100%;
-            height: 100vh;
-            height: 100dvh;
-
-            min-height: 100vh;
-            min-height: 100dvh;
-
-            overflow-y: auto;
-            overflow-x: hidden;
-
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior-y: contain;
-
-            padding:
-                35px
-                20px
-                calc(120px + env(safe-area-inset-bottom))
-                20px;
-
-            align-items: flex-start;
-
-            scrollbar-width: none;
-        }
-
-        .screen::-webkit-scrollbar {
-            display: none;
-        }
-
-        .screen > .content,
-        .screen > .personal-content,
-        .screen > .love-content,
-        .screen > .confession-content,
-        .screen > .final-content {
-            width: 100%;
-            max-width: 700px;
-
-            margin-top: 0;
-            margin-bottom: 0;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /*
-            مساحة فارغة بسيطة في آخر كل شاشة.
-            دي اللي بتدي الموبايل فرصة يسحب لآخر المحتوى
-            بشكل طبيعي بدل ما المحتوى يقف عند آخر عنصر.
-        */
-        .screen::after {
-            content: "";
-            display: block;
-            width: 100%;
-            min-height: 70px;
-            flex-shrink: 0;
-        }
-
-
-        /* =========================================
-           تنسيق الأبيات
-        ========================================= */
-
-     
-
-
-        /* =========================================
-           الموبايل
-        ========================================= */
-
-        @media (max-width: 600px) {
-
-            .screen {
-                height: 100dvh;
-                min-height: 100dvh;
-
-                padding:
-                    35px
-                    18px
-                    calc(125px + env(safe-area-inset-bottom))
-                    18px;
-            }
-
-            .screen > .content,
-            .screen > .personal-content,
-            .screen > .love-content,
-            .screen > .confession-content,
-            .screen > .final-content {
-                margin-top: 0;
-                margin-bottom: 0;
-            }
-
-            .screen::after {
-                min-height: 85px;
-            }
-
-            .poem {
-                margin-top: 28px;
-                margin-bottom: 28px;
-
-                padding: 18px 15px;
-
-                font-size: 19px;
-                line-height: 2.05;
-            }
-        }
-
-    </style>
-
 </head>
 
-
 <body>
+
+<main id="experience">
 
     <!-- =================================
          شاشة البداية
     ================================== -->
 
-    <main id="experience">
+    <section class="screen active" id="start-screen">
 
-        <section class="screen active" id="start-screen">
+        <div class="content">
 
-            <div class="content">
+            <span class="small-label">
+                تجربة صغيرة
+            </span>
 
-                <span class="small-label">
-                    تجربة صغيرة
-                </span>
+            <h1>
+                عندي لكِ حاجة بسيطة...
+            </h1>
 
-                <h1>
-                    عندي لكِ حاجة بسيطة...
-                </h1>
+            <p>
+                بس لازم تكمليها للآخر.
+            </p>
 
-                <p>
-                    بس لازم تكمليها للآخر.
-                </p>
+            <button class="main-btn" id="startBtn">
+                نبدأ
+            </button>
 
-                <button class="main-btn" id="startBtn">
-                    نبدأ
-                </button>
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         المرحلة الأولى
+    ================================== -->
+
+    <section class="screen" id="level-1">
+
+        <div class="content">
+
+            <span class="level-number">١</span>
+
+            <h2>
+                مين المختلف؟ 👀
+            </h2>
+
+            <p>
+                واحدة بس مش شبه الباقي...
+                <br>
+                شوفي هتلاقيها ولا لأ.
+            </p>
+
+            <div class="observation-puzzle">
+
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star different">✧</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
+                <button class="puzzle-star">✦</button>
 
             </div>
 
-        </section>
+            <p class="puzzle-feedback" id="puzzleFeedback"></p>
+
+            <button
+                class="main-btn puzzle-next"
+                id="puzzleNext"
+            >
+                كملي
+            </button>
+
+        </div>
+
+    </section>
 
 
-        <!-- =================================
-             المرحلة الأولى
-        ================================== -->
+    <!-- =================================
+         المرحلة الثانية
+    ================================== -->
 
-        <section class="screen" id="level-1">
+    <section class="screen" id="level-2">
 
-            <div class="content">
+        <div class="content">
 
-                <span class="level-number">
-                    ١
-                </span>
+            <span class="level-number">٢</span>
 
-                <h2>
-                    مين المختلف؟ 👀
-                </h2>
+            <h2>
+                عندك ٣ حاجات مستخبية 👀
+            </h2>
 
-                <p>
-                    واحدة بس مش شبه الباقي...
-                    <br>
-                    شوفي هتلاقيها ولا لأ.
-                </p>
+            <p>
+                دوري عليهم واحدة واحدة...
+                <br>
+                وكل واحدة هتقولك حرف.
+            </p>
 
-                <div
-                    class="observation-puzzle"
-                    id="observationPuzzle"
-                >
+            <div class="secret-code">
 
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
+                <span class="code-letter">؟</span>
+                <span class="code-letter">؟</span>
+                <span class="code-letter">؟</span>
 
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star different">✧</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
+            </div>
 
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-                    <button class="puzzle-star">✦</button>
-
-                </div>
-
-                <p
-                    class="puzzle-feedback"
-                    id="puzzleFeedback"
-                ></p>
+            <div class="hidden-items">
 
                 <button
-                    class="main-btn next-btn puzzle-next"
-                    id="puzzleNext"
+                    class="hidden-item item-one"
+                    data-letter="س"
+                    aria-label="عنصر مخفي"
                 >
-                    كملي
+                    ✦
                 </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================
-             المرحلة الثانية
-        ================================== -->
-
-        <section class="screen" id="level-2">
-
-            <div class="content">
-
-                <span class="level-number">
-                    ٢
-                </span>
-
-                <h2>
-                    عندك ٣ حاجات مستخبية 👀
-                </h2>
-
-                <p>
-                    دوري عليهم واحدة واحدة...
-                    <br>
-                    وكل واحدة هتقولك حرف.
-                </p>
-
-                <div
-                    class="secret-code"
-                    id="secretCode"
-                >
-
-                    <span class="code-letter">؟</span>
-                    <span class="code-letter">؟</span>
-                    <span class="code-letter">؟</span>
-
-                </div>
-
-
-                <div class="hidden-items">
-
-                    <button
-                        class="hidden-item item-one"
-                        data-letter="س"
-                        aria-label="عنصر مخفي"
-                    >
-                        ✦
-                    </button>
-
-                    <button
-                        class="hidden-item item-two"
-                        data-letter="م"
-                        aria-label="عنصر مخفي"
-                    >
-                        ♡
-                    </button>
-
-                    <button
-                        class="hidden-item item-three"
-                        data-letter="ا"
-                        aria-label="عنصر مخفي"
-                    >
-                        ✧
-                    </button>
-
-
-                    <span class="decoy-item decoy-one">
-                        ✦
-                    </span>
-
-                    <span class="decoy-item decoy-two">
-                        ·
-                    </span>
-
-                    <span class="decoy-item decoy-three">
-                        ✧
-                    </span>
-
-                    <span class="decoy-item decoy-four">
-                        ♡
-                    </span>
-
-                    <span class="decoy-item decoy-five">
-                        ·
-                    </span>
-
-                </div>
-
-
-                <p
-                    class="code-feedback"
-                    id="codeFeedback"
-                ></p>
-
 
                 <button
-                    class="main-btn puzzle-next next-btn"
-                    id="codeNext"
+                    class="hidden-item item-two"
+                    data-letter="م"
+                    aria-label="عنصر مخفي"
                 >
-                    كملي
+                    ♡
                 </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================
-             المرحلة الثالثة
-        ================================== -->
-
-        <section class="screen" id="level-3">
-
-            <div class="content">
-
-                <span class="level-number">
-                    ٣
-                </span>
-
-                <h2>
-                    رتّبي الرموز بالترتيب الصح 👀
-                </h2>
-
-                <p>
-                    كل رمز له مكانه...
-                    <br>
-                    حاولي تعرفي الترتيب الصحيح.
-                </p>
-
-                <div
-                    class="symbol-puzzle"
-                    id="symbolPuzzle"
-                >
-
-                    <div
-                        class="symbol-slot"
-                        data-position="1"
-                    ></div>
-
-                    <div
-                        class="symbol-slot"
-                        data-position="2"
-                    ></div>
-
-                    <div
-                        class="symbol-slot"
-                        data-position="3"
-                    ></div>
-
-                    <div
-                        class="symbol-slot"
-                        data-position="4"
-                    ></div>
-
-                </div>
-
-                <div class="symbols">
-
-                    <button
-                        class="symbol"
-                        data-symbol="moon"
-                    >
-                        ☾
-                    </button>
-
-                    <button
-                        class="symbol"
-                        data-symbol="star"
-                    >
-                        ✦
-                    </button>
-
-                    <button
-                        class="symbol"
-                        data-symbol="heart"
-                    >
-                        ♡
-                    </button>
-
-                    <button
-                        class="symbol"
-                        data-symbol="sparkle"
-                    >
-                        ✧
-                    </button>
-
-                </div>
-
-                <p
-                    class="symbol-feedback"
-                    id="symbolFeedback"
-                ></p>
 
                 <button
-                    class="main-btn puzzle-next next-btn"
-                    id="symbolNext"
+                    class="hidden-item item-three"
+                    data-letter="ا"
+                    aria-label="عنصر مخفي"
                 >
-                    كملي
+                    ✧
+                </button>
+
+                <span class="decoy-item decoy-one">✦</span>
+                <span class="decoy-item decoy-two">·</span>
+                <span class="decoy-item decoy-three">✧</span>
+                <span class="decoy-item decoy-four">♡</span>
+                <span class="decoy-item decoy-five">·</span>
+
+            </div>
+
+            <p class="code-feedback" id="codeFeedback"></p>
+
+            <button
+                class="main-btn puzzle-next"
+                id="codeNext"
+            >
+                كملي
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         المرحلة الثالثة
+    ================================== -->
+
+    <section class="screen" id="level-3">
+
+        <div class="content">
+
+            <span class="level-number">٣</span>
+
+            <h2>
+                رتّبي الرموز بالترتيب الصح 👀
+            </h2>
+
+            <p>
+                كل رمز له مكانه...
+                <br>
+                حاولي تعرفي الترتيب الصحيح.
+            </p>
+
+            <div class="symbol-puzzle">
+
+                <div class="symbol-slot" data-position="1"></div>
+                <div class="symbol-slot" data-position="2"></div>
+                <div class="symbol-slot" data-position="3"></div>
+                <div class="symbol-slot" data-position="4"></div>
+
+            </div>
+
+            <div class="symbols">
+
+                <button class="symbol" data-symbol="moon">
+                    ☾
+                </button>
+
+                <button class="symbol" data-symbol="star">
+                    ✦
+                </button>
+
+                <button class="symbol" data-symbol="heart">
+                    ♡
+                </button>
+
+                <button class="symbol" data-symbol="sparkle">
+                    ✧
                 </button>
 
             </div>
 
-        </section>
+            <p class="symbol-feedback" id="symbolFeedback"></p>
+
+            <button
+                class="main-btn puzzle-next"
+                id="symbolNext"
+            >
+                كملي
+            </button>
+
+        </div>
+
+    </section>
 
 
-        <!-- =================================
-             المرحلة الرابعة
-        ================================== -->
+    <!-- =================================
+         المرحلة الرابعة
+    ================================== -->
 
-        <section class="screen" id="level-4">
+    <section class="screen" id="level-4">
 
-            <div class="content">
+        <div class="content">
 
-                <span class="level-number">
-                    ٤
-                </span>
+            <span class="level-number">٤</span>
 
-                <h2>
-                    في حاجة مقفولة هنا 🔐
-                </h2>
+            <h2>
+                في حاجة مقفولة هنا 🔐
+            </h2>
 
-                <p>
-                    محتاجة ٣ أرقام عشان تفتحيها...
-                    <br>
-                    ركزي في الإشارات 👀
-                </p>
+            <p>
+                محتاجة ٣ أرقام عشان تفتحيها...
+                <br>
+                ركزي في الإشارات 👀
+            </p>
 
-                <div class="lock-box">
+            <div class="lock-box">
 
-                    <div class="lock-screen">
-                        <span id="lockDigit1">_</span>
-                        <span id="lockDigit2">_</span>
-                        <span id="lockDigit3">_</span>
-                    </div>
+                <div class="lock-screen">
 
-                    <div class="lock-hint">
-
-                        <p>
-                            🌙 + 🌙 = 4
-                        </p>
-
-                        <p>
-                            🌙 + ⭐ = 8
-                        </p>
-
-                        <p>
-                            ⭐ + ⭐ = 7
-                        </p>
-
-                    </div>
-
-                    <div class="lock-inputs">
-
-                        <button
-                            class="lock-number"
-                            data-number="0"
-                        >
-                            0
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="1"
-                        >
-                            1
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="2"
-                        >
-                            2
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="3"
-                        >
-                            3
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="4"
-                        >
-                            4
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="5"
-                        >
-                            5
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="6"
-                        >
-                            6
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="7"
-                        >
-                            7
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="8"
-                        >
-                            8
-                        </button>
-
-                        <button
-                            class="lock-number"
-                            data-number="9"
-                        >
-                            9
-                        </button>
-
-                    </div>
-
-                    <button
-                        class="lock-clear"
-                        id="lockClear"
-                    >
-                        مسح
-                    </button>
+                    <span id="lockDigit1">_</span>
+                    <span id="lockDigit2">_</span>
+                    <span id="lockDigit3">_</span>
 
                 </div>
 
-                <p
-                    class="lock-feedback"
-                    id="lockFeedback"
-                ></p>
+                <div class="lock-hint">
 
-                <button
-                    class="main-btn puzzle-next next-btn"
-                    id="lockNext"
-                >
-                    افتحي اللي بعده
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================
-             المرحلة الخامسة
-        ================================== -->
-
-        <section class="screen" id="level-5">
-
-            <div class="content">
-
-                <span class="level-number">
-                    ٥
-                </span>
-
-                <h2>
-                    واحد بس هو الطريق الصح 👀
-                </h2>
-
-                <p>
-                    اختاري باب واحد...
-                    <br>
-                    وماتستعجليش 🤍
-                </p>
-
-                <div class="doors">
-
-                    <button
-                        class="door door-moon"
-                        data-door="moon"
-                    >
-                        <span class="door-icon">
-                            🌙
-                        </span>
-
-                        <span class="door-label">
-                            الباب الأول
-                        </span>
-                    </button>
-
-                    <button
-                        class="door door-rose"
-                        data-door="rose"
-                    >
-                        <span class="door-icon">
-                            🌹
-                        </span>
-
-                        <span class="door-label">
-                            الباب الثاني
-                        </span>
-                    </button>
-
-                    <button
-                        class="door door-star"
-                        data-door="star"
-                    >
-                        <span class="door-icon">
-                            ⭐
-                        </span>
-
-                        <span class="door-label">
-                            الباب الثالث
-                        </span>
-                    </button>
+                    <p>🌙 + 🌙 = 4</p>
+                    <p>🌙 + ⭐ = 8</p>
+                    <p>⭐ + ⭐ = 7</p>
 
                 </div>
 
-                <p
-                    class="door-feedback"
-                    id="doorFeedback"
-                ></p>
+                <div class="lock-inputs">
 
-                <button
-                    class="main-btn puzzle-next next-btn"
-                    id="doorNext"
-                >
-                    كملي 🤍
+                    <button class="lock-number" data-number="0">0</button>
+                    <button class="lock-number" data-number="1">1</button>
+                    <button class="lock-number" data-number="2">2</button>
+                    <button class="lock-number" data-number="3">3</button>
+                    <button class="lock-number" data-number="4">4</button>
+                    <button class="lock-number" data-number="5">5</button>
+                    <button class="lock-number" data-number="6">6</button>
+                    <button class="lock-number" data-number="7">7</button>
+                    <button class="lock-number" data-number="8">8</button>
+                    <button class="lock-number" data-number="9">9</button>
+
+                </div>
+
+                <button class="lock-clear" id="lockClear">
+                    مسح
                 </button>
 
             </div>
 
-        </section>
+            <p class="lock-feedback" id="lockFeedback"></p>
 
+            <button
+                class="main-btn puzzle-next"
+                id="lockNext"
+            >
+                افتحي اللي بعده
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         المرحلة الخامسة - الأبواب
+    ================================== -->
+
+    <section class="screen" id="level-5">
+
+        <div class="content">
+
+            <span class="level-number">٥</span>
+
+            <h2>
+                واحد بس هو الطريق الصح 👀
+            </h2>
+
+            <p>
+                اختاري باب واحد...
+                <br>
+                وماتستعجليش 🤍
+            </p>
+
+            <div class="doors">
+
+                <button
+                    class="door door-moon"
+                    data-door="moon"
+                >
+                    <span class="door-icon">🌙</span>
+                    <span class="door-label">الباب الأول</span>
+                </button>
+
+                <button
+                    class="door door-rose"
+                    data-door="rose"
+                >
+                    <span class="door-icon">🌹</span>
+                    <span class="door-label">الباب الثاني</span>
+                </button>
+
+                <button
+                    class="door door-star"
+                    data-door="star"
+                >
+                    <span class="door-icon">⭐</span>
+                    <span class="door-label">الباب الثالث</span>
+                </button>
+
+            </div>
+
+            <p class="door-feedback" id="doorFeedback"></p>
+
+            <button
+                class="main-btn puzzle-next"
+                id="doorNext"
+            >
+                كملي 🤍
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         كل ما بعد الباب
+         صفحة واحدة طويلة
+    ================================== -->
+
+    <section id="love-page">
 
         <!-- =================================
-             القسم الشخصي
+             PERSONAL
         ================================== -->
 
-        <section
-            class="screen"
-            id="personal-screen"
-        >
+        <div class="story-block personal-block">
 
             <div class="personal-content">
 
@@ -721,40 +427,41 @@
                     <p>
                         إنك فضلتي واحدة من الناس اللي وجودهم بيفضل له معنى.
                     </p>
-         <p>
-            
-    مهما حملت من الأسى لا تَحْزني
-                
-    <br>
-        فَالحـزنُ للوجهِ الجميلِ حرامُ 
-                  </p>
+
                 </div>
 
+                <!-- الأغنية الثانية هنا -->
+                <div class="music-break">
 
-                <!-- البيت هنا كجزء من الكلام، مش صفحة جديدة -->
+                    <span>
+                        أغنية بتفكرني بيكي... 🤍
+                    </span>
 
+                    <button
+                        class="music-button"
+                        id="memoryMusicBtn"
+                    >
+                        ▶
+                    </button>
 
+                </div>
 
-                <button
-                    class="main-btn personal-next"
-                    id="personalNext"
-                >
-                    كملي 🤍
-                </button>
+                <p class="personal-poem">
+                    مهما حملت من الأسى لا تَحْزني
+                    <br>
+                    فَالحـزنُ للوجهِ الجميلِ حرامُ
+                </p>
 
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
-             PERSONAL PART 2
+             LOVE PART 2
         ================================== -->
 
-        <section
-            class="screen love-section"
-            id="love-part-2"
-        >
+        <div class="story-block love-section">
 
             <div class="love-content">
 
@@ -768,17 +475,11 @@
 
                 <div class="love-lines">
 
-                    <p>
-                        بحب صوتك.
-                    </p>
+                    <p>بحب صوتك.</p>
 
-                    <p>
-                        بحب طموحك.
-                    </p>
+                    <p>بحب طموحك.</p>
 
-                    <p>
-                        بحب طريقتك في التعامل مع الناس.
-                    </p>
+                    <p>بحب طريقتك في التعامل مع الناس.</p>
 
                     <p>
                         وبحب أكتر الطريقة اللي بتعاملي بيها معايا.
@@ -788,9 +489,7 @@
 
                 <div class="love-highlight">
 
-                    <span>
-                        وأكتر حاجة...
-                    </span>
+                    <span>وأكتر حاجة...</span>
 
                     <strong>
                         بحب قلبك.
@@ -798,26 +497,16 @@
 
                 </div>
 
-                <button
-                    class="main-btn final-next"
-                    id="loveNext"
-                >
-                    كملي 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
              HER JOURNEY
         ================================== -->
 
-        <section
-            class="screen love-section"
-            id="her-journey"
-        >
+        <div class="story-block love-section">
 
             <div class="love-content">
 
@@ -863,31 +552,16 @@
 
                 </div>
 
-
-                <!-- بيت الدعم -->
-                
-
-
-                <button
-                    class="main-btn final-next"
-                    id="journeyNext"
-                >
-                    كملي 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
              COMFORT
         ================================== -->
 
-        <section
-            class="screen love-section comfort-section"
-            id="comfort"
-        >
+        <div class="story-block love-section comfort-section">
 
             <div class="love-content">
 
@@ -924,26 +598,16 @@
 
                 </div>
 
-                <button
-                    class="main-btn final-next"
-                    id="comfortNext"
-                >
-                    كملي 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
              MEMORY
         ================================== -->
 
-        <section
-            class="screen love-section memory-section"
-            id="memory"
-        >
+        <div class="story-block love-section memory-section">
 
             <div class="love-content">
 
@@ -987,35 +651,24 @@
 
                 </div>
 
-                <button
-                    class="main-btn final-next"
-                    id="memoryNext"
-                >
-                    كملي 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
              CONFESSION INTRO
         ================================== -->
 
-        <section
-            class="screen confession-section"
-            id="confession-intro"
-        >
+        <div class="story-block confession-section">
 
             <div class="confession-content">
-                
-      <h2>
+
+                <h2>
                     والكلُّ يُكتَمُ والهوى لا يُكتَمُ
                     <br>
                     إنَّ العيونَ إذا هَوَتْ تَتَكَلَّمُ.
                 </h2>
-
 
                 <span class="confession-small">
                     وعشان كده...
@@ -1025,20 +678,14 @@
                     أنا عملت كل ده عشان حاجة واحدة.
                 </h2>
 
-
-                <!--
-                    البيت هنا قبل الاعتراف مباشرة،
-                    عشان يحسّس إن الكلام اللي كان مستخبي
-                    خلاص قرب يطلع.
-                -->
-
-          
                 <p class="confession-line">
                     حاجة كان نفسي أقولها كاملة...
                 </p>
-  <p class="confession-line">
-            ونفسي جدا اسمعها منك ...
+
+                <p class="confession-line">
+                    ونفسي جدا اسمعها منك ...
                 </p>
+
                 <p class="confession-line">
                     من غير خوف.
                 </p>
@@ -1047,26 +694,16 @@
                     ومن غير ما نخلي بيننا اي قيود .
                 </p>
 
-                <button
-                    class="main-btn confession-btn"
-                    id="confessionNext"
-                >
-                    اسمعيني 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
-             CONFESSION
+             MAIN CONFESSION
         ================================== -->
 
-        <section
-            class="screen confession-main"
-            id="confession"
-        >
+        <div class="story-block confession-main" id="confession">
 
             <div class="confession-content">
 
@@ -1100,26 +737,16 @@
                     </span>
                 </div>
 
-                <button
-                    class="main-btn confession-btn"
-                    id="responseNext"
-                >
-                    كملي 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
-             NO PRESSURE
+             RESPONSE
         ================================== -->
 
-        <section
-            class="screen love-section response-section"
-            id="response"
-        >
+        <div class="story-block love-section response-section">
 
             <div class="love-content">
 
@@ -1155,38 +782,22 @@
 
                 </div>
 
-                <button
-                    class="main-btn final-next"
-                    id="lastNext"
-                >
-                    آخر حاجة 🤍
-                </button>
-
             </div>
 
-        </section>
+        </div>
 
 
         <!-- =================================
              FINAL
         ================================== -->
 
-        <section
-            class="screen final-love"
-            id="final-love"
-        >
+        <div class="story-block final-love">
 
             <div class="final-content">
 
                 <div class="final-rose">
                     🌹
                 </div>
-
-
-                <!-- البيت الأخير -->
-
-                
-
 
                 <h2 class="final-small">
                     عيناك سحرٌ مترفٌ كاد يُهلكني
@@ -1227,9 +838,33 @@
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
+
+
+    <!-- =================================
+         الأغاني
+         غيّر أسماء الملفات في script.js فقط
+    ================================== -->
+
+    <audio
+        id="confessionAudio"
+        preload="auto"
+        playsinline
+    ></audio>
+
+    <audio
+        id="memoryAudio"
+        preload="auto"
+        playsinline
+    ></audio>
+
+    <audio
+        id="afterDoorAudio"
+        preload="auto"
+        playsinline
+    ></audio>
 
 
     <script src="script.js"></script>
