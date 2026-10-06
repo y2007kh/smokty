@@ -14,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const MUSIC = {
 
-        confession: "song1.mp3",
+        confession: "A.m4a",
 
-        memory: "song2.mp3",
+        memory: "B.m4a",
 
-        afterDoor: "song3.mp3"
+        afterDoor: "C.m4a"
 
     };
 
