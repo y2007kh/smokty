@@ -1,105 +1,197 @@
-/* =========================================
-   إعدادات أساسية
-========================================= */
+/* =========================================================
+   SOFT ROMANTIC — LUXURY EDITION
+   Arabic RTL • Mobile First • Soft Romantic
+========================================================= */
+
+:root {
+    --bg: #fff9fb;
+    --bg-soft: #fff4f7;
+    --bg-pink: #fdecef;
+
+    --text: #352b30;
+    --text-soft: #786b71;
+    --text-muted: #a4979d;
+
+    --rose: #c77b91;
+    --rose-dark: #a95d76;
+    --rose-light: #f4d7df;
+
+    --cream: #fffdfc;
+    --white: #ffffff;
+
+    --border: rgba(167, 112, 130, 0.14);
+    --shadow: 0 18px 50px rgba(104, 63, 77, 0.10);
+    --shadow-soft: 0 10px 30px rgba(104, 63, 77, 0.07);
+
+    --radius-lg: 28px;
+    --radius-md: 20px;
+    --radius-sm: 14px;
+
+    --ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 html {
+    width: 100%;
+    min-height: 100%;
     scroll-behavior: smooth;
 }
 
 body {
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    font-family: "Tahoma", sans-serif;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #fff7fb 0%,
-            #f8eef7 45%,
-            #eee8f5 100%
-        );
-
-    color: #302735;
-
-    overflow: hidden;
-
-    -webkit-overflow-scrolling: touch;
-}
-
-
-/* =========================================
-   التجربة
-========================================= */
-
-#experience {
     width: 100%;
     min-height: 100vh;
     min-height: 100dvh;
-    position: relative;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Tahoma,
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+    background:
+        radial-gradient(
+            circle at 20% 10%,
+            rgba(244, 211, 221, 0.55),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(248, 225, 232, 0.65),
+            transparent 34%
+        ),
+        var(--bg);
+
+    overflow: hidden;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 
-/* =========================================
-   الشاشات
-========================================= */
+/* =========================================================
+   EXPERIENCE
+========================================================= */
+
+#experience {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    overflow: hidden;
+}
+
+
+/* subtle ambient glow */
+
+#experience::before,
+#experience::after {
+    content: "";
+    position: fixed;
+
+    width: 240px;
+    height: 240px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(55px);
+
+    opacity: 0.35;
+
+    z-index: 0;
+}
+
+#experience::before {
+    top: -100px;
+    right: -80px;
+
+    background: rgba(239, 188, 205, 0.45);
+}
+
+#experience::after {
+    bottom: -110px;
+    left: -80px;
+
+    background: rgba(245, 214, 224, 0.55);
+}
+
+
+/* =========================================================
+   SCREENS
+========================================================= */
 
 .screen {
     position: absolute;
 
-    top: 0;
-    left: 0;
+    inset: 0;
 
     width: 100%;
-
-    /* مهم جداً:
-       الشاشة ثابتة على طول الجهاز
-       والـ scroll يحصل بداخلها */
-    height: 100vh;
-    height: 100dvh;
-
-    min-height: 0;
+    height: 100%;
 
     display: flex;
     flex-direction: column;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    padding: 30px 20px 120px;
+    padding:
+        30px
+        20px
+        120px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
 
     opacity: 0;
     visibility: hidden;
 
-    transform: scale(0.97);
+    transform: scale(0.985);
 
     transition:
-        opacity 0.6s ease,
-        transform 0.6s ease,
-        visibility 0.6s ease;
+        opacity 0.55s var(--ease),
+        transform 0.65s var(--ease),
+        visibility 0.55s;
 
-    /* الـ Scroll يكون داخل الصفحة نفسها */
-    overflow-y: auto;
-    overflow-x: hidden;
+    pointer-events: none;
 
-    -webkit-overflow-scrolling: touch;
+    isolation: isolate;
+}
 
-    /* يسمح بالسحب الطبيعي للمحتوى */
-    overscroll-behavior-y: contain;
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+
+    transform: scale(1);
+
+    pointer-events: auto;
 }
 
 
-/* =========================================
-   مساحة فاضية في نهاية كل شاشة
-   عشان آخر المحتوى يقدر يتحرك لفوق
-   بالـ Scroll حتى بدون Zoom
-========================================= */
+/*
+    Bottom breathing room for mobile scrolling.
+    Kept as a pseudo element so long pages can be
+    comfortably scrolled above the browser controls.
+*/
 
 .screen::after {
     content: "";
@@ -107,2824 +199,1532 @@ body {
     display: block;
 
     width: 100%;
-
-    min-height: 180px;
+    min-height: 160px;
 
     flex-shrink: 0;
+
+    pointer-events: none;
 }
 
 
-/* =========================================
-   حل المحتوى الطويل
-========================================= */
+/* =========================================================
+   CONTENT
+========================================================= */
 
-.screen > .content,
-.screen > .personal-content,
-.screen > .love-content,
-.screen > .confession-content,
-.screen > .final-content {
+.content {
+    position: relative;
+    z-index: 2;
+
+    width: min(100%, 520px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     margin-top: auto;
     margin-bottom: auto;
 
     flex-shrink: 0;
-}
-
-
-/* =========================================
-   الشاشة النشطة
-========================================= */
-
-.screen.active {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform: scale(1);
-
-}
-
-
-/* =========================================
-   المحتوى
-========================================= */
-
-.content {
-
-    width: min(100%, 520px);
 
     text-align: center;
+}
 
-    display: flex;
+.screen.active .content {
+    animation: contentEnter 0.75s var(--ease) both;
+}
 
-    flex-direction: column;
+@keyframes contentEnter {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
 
-    align-items: center;
-
-    gap: 20px;
-
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
-/* =========================================
-   النصوص
-========================================= */
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
 
 .small-label {
+    margin-bottom: 12px;
 
-    font-size: 14px;
+    color: var(--rose);
 
-    color: #9d7895;
+    font-size: 0.78rem;
+    font-weight: 700;
 
-    letter-spacing: 1px;
+    letter-spacing: 0.08em;
+
+    opacity: 0.9;
 }
-
 
 .level-number {
+    margin-bottom: 10px;
 
-    width: 48px;
-    height: 48px;
+    color: var(--rose);
 
-    display: flex;
+    font-size: 0.75rem;
+    font-weight: 700;
 
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 50%;
-
-    background: rgba(255, 255, 255, 0.7);
-
-    box-shadow:
-        0 10px 30px rgba(80, 50, 80, 0.08);
-
-    color: #a36a92;
-
-    font-size: 18px;
+    letter-spacing: 0.12em;
 }
 
+h1,
+h2,
+p {
+    position: relative;
+    z-index: 2;
+}
 
 h1 {
+    margin-bottom: 16px;
 
-    font-size: clamp(34px, 9vw, 58px);
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.45;
 
-    line-height: 1.4;
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    margin-bottom: 16px;
+
+    font-size: clamp(1.45rem, 6vw, 2rem);
+    line-height: 1.65;
 
     font-weight: 700;
 }
 
-
-h2 {
-
-    font-size: clamp(27px, 7vw, 42px);
-
-    line-height: 1.5;
-
-}
-
-
 p {
+    color: var(--text-soft);
 
-    font-size: 17px;
-
+    font-size: 1rem;
     line-height: 2;
 
-    color: #6d6070;
+    max-width: 480px;
+}
 
+p + p {
+    margin-top: 8px;
 }
 
 
-/* =========================================
-   الأزرار
-========================================= */
+/* =========================================================
+   MAIN BUTTONS
+========================================================= */
 
 .main-btn {
+    position: relative;
 
-    border: none;
+    min-width: 170px;
+    min-height: 52px;
 
-    padding: 14px 32px;
+    margin-top: 28px;
+    padding: 13px 26px;
 
+    border: 1px solid rgba(167, 112, 130, 0.18);
     border-radius: 999px;
 
-    background: #302735;
+    color: #fff;
 
-    color: white;
+    background:
+        linear-gradient(
+            135deg,
+            var(--rose-dark),
+            var(--rose)
+        );
 
-    font-size: 16px;
+    box-shadow:
+        0 12px 28px rgba(169, 93, 118, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
 
-    font-family: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
 
     cursor: pointer;
 
     transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+        transform 0.25s var(--ease),
+        box-shadow 0.25s var(--ease),
+        filter 0.25s ease;
+
+    touch-action: manipulation;
 }
 
+.main-btn::after {
+    content: "";
+
+    position: absolute;
+    inset: 1px;
+
+    border-radius: inherit;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+
+    pointer-events: none;
+}
 
 .main-btn:hover {
-
     transform: translateY(-3px);
 
     box-shadow:
-        0 12px 25px rgba(48, 39, 53, 0.2);
-
+        0 16px 34px rgba(169, 93, 118, 0.23),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
-
 
 .main-btn:active {
+    transform: translateY(0) scale(0.97);
 
-    transform: scale(0.96);
+    box-shadow:
+        0 8px 18px rgba(169, 93, 118, 0.15);
+}
 
+.main-btn:focus-visible {
+    outline: 3px solid rgba(199, 123, 145, 0.25);
+    outline-offset: 4px;
+}
+
+.main-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+    transform: none;
 }
 
 
-/* =========================================
-   صندوق اللغز
-========================================= */
+/* =========================================================
+   GENERIC PUZZLE BOX
+========================================================= */
 
 .puzzle-box {
-
     width: 100%;
 
-    min-height: 190px;
+    padding: 24px;
 
-    padding: 30px;
-
-    border-radius: 28px;
-
-    background: rgba(255, 255, 255, 0.62);
-
-    border: 1px solid rgba(255, 255, 255, 0.8);
-
-    box-shadow:
-        0 20px 60px rgba(80, 50, 80, 0.08);
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 12px;
-
-}
-
-
-.puzzle-placeholder {
-
-    font-size: 55px;
-
-}
-
-
-/* =========================================
-   النهاية
-========================================= */
-
-.final-screen {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
 
     background:
-        radial-gradient(
-            circle at center,
-            #fff8fc 0%,
-            #f2e8f1 100%
-        );
+        rgba(255, 255, 255, 0.72);
 
+    box-shadow: var(--shadow-soft);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
 
-.final-screen h1 {
+/* =========================================================
+   LEVEL 1 — STARS
+========================================================= */
 
-    font-size: clamp(42px, 12vw, 80px);
-
-}
-
-
-.final-text {
-
-    max-width: 420px;
-
-}
-
-
-/* =========================================
-   الموبايل
-========================================= */
-
-@media (max-width: 600px) {
-
-    .screen {
-
-        height: 100vh;
-        height: 100dvh;
-
-        min-height: 0;
-
-        padding:
-            35px 18px
-            120px;
-
-        align-items: center;
-
-        justify-content: flex-start;
-    }
-
-    .screen::after {
-
-        min-height: 180px;
-    }
-
-    .content {
-
-        gap: 16px;
-
-    }
-
-    p {
-
-        font-size: 16px;
-
-    }
-
-    .puzzle-box {
-
-        min-height: 170px;
-
-    }
-
-}
-
-
-/* =========================================
-   Puzzle 1 - مين المختلف؟
-========================================= */
-
-.observation-puzzle {
-
-    width: min(100%, 330px);
-
-    aspect-ratio: 1 / 1;
-
-    padding: 25px;
+.observation-grid {
+    width: min(100%, 360px);
 
     display: grid;
-
     grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 
-    gap: 12px;
-
-    border-radius: 30px;
-
-    background:
-        rgba(255, 255, 255, 0.58);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.9);
-
-    box-shadow:
-        0 25px 70px rgba(80, 50, 80, 0.1);
-
+    margin-top: 22px;
 }
 
+.star {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-.puzzle-star {
+    aspect-ratio: 1;
 
-    border: none;
+    border: 1px solid rgba(199, 123, 145, 0.12);
+    border-radius: 18px;
 
-    background: transparent;
+    background: rgba(255, 255, 255, 0.72);
 
-    font-size: 32px;
+    box-shadow:
+        0 7px 18px rgba(104, 63, 77, 0.05);
 
-    color: #b99bb8;
+    color: #d9a5b5;
+
+    font-size: 1.25rem;
 
     cursor: pointer;
 
-    border-radius: 15px;
-
     transition:
-        transform 0.25s ease,
-        color 0.25s ease,
-        background 0.25s ease;
-
+        transform 0.25s var(--ease),
+        background 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
+.star:hover {
+    transform: translateY(-3px);
 
-.puzzle-star:hover {
-
-    transform: scale(1.25);
-
-    background:
-        rgba(255, 255, 255, 0.6);
-
-}
-
-
-.puzzle-star:active {
-
-    transform: scale(0.9);
-
-}
-
-
-/* =========================================
-   الإجابة الصحيحة
-========================================= */
-
-.puzzle-star.correct {
-
-    color: #ffffff;
-
-    background:
-        #d99ac4;
-
-    transform: scale(1.2);
+    background: #fff;
 
     box-shadow:
-        0 0 30px rgba(217, 154, 196, 0.45);
-
-    animation:
-        correctStar 0.6s ease;
-
+        0 12px 24px rgba(104, 63, 77, 0.09);
 }
 
+.star.correct {
+    animation: correctPulse 0.55s var(--ease);
+}
 
-@keyframes correctStar {
+.star.wrong {
+    animation: wrongShake 0.4s ease;
+}
 
+@keyframes correctPulse {
     0% {
         transform: scale(1);
     }
 
-    50% {
-        transform: scale(1.45) rotate(10deg);
+    45% {
+        transform: scale(1.15);
     }
 
     100% {
-        transform: scale(1.2);
+        transform: scale(1);
     }
-
 }
 
-
-/* =========================================
-   الإجابة الغلط
-========================================= */
-
-.puzzle-star.wrong {
-
-    animation:
-        wrongStar 0.35s ease;
-
-}
-
-
-@keyframes wrongStar {
-
+@keyframes wrongShake {
     0%,
     100% {
         transform: translateX(0);
     }
 
     25% {
-        transform: translateX(6px);
+        transform: translateX(-5px);
     }
 
     75% {
-        transform: translateX(-6px);
+        transform: translateX(5px);
     }
-
 }
 
+.feedback {
+    min-height: 32px;
 
-/* =========================================
-   رسالة النجاح
-========================================= */
+    margin-top: 16px;
 
-.puzzle-feedback {
+    color: var(--rose-dark);
 
-    min-height: 30px;
+    font-size: 0.9rem;
+    line-height: 1.8;
 
-    margin-top: -5px;
+    opacity: 0.9;
+}
 
-    color: #a06b91;
-
-    font-weight: bold;
-
+.puzzle-next,
+#puzzleNext,
+#codeNext,
+#symbolNext,
+#lockNext,
+#doorNext {
     opacity: 0;
+    visibility: hidden;
 
     transform: translateY(8px);
 
     transition:
         opacity 0.4s ease,
-        transform 0.4s ease;
-
+        visibility 0.4s ease,
+        transform 0.4s var(--ease);
 }
 
-
-.puzzle-feedback.show {
-
+.puzzle-next.show,
+#puzzleNext.show,
+#codeNext.show,
+#symbolNext.show,
+#lockNext.show,
+#doorNext.show {
     opacity: 1;
-
-    transform: translateY(0);
-
-}
-
-
-/* =========================================
-   زر الانتقال
-========================================= */
-
-.puzzle-next {
-
-    opacity: 0;
-
-    pointer-events: none;
-
-    transform: translateY(10px);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.4s ease;
-
-}
-
-
-.puzzle-next.show {
-
-    opacity: 1;
-
-    pointer-events: auto;
-
-    transform: translateY(0);
-
-}
-
-
-/* =========================================
-   Puzzle 2
-========================================= */
-
-.secret-code {
-
-    display: flex;
-
-    direction: rtl;
-
-    gap: 12px;
-
-    margin: 5px 0 5px;
-
-}
-
-
-.code-letter {
-
-    width: 52px;
-    height: 52px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 16px;
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.9);
-
-    box-shadow:
-        0 10px 30px rgba(80, 50, 80, 0.07);
-
-    font-size: 24px;
-
-    color: #9e819b;
-
-    transition:
-        transform 0.3s ease,
-        background 0.3s ease;
-
-}
-
-
-.code-letter.revealed {
-
-    background:
-        #d99ac4;
-
-    color: white;
-
-    transform:
-        translateY(-4px) scale(1.05);
-
-}
-
-
-/* =========================================
-   منطقة العناصر
-========================================= */
-
-.hidden-items {
-
-    width: min(100%, 360px);
-
-    height: 260px;
-
-    position: relative;
-
-    overflow: hidden;
-
-    border-radius: 30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.72),
-            rgba(250,239,248,0.65)
-        );
-
-    border:
-        1px solid rgba(255,255,255,0.9);
-
-    box-shadow:
-        0 25px 70px rgba(80,50,80,0.09);
-
-}
-
-
-/* =========================================
-   العناصر المخفية
-========================================= */
-
-.hidden-item {
-
-    position: absolute;
-
-    width: 48px;
-    height: 48px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.5);
-
-    color: #a887a4;
-
-    font-size: 27px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.3s ease,
-        opacity 0.3s ease,
-        background 0.3s ease;
-
-    z-index: 3;
-
-}
-
-
-.hidden-item:hover {
-
-    transform: scale(1.25);
-
-    background:
-        rgba(255,255,255,0.9);
-
-}
-
-
-.hidden-item.found {
-
-    background:
-        #d99ac4;
-
-    color: white;
-
-    transform:
-        scale(1.15);
-
-    animation:
-        foundItem 0.6s ease;
-
-}
-
-
-@keyframes foundItem {
-
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.45) rotate(15deg);
-    }
-
-    100% {
-        transform: scale(1.15);
-    }
-
-}
-
-
-/* أماكن العناصر */
-
-.item-one {
-
-    top: 25px;
-
-    right: 45px;
-
-}
-
-
-.item-two {
-
-    bottom: 45px;
-
-    left: 55px;
-
-}
-
-
-.item-three {
-
-    top: 105px;
-
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-
-}
-
-
-/* =========================================
-   عناصر التمويه
-========================================= */
-
-.decoy-item {
-
-    position: absolute;
-
-    color:
-        rgba(160,130,155,0.25);
-
-    user-select: none;
-
-    pointer-events: none;
-
-}
-
-
-.decoy-one {
-
-    top: 35px;
-
-    left: 50px;
-
-    font-size: 25px;
-
-}
-
-
-.decoy-two {
-
-    top: 80px;
-
-    right: 120px;
-
-    font-size: 20px;
-
-}
-
-
-.decoy-three {
-
-    bottom: 30px;
-
-    right: 45px;
-
-    font-size: 28px;
-
-}
-
-
-.decoy-four {
-
-    bottom: 75px;
-
-    left: 145px;
-
-    font-size: 20px;
-
-}
-
-
-.decoy-five {
-
-    top: 175px;
-
-    right: 75px;
-
-    font-size: 16px;
-
-}
-
-
-/* =========================================
-   رسالة Puzzle 2
-========================================= */
-
-.code-feedback {
-
-    min-height: 28px;
-
-    margin: 0;
-
-    color: #a06b91;
-
-    font-weight: bold;
-
-    opacity: 0;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.4s ease;
-
-}
-
-
-.code-feedback.show {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* =========================================
-   اهتزاز المنطقة عند العثور على الكلمة
-========================================= */
-
-.hidden-items.completed {
-
-    animation:
-        puzzleComplete 0.7s ease;
-
-}
-
-
-@keyframes puzzleComplete {
-
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.025);
-    }
-
-    70% {
-        transform: scale(0.99);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-
-}
-
-
-/* =========================
-   PUZZLE 3
-========================= */
-
-.symbol-puzzle {
-
-    width: 100%;
-    max-width: 420px;
-
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 12px;
-
-    margin: 30px auto 20px;
-
-}
-
-
-.symbol-slot {
-
-    height: 75px;
-
-    border: 2px dashed rgba(120, 90, 130, 0.35);
-
-    border-radius: 18px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 32px;
-
-    background:
-        rgba(255, 255, 255, 0.45);
-
-    transition:
-        0.3s ease,
-        transform 0.3s ease;
-
-}
-
-
-.symbol-slot.filled {
-
-    border-style: solid;
-
-    border-color:
-        rgba(120, 90, 130, 0.5);
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    transform:
-        scale(1.03);
-
-}
-
-
-/* الرموز اللي تحت */
-
-.symbols {
-
-    width: 100%;
-    max-width: 420px;
-
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-
-    gap: 12px;
-
-    margin: 10px auto 20px;
-
-}
-
-
-.symbol {
-
-    height: 65px;
-
-    border: none;
-
-    border-radius: 18px;
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    font-size: 30px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        opacity 0.2s ease;
-
-    box-shadow:
-        0 8px 20px rgba(100, 70, 120, 0.08);
-
-}
-
-
-.symbol:hover {
-
-    transform: translateY(-4px);
-
-}
-
-
-.symbol:active {
-
-    transform: scale(0.92);
-
-}
-
-
-.symbol.used {
-
-    opacity: 0.25;
-
-    pointer-events: none;
-
-}
-
-
-/* رسالة النتيجة */
-
-.symbol-feedback {
-
-    min-height: 28px;
-
-    margin-top: 10px;
-
-    font-size: 16px;
-
-    opacity: 0;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        0.3s ease;
-
-}
-
-
-.symbol-feedback.show {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* زر كملي */
-
-#symbolNext {
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        0.3s ease;
-
-}
-
-
-#symbolNext.show {
-
-    opacity: 1;
-
     visibility: visible;
 
-    transform:
-        translateY(0);
-
+    transform: translateY(0);
 }
 
 
-/* نجاح اللغز */
+/* =========================================================
+   LEVEL 2 — CODE LETTERS
+========================================================= */
 
-.symbol-puzzle.completed .symbol-slot {
+.code-letters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
 
-    border-color:
-        rgba(100, 150, 110, 0.5);
-
-    background:
-        rgba(240, 255, 240, 0.75);
-
+    margin-top: 22px;
 }
 
-
-/* الموبايل */
-
-@media (max-width: 500px) {
-
-    .symbol-puzzle,
-    .symbols {
-
-        max-width: 330px;
-
-    }
-
-    .symbol-slot {
-
-        height: 65px;
-
-        font-size: 27px;
-
-    }
-
-    .symbol {
-
-        height: 58px;
-
-        font-size: 26px;
-
-    }
-
-}
-
-
-/* =========================
-   PUZZLE 5 - THE DOORS
-========================= */
-
-.doors {
-
-    width: 100%;
-    max-width: 480px;
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 14px;
-
-    margin: 30px auto 20px;
-
-}
-
-
-.door {
-
-    min-height: 190px;
-
-    border:
-        1px solid rgba(120, 90, 130, 0.15);
-
-    border-radius: 24px;
-
-    background:
-        rgba(255, 255, 255, 0.65);
+.code-letter {
+    width: 58px;
+    height: 58px;
 
     display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    gap: 15px;
+    border-radius: 18px;
+
+    background: #fff;
+
+    border: 1px solid var(--border);
+
+    color: var(--rose-dark);
+
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    box-shadow: var(--shadow-soft);
+
+    transition:
+        transform 0.25s var(--ease),
+        background 0.25s ease;
+}
+
+.code-letter:hover {
+    transform: translateY(-3px);
+}
+
+.hidden-items {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 22px;
+}
+
+.hidden-item {
+    position: relative;
+
+    min-width: 70px;
+    min-height: 54px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 15px;
+
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    background: rgba(255, 255, 255, 0.76);
+
+    color: var(--rose-dark);
 
     cursor: pointer;
 
-    box-shadow:
-        0 12px 30px rgba(100, 70, 120, 0.08);
+    box-shadow: var(--shadow-soft);
 
     transition:
-        transform 0.3s ease,
+        transform 0.25s var(--ease),
         opacity 0.3s ease,
-        box-shadow 0.3s ease;
-
+        background 0.25s ease;
 }
 
-
-.door:hover {
-
-    transform: translateY(-7px);
-
-    box-shadow:
-        0 18px 35px rgba(100, 70, 120, 0.13);
-
+.hidden-item:hover {
+    transform: translateY(-3px);
+    background: #fff;
 }
 
-
-.door:active {
-
+.hidden-item.found {
+    background: var(--rose-light);
     transform: scale(0.96);
-
 }
 
-
-.door-icon {
-
-    font-size: 48px;
-
-    transition:
-        transform 0.4s ease;
-
+.hidden-item.decoy {
+    animation: wrongShake 0.4s ease;
 }
 
-
-.door-label {
-
-    font-size: 14px;
-
-    opacity: 0.65;
-
+.code-complete {
+    animation: completePop 0.6s var(--ease);
 }
 
-
-.door:hover .door-icon {
-
-    transform: scale(1.12);
-
-}
-
-
-/* الباب الغلط */
-
-.door.wrong {
-
-    animation:
-        doorWrong 0.5s ease;
-
-}
-
-
-@keyframes doorWrong {
-
+@keyframes completePop {
     0% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-8px);
-    }
-
-    50% {
-        transform: translateX(8px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-
-}
-
-
-/* الباب الصح */
-
-.door.correct {
-
-    transform: scale(1.05);
-
-    box-shadow:
-        0 0 35px rgba(180, 120, 150, 0.25);
-
-}
-
-
-.door.correct .door-icon {
-
-    animation:
-        roseGrow 0.7s ease;
-
-}
-
-
-@keyframes roseGrow {
-
-    0% {
-
-        transform: scale(0.7);
-
-        opacity: 0.5;
-
+        transform: scale(0.96);
+        opacity: 0.7;
     }
 
     60% {
-
-        transform: scale(1.25);
-
+        transform: scale(1.03);
+        opacity: 1;
     }
 
     100% {
-
         transform: scale(1);
-
-        opacity: 1;
-
     }
-
 }
 
 
-/* باقي الأبواب تختفي */
+/* =========================================================
+   LEVEL 3 — SYMBOL ORDER
+========================================================= */
 
-.doors.completed .door:not(.correct) {
+.symbol-slots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    opacity: 0;
-
-    transform: scale(0.8);
-
-    pointer-events: none;
-
-}
-
-
-.doors.completed .door.correct {
-
-    transform: scale(1.08);
-
-}
-
-
-/* الرسالة */
-
-.door-feedback {
-
-    min-height: 30px;
-
-    margin-top: 10px;
-
-    font-size: 17px;
-
-    opacity: 0;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        0.4s ease;
-
-}
-
-
-.door-feedback.show {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* زر كملي */
-
-#doorNext {
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        0.4s ease;
-
-}
-
-
-#doorNext.show {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* موبايل */
-
-@media (max-width: 500px) {
-
-    .doors {
-
-        max-width: 340px;
-
-        gap: 9px;
-
-    }
-
-    .door {
-
-        min-height: 165px;
-
-        border-radius: 20px;
-
-    }
-
-    .door-icon {
-
-        font-size: 40px;
-
-    }
-
-    .door-label {
-
-        font-size: 12px;
-
-    }
-
-}
-
-
-/* =========================
-   PUZZLE 4 - SECRET LOCK
-========================= */
-
-.lock-box {
+    gap: 10px;
 
     width: 100%;
-    max-width: 360px;
 
-    margin: 25px auto 10px;
+    margin-top: 24px;
+}
 
-    padding: 22px;
+.symbol-slot {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px dashed rgba(167, 112, 130, 0.28);
+    border-radius: 18px;
+
+    background: rgba(255, 255, 255, 0.55);
+
+    color: var(--rose);
+
+    font-size: 1.3rem;
+
+    transition:
+        background 0.25s ease,
+        transform 0.25s var(--ease);
+}
+
+.symbol-slot.filled {
+    background: #fff;
+
+    border-style: solid;
+
+    box-shadow: var(--shadow-soft);
+}
+
+.symbol-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.symbol-btn {
+    width: 52px;
+    height: 52px;
+
+    border: 1px solid var(--border);
+    border-radius: 16px;
+
+    background: #fff;
+
+    color: var(--rose-dark);
+
+    font: inherit;
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    box-shadow: 0 7px 18px rgba(104, 63, 77, 0.05);
+
+    transition:
+        transform 0.22s var(--ease),
+        box-shadow 0.22s ease;
+}
+
+.symbol-btn:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 24px rgba(104, 63, 77, 0.09);
+}
+
+.symbol-btn:active {
+    transform: scale(0.94);
+}
+
+.symbol-btn.used {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.symbol-completed {
+    animation: completePop 0.6s var(--ease);
+}
+
+
+/* =========================================================
+   LEVEL 4 — LOCK
+========================================================= */
+
+.lock-box {
+    width: min(100%, 360px);
+
+    padding: 24px 20px;
 
     border-radius: 28px;
 
     background:
-        rgba(255, 255, 255, 0.55);
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 247, 249, 0.86)
+        );
 
-    box-shadow:
-        0 15px 40px rgba(90, 60, 100, 0.08);
+    border: 1px solid var(--border);
 
-    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
 
+    margin-top: 20px;
 }
-
-
-/* شاشة القفل */
 
 .lock-screen {
-
     display: flex;
-
     justify-content: center;
     align-items: center;
 
-    gap: 12px;
+    min-height: 64px;
 
-    margin-bottom: 22px;
-
-}
-
-
-.lock-screen span {
-
-    width: 55px;
-    height: 62px;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 15px;
-
-    background:
-        rgba(255, 255, 255, 0.8);
-
-    border:
-        1px solid rgba(120, 90, 130, 0.2);
-
-    font-size: 28px;
-
-    font-weight: 600;
-
-    transition:
-        0.25s ease;
-
-}
-
-
-.lock-screen span.filled {
-
-    transform: scale(1.05);
-
-}
-
-
-/* التلميحات */
-
-.lock-hint {
-
-    margin-bottom: 20px;
-
-    padding: 14px;
+    margin-bottom: 18px;
 
     border-radius: 18px;
 
-    background:
-        rgba(255, 255, 255, 0.5);
+    background: #fff;
 
+    border: 1px solid rgba(167, 112, 130, 0.1);
+
+    box-shadow:
+        inset 0 2px 8px rgba(104, 63, 77, 0.04);
+
+    color: var(--rose-dark);
+
+    font-size: 1.7rem;
+    font-weight: 700;
+
+    letter-spacing: 0.22em;
 }
 
-
-.lock-hint p {
-
-    margin: 5px 0;
-
-    font-size: 15px;
-
-}
-
-
-/* لوحة الأرقام */
-
-.lock-inputs {
-
+.lock-hints {
     display: grid;
+    gap: 7px;
 
-    grid-template-columns: repeat(5, 1fr);
+    margin-bottom: 18px;
 
-    gap: 8px;
+    color: var(--text-soft);
 
+    font-size: 0.88rem;
+    line-height: 1.8;
 }
 
+.number-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 
-.lock-number {
+    gap: 9px;
+}
 
+.number-btn {
     height: 48px;
 
-    border: none;
+    border: 1px solid var(--border);
+    border-radius: 15px;
 
-    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.8);
 
-    background:
-        rgba(255, 255, 255, 0.8);
+    color: var(--text);
 
-    font-size: 18px;
-
-    cursor: pointer;
-
-    transition:
-        0.2s ease;
-
-}
-
-
-.lock-number:hover {
-
-    transform: translateY(-3px);
-
-}
-
-
-.lock-number:active {
-
-    transform: scale(0.9);
-
-}
-
-
-/* زر المسح */
-
-.lock-clear {
-
-    margin-top: 12px;
-
-    width: 100%;
-
-    height: 42px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background:
-        rgba(120, 90, 130, 0.1);
+    font: inherit;
+    font-weight: 600;
 
     cursor: pointer;
 
-    font-size: 14px;
-
     transition:
-        0.2s ease;
-
+        transform 0.2s var(--ease),
+        background 0.2s ease;
 }
 
-
-.lock-clear:hover {
-
-    background:
-        rgba(120, 90, 130, 0.18);
-
+.number-btn:hover {
+    transform: translateY(-2px);
+    background: #fff;
 }
 
-
-/* رسالة النتيجة */
-
-.lock-feedback {
-
-    min-height: 28px;
-
-    margin-top: 10px;
-
-    opacity: 0;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        0.3s ease;
-
+.number-btn:active {
+    transform: scale(0.95);
 }
 
+.clear-btn {
+    grid-column: 1 / -1;
 
-.lock-feedback.show {
-
-    opacity: 1;
-
-    transform:
-        translateY(0);
-
+    color: var(--rose-dark);
 }
-
-
-/* زر المرحلة التالية */
-
-#lockNext {
-
-    opacity: 0;
-
-    visibility: hidden;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        0.3s ease;
-
-}
-
-
-#lockNext.show {
-
-    opacity: 1;
-
-    visibility: visible;
-
-    transform:
-        translateY(0);
-
-}
-
-
-/* القفل لما يفتح */
 
 .lock-box.unlocked {
-
-    animation:
-        unlockAnimation 0.7s ease;
-
+    animation: unlockGlow 0.8s var(--ease);
 }
 
-
-@keyframes unlockAnimation {
-
+@keyframes unlockGlow {
     0% {
-
         transform: scale(1);
-
+        box-shadow: var(--shadow);
     }
 
-    40% {
-
-        transform: scale(1.04);
-
-    }
-
-    70% {
-
-        transform: scale(0.98);
-
+    45% {
+        transform: scale(1.025);
+        box-shadow:
+            0 0 0 8px rgba(199, 123, 145, 0.07),
+            var(--shadow);
     }
 
     100% {
-
         transform: scale(1);
-
+        box-shadow: var(--shadow);
     }
-
 }
-
-
-/* لو الكود غلط */
 
 .lock-box.wrong {
-
-    animation:
-        lockShake 0.4s ease;
-
+    animation: wrongShake 0.4s ease;
 }
 
 
-@keyframes lockShake {
+/* =========================================================
+   LEVEL 5 — DOORS
+========================================================= */
 
+.doors {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+.door {
+    min-height: 150px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    padding: 16px 10px;
+
+    border: 1px solid var(--border);
+    border-radius: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.88),
+            rgba(255, 246, 249, 0.78)
+        );
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    box-shadow: var(--shadow-soft);
+
+    transition:
+        transform 0.3s var(--ease),
+        box-shadow 0.3s ease,
+        background 0.3s ease;
+}
+
+.door:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 18px 35px rgba(104, 63, 77, 0.11);
+}
+
+.door-icon {
+    font-size: 2rem;
+}
+
+.door-title {
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    color: var(--text-soft);
+}
+
+.door.correct {
+    animation: correctDoor 0.7s var(--ease);
+}
+
+.door.wrong {
+    animation: wrongShake 0.4s ease;
+}
+
+@keyframes correctDoor {
     0% {
-
-        transform: translateX(0);
-
+        transform: scale(1);
     }
 
-    25% {
-
-        transform: translateX(-7px);
-
-    }
-
-    50% {
-
-        transform: translateX(7px);
-
-    }
-
-    75% {
-
-        transform: translateX(-5px);
-
+    45% {
+        transform: scale(1.07);
     }
 
     100% {
-
-        transform: translateX(0);
-
+        transform: scale(1);
     }
+}
 
+.doors.completed .door:not(.correct) {
+    opacity: 0.35;
+    transform: scale(0.97);
+    pointer-events: none;
 }
 
 
-@media (max-width: 500px) {
-
-    .lock-box {
-
-        max-width: 330px;
-
-        padding: 18px;
-
-    }
-
-    .lock-screen span {
-
-        width: 50px;
-
-        height: 58px;
-
-    }
-
-}
-
-
-/* =========================
-   PERSONAL MESSAGE
-========================= */
+/* =========================================================
+   PERSONAL SECTION
+========================================================= */
 
 #personal-screen {
-
     background:
         radial-gradient(
-            circle at center,
-            rgba(255, 245, 250, 0.95),
-            rgba(245, 232, 255, 0.95)
+            circle at 50% 15%,
+            rgba(249, 220, 228, 0.72),
+            transparent 34%
+        ),
+        linear-gradient(
+            180deg,
+            #fff9fb,
+            #fffdfd
         );
-
 }
-
 
 .personal-content {
-
-    width: 100%;
-
-    max-width: 620px;
-
-    text-align: center;
-
-    padding: 30px 20px;
-
+    width: min(100%, 520px);
 }
-
 
 .personal-name {
+    color: var(--rose-dark);
 
-    display: block;
+    font-size: clamp(1.7rem, 7vw, 2.35rem);
+    font-weight: 700;
 
-    font-size: 18px;
-
-    margin-bottom: 25px;
-
-    opacity: 0;
-
-    animation:
-        personalFade 1s ease forwards;
-
+    line-height: 1.7;
 }
-
 
 .personal-title {
+    margin-top: 4px;
 
-    font-size:
-        clamp(25px, 5vw, 38px);
+    color: var(--text-soft);
 
-    line-height: 1.6;
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-
-    opacity: 0;
-
-    animation:
-        personalFade 1s ease 0.7s forwards;
-
+    font-size: 0.95rem;
 }
-
 
 .personal-text {
-
-    font-size: 18px;
-
-    line-height: 2;
-
-    color:
-        rgba(40, 30, 45, 0.8);
-
+    margin-top: 26px;
 }
-
 
 .personal-text p {
-
-    margin: 14px 0;
-
     opacity: 0;
-
-    transform:
-        translateY(15px);
-
-    animation:
-        personalLine 0.8s ease forwards;
-
+    transform: translateY(12px);
 }
 
-
-.personal-text p:nth-child(1) {
-
-    animation-delay: 1.5s;
-
+.screen.active .personal-text p {
+    animation: lineReveal 0.7s var(--ease) forwards;
 }
 
-
-.personal-text p:nth-child(2) {
-
-    animation-delay: 2.1s;
-
+.screen.active .personal-text p:nth-child(1) {
+    animation-delay: 0.15s;
 }
 
-
-.personal-text p:nth-child(3) {
-
-    animation-delay: 2.7s;
-
+.screen.active .personal-text p:nth-child(2) {
+    animation-delay: 0.3s;
 }
 
-
-.personal-text p:nth-child(4) {
-
-    animation-delay: 3.4s;
-
+.screen.active .personal-text p:nth-child(3) {
+    animation-delay: 0.45s;
 }
 
-
-.personal-text p:nth-child(5) {
-
-    animation-delay: 4s;
-
+.screen.active .personal-text p:nth-child(4) {
+    animation-delay: 0.6s;
 }
 
-
-.personal-text .highlight {
-
-    font-size: 22px;
-
-    font-weight: 600;
-
-    margin-top: 25px;
-
-}
-
-
-#personalNext {
-
-    margin-top: 35px;
-
-    opacity: 0;
-
-    animation:
-        personalFade 1s ease 5s forwards;
-
-}
-
-
-@keyframes personalFade {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(20px);
-
-    }
-
+@keyframes lineReveal {
     to {
-
         opacity: 1;
-
-        transform:
-            translateY(0);
-
+        transform: translateY(0);
     }
+}
 
+.highlight {
+    color: var(--rose-dark);
+    font-weight: 700;
 }
 
 
-@keyframes personalLine {
+/* =========================================================
+   LOVE SECTIONS
+========================================================= */
 
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(15px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* موبايل */
-
-@media (max-width: 500px) {
-
-    .personal-content {
-
-        padding:
-            25px 18px;
-
-    }
-
-    .personal-title {
-
-        font-size: 25px;
-
-        line-height: 1.7;
-
-    }
-
-    .personal-text {
-
-        font-size: 16px;
-
-        line-height: 2;
-
-    }
-
-    .personal-text .highlight {
-
-        font-size: 20px;
-
-    }
-
-}
-
-
-/* =========================
-   FINAL LOVE JOURNEY
-========================= */
-
-.love-section {
-
+#love-part-2,
+#her-journey,
+#comfort,
+#memory {
     background:
         radial-gradient(
-            circle at center,
-            rgba(255, 250, 252, 0.98),
-            rgba(246, 237, 250, 0.98)
-        );
-
+            circle at 15% 15%,
+            rgba(247, 219, 227, 0.52),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 80%,
+            rgba(250, 231, 237, 0.62),
+            transparent 35%
+        ),
+        #fffafc;
 }
-
 
 .love-content {
-
-    width: 100%;
-
-    max-width: 650px;
-
-    padding:
-        30px 22px;
-
-    text-align: center;
-
+    width: min(100%, 520px);
 }
 
+.love-lines {
+    display: grid;
+    gap: 10px;
 
-.love-small {
+    margin-top: 20px;
+}
 
-    display: block;
-
-    font-size: 16px;
-
+.love-lines p {
     opacity: 0;
-
-    animation:
-        loveFade 1s ease forwards;
-
-    margin-bottom: 25px;
-
+    transform: translateY(10px);
 }
 
-
-.love-content h2 {
-
-    font-size:
-        clamp(25px, 5vw, 38px);
-
-    line-height: 1.7;
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 0.5s forwards;
-
+.screen.active .love-lines p {
+    animation: lineReveal 0.65s var(--ease) forwards;
 }
 
-
-/* الكلام */
-
-.love-lines p,
-.journey-text p,
-.comfort-text p,
-.memory-text p,
-.response-text p {
-
-    font-size: 18px;
-
-    line-height: 2;
-
-    margin: 15px 0;
-
-    opacity: 0;
-
-    transform:
-        translateY(15px);
-
-    animation:
-        loveLine 0.8s ease forwards;
-
+.screen.active .love-lines p:nth-child(1) {
+    animation-delay: 0.15s;
 }
 
-
-.love-lines p:nth-child(1) {
-
-    animation-delay: 1.2s;
-
+.screen.active .love-lines p:nth-child(2) {
+    animation-delay: 0.28s;
 }
 
-
-.love-lines p:nth-child(2) {
-
-    animation-delay: 1.7s;
-
+.screen.active .love-lines p:nth-child(3) {
+    animation-delay: 0.41s;
 }
 
-
-.love-lines p:nth-child(3) {
-
-    animation-delay: 2.2s;
-
+.screen.active .love-lines p:nth-child(4) {
+    animation-delay: 0.54s;
 }
 
-
-.love-lines p:nth-child(4) {
-
-    animation-delay: 2.7s;
-
+.screen.active .love-lines p:nth-child(5) {
+    animation-delay: 0.67s;
 }
-
-
-/* التأكيد */
-
-.love-highlight {
-
-    margin-top: 35px;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 3.4s forwards;
-
-}
-
-
-.love-highlight span {
-
-    display: block;
-
-    font-size: 17px;
-
-    margin-bottom: 8px;
-
-}
-
-
-.love-highlight strong {
-
-    display: block;
-
-    font-size: 30px;
-
-    font-weight: 600;
-
-}
-
-
-/* الدكتوراه */
 
 .doctor-line {
+    margin-top: 24px;
 
-    font-size: 32px !important;
+    color: var(--rose-dark);
 
-    font-weight: 600;
-
-    margin: 25px 0 !important;
-
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
-
-/* الرحلة */
-
-.journey-text p:nth-child(1) {
-
-    animation-delay: 1.2s;
-
+.journey-lines p {
+    opacity: 0;
+    transform: translateY(10px);
 }
 
-
-.journey-text p:nth-child(2) {
-
-    animation-delay: 1.7s;
-
+.screen.active .journey-lines p {
+    animation: lineReveal 0.7s var(--ease) forwards;
 }
 
-
-.journey-text p:nth-child(3) {
-
-    animation-delay: 2.2s;
-
+.screen.active .journey-lines p:nth-child(1) {
+    animation-delay: 0.15s;
 }
 
-
-.journey-text p:nth-child(4) {
-
-    animation-delay: 2.7s;
-
+.screen.active .journey-lines p:nth-child(2) {
+    animation-delay: 0.3s;
 }
 
-
-.journey-text p:nth-child(5) {
-
-    animation-delay: 3.2s;
-
+.screen.active .journey-lines p:nth-child(3) {
+    animation-delay: 0.45s;
 }
-
-
-.journey-text p:nth-child(6) {
-
-    animation-delay: 3.7s;
-
-}
-
-
-.journey-text p:nth-child(7) {
-
-    animation-delay: 4.2s;
-
-}
-
-
-/* المواساة */
 
 .strong-line {
+    margin-top: 22px;
 
-    font-size: 25px !important;
+    color: var(--rose-dark);
 
-    font-weight: 600;
-
-    margin: 30px 0 !important;
-
+    font-weight: 700;
 }
 
 
-/* الذكرى */
-
-.memory-section {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255, 247, 250, 0.98),
-            rgba(241, 234, 248, 0.98)
-        );
-
-}
-
+/* =========================================================
+   MEMORY
+========================================================= */
 
 .memory-highlight {
+    margin-top: 24px;
 
-    font-weight: 600;
+    color: var(--rose-dark);
 
-    margin-top: 30px !important;
-
+    font-size: 1.15rem;
+    font-weight: 700;
 }
 
-
-.heart-word {
-
-    font-size: 35px !important;
-
-    font-weight: 600;
-
-    margin-top: 25px !important;
-
-}
-
-
-/* =========================
-   CONFESSION INTRO
-========================= */
-
-.confession-section,
-.confession-main {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255, 246, 250, 1),
-            rgba(239, 229, 247, 1)
-        );
-
-}
-
-
-.confession-content {
-
-    width: 100%;
-
-    max-width: 700px;
-
-    padding:
-        30px 22px;
-
-    text-align: center;
-
-}
-
-
-.confession-small {
-
-    display: block;
-
-    font-size: 17px;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease forwards;
-
-    margin-bottom: 30px;
-
-}
-
-
-.confession-content h2 {
-
-    font-size:
-        clamp(27px, 6vw, 43px);
-
-    line-height: 1.6;
-
-    font-weight: 500;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 0.7s forwards;
-
-}
-
-
-.confession-line {
-
-    font-size: 20px;
-
-    margin: 20px 0;
-
-    opacity: 0;
-
-    transform:
-        translateY(15px);
-
-    animation:
-        loveLine 0.9s ease forwards;
-
-}
-
-
-.confession-line:nth-of-type(1) {
-
-    animation-delay: 1.6s;
-
-}
-
-
-.confession-line:nth-of-type(2) {
-
-    animation-delay: 2.2s;
-
-}
-
-
-.confession-line:nth-of-type(3) {
-
-    animation-delay: 2.8s;
-
-}
-
-
-.confession-btn {
-
-    margin-top: 35px;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 3.5s forwards;
-
-}
-
-
-/* =========================
-   MAIN CONFESSION
-========================= */
-
-.confession-main {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255, 247, 251, 1),
-            rgba(235, 222, 242, 1)
-        );
-
-}
-
-
-.rose-glow {
-
-    font-size: 65px;
-
-    margin-bottom: 15px;
-
-    animation:
-        roseFloat 3s ease-in-out infinite;
-
-}
-
-
-@keyframes roseFloat {
-
-    0%,
-    100% {
-
-        transform:
-            translateY(0);
-
-    }
-
-    50% {
-
-        transform:
-            translateY(-10px);
-
-    }
-
-}
-
-
-.confession-before {
-
-    font-size: 20px;
-
-    margin-bottom: 20px;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease forwards;
-
-}
-
-
-.confession-title {
-
-    font-size:
-        clamp(55px, 12vw, 100px);
-
-    font-weight: 600;
-
-    margin:
-        10px 0 25px;
-
-    opacity: 0;
-
-    animation:
-        confessionAppear 1.2s ease 0.8s forwards;
-
-}
-
-
-@keyframes confessionAppear {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            scale(0.8)
-            translateY(20px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            scale(1)
-            translateY(0);
-
-    }
-
-}
-
-
-.confession-text {
-
-    font-size: 19px;
-
-    line-height: 2;
-
-    margin: 10px 0;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 2s forwards;
-
-}
-
-
-.big-confession {
-
-    margin-top: 40px;
-
-    font-size:
-        clamp(28px, 7vw, 52px);
-
-    line-height: 1.7;
-
-    font-weight: 600;
-
-    opacity: 0;
-
-    animation:
-        loveFade 1s ease 3s forwards;
-
-}
-
-
-.big-confession span {
-
+.memory-heart {
     display: inline-block;
 
-    margin-top: 5px;
+    margin-top: 16px;
 
+    font-size: 1.6rem;
+
+    animation: softHeart 2.4s ease-in-out infinite;
 }
 
-
-/* =========================
-   RESPONSE
-========================= */
-
-.response-section {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255, 250, 252, 1),
-            rgba(243, 235, 248, 1)
-        );
-
-}
-
-
-.response-highlight {
-
-    font-size: 27px !important;
-
-    font-weight: 600;
-
-}
-
-
-/* =========================
-   FINAL
-========================= */
-
-.final-love {
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255, 250, 252, 1),
-            rgba(239, 229, 247, 1)
-        );
-
-}
-
-
-.final-content {
-
-    width: 100%;
-
-    max-width: 650px;
-
-    padding:
-        30px 22px;
-
-    text-align: center;
-
-}
-
-
-.final-rose {
-
-    font-size: 75px;
-
-    animation:
-        finalRose 3s ease-in-out infinite;
-
-}
-
-
-@keyframes finalRose {
-
+@keyframes softHeart {
     0%,
     100% {
-
-        transform:
-            translateY(0)
-            scale(1);
-
+        transform: scale(1);
     }
 
     50% {
-
-        transform:
-            translateY(-8px)
-            scale(1.06);
-
+        transform: scale(1.08);
     }
-
 }
 
+
+/* =========================================================
+   CONFESSION INTRO
+========================================================= */
+
+#confession-intro {
+    background:
+        radial-gradient(
+            circle at 50% 10%,
+            rgba(247, 213, 223, 0.75),
+            transparent 34%
+        ),
+        #fff9fb;
+}
+
+.intro-heading {
+    color: var(--rose-dark);
+
+    line-height: 1.8;
+}
+
+.intro-lines {
+    display: grid;
+    gap: 9px;
+
+    margin-top: 18px;
+}
+
+.intro-lines p {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.screen.active .intro-lines p {
+    animation: lineReveal 0.7s var(--ease) forwards;
+}
+
+.screen.active .intro-lines p:nth-child(1) {
+    animation-delay: 0.15s;
+}
+
+.screen.active .intro-lines p:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.screen.active .intro-lines p:nth-child(3) {
+    animation-delay: 0.45s;
+}
+
+.screen.active .intro-lines p:nth-child(4) {
+    animation-delay: 0.6s;
+}
+
+.rose-float {
+    display: block;
+
+    margin-bottom: 18px;
+
+    font-size: 2.7rem;
+
+    animation: roseFloat 3.2s ease-in-out infinite;
+}
+
+@keyframes roseFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+}
+
+
+/* =========================================================
+   CONFESSION
+========================================================= */
+
+#confession {
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(249, 216, 226, 0.72),
+            transparent 38%
+        ),
+        linear-gradient(
+            180deg,
+            #fff8fa,
+            #fffdfd
+        );
+}
+
+.confession-title {
+    color: var(--rose-dark);
+
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+
+    animation: confessionTitle 1s var(--ease) both;
+}
+
+@keyframes confessionTitle {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.big-confession {
+    margin-top: 18px;
+
+    color: var(--text);
+
+    font-size: clamp(1.2rem, 5.5vw, 1.65rem);
+    font-weight: 600;
+
+    line-height: 2;
+
+    animation: confessionText 1s 0.18s var(--ease) both;
+}
+
+@keyframes confessionText {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   RESPONSE
+========================================================= */
+
+#response {
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(248, 218, 227, 0.65),
+            transparent 36%
+        ),
+        #fffafd;
+}
+
+.response-highlight {
+    margin-top: 22px;
+
+    color: var(--rose-dark);
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FINAL SCREEN
+========================================================= */
+
+#final-love {
+    background:
+        radial-gradient(
+            circle at 50% 20%,
+            rgba(248, 210, 222, 0.82),
+            transparent 36%
+        ),
+        radial-gradient(
+            circle at 10% 85%,
+            rgba(251, 229, 235, 0.75),
+            transparent 32%
+        ),
+        #fff9fb;
+}
+
+.final-screen {
+    width: min(100%, 540px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.final-rose {
+    font-size: 3.2rem;
+
+    margin-bottom: 18px;
+
+    animation: roseFloat 3.2s ease-in-out infinite;
+}
 
 .final-small {
+    margin-top: 12px;
 
-    font-size: 17px;
+    color: var(--text-soft);
 
-    margin-top: 15px;
-
-    opacity: 0.7;
-
-}
-
-
-.final-content h1 {
-
-    font-size:
-        clamp(55px, 12vw, 100px);
-
-    margin:
-        10px 0 35px;
-
-    font-weight: 600;
-
-}
-
-
-.final-message {
-
-    font-size: 18px;
-
+    font-size: 1rem;
     line-height: 2;
-
-    margin: 15px 0;
-
 }
 
+.final-screen h1 {
+    margin-top: 12px;
+
+    color: var(--rose-dark);
+
+    font-size: clamp(2rem, 9vw, 3rem);
+
+    animation: finalTitle 1s var(--ease) both;
+}
+
+@keyframes finalTitle {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.final-messages {
+    display: grid;
+    gap: 8px;
+
+    margin-top: 20px;
+}
+
+.final-messages p {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.screen.active .final-messages p {
+    animation: lineReveal 0.7s var(--ease) forwards;
+}
+
+.screen.active .final-messages p:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.screen.active .final-messages p:nth-child(2) {
+    animation-delay: 0.35s;
+}
+
+.screen.active .final-messages p:nth-child(3) {
+    animation-delay: 0.5s;
+}
 
 .final-last {
+    margin-top: 22px;
 
-    margin-top: 40px;
+    color: var(--rose-dark);
 
-    font-size: 20px;
-
-    font-weight: 500;
-
+    font-weight: 700;
 }
-
 
 .final-i-love-you {
+    margin-top: 18px;
 
-    font-size:
-        clamp(38px, 9vw, 70px);
+    color: var(--rose-dark);
 
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 700;
 
-    margin: 30px 0;
-
+    animation: softHeart 2.5s ease-in-out infinite;
 }
-
 
 .flower-message {
+    margin-top: 18px;
 
-    font-size: 18px;
+    color: var(--text-muted);
 
-    line-height: 2;
-
-    margin-top: 35px;
-
-    opacity: 0.8;
-
+    font-size: 0.92rem;
+    line-height: 1.9;
 }
 
 
-/* =========================
-   ANIMATIONS
-========================= */
+/* =========================================================
+   NEXT BUTTON SPACING
+========================================================= */
 
-@keyframes loveFade {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(20px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
+.next-btn {
+    margin-top: 26px;
 }
 
 
-@keyframes loveLine {
-
-    from {
-
-        opacity: 0;
-
-        transform:
-            translateY(15px);
-
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform:
-            translateY(0);
-
-    }
-
-}
-
-
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
-
-@media (max-width: 500px) {
-
-    .love-content,
-    .confession-content,
-    .final-content {
-
-        padding:
-            25px 18px;
-
-    }
-
-    .love-content h2 {
-
-        font-size: 25px;
-
-        line-height: 1.75;
-
-    }
-
-    .love-lines p,
-    .journey-text p,
-    .comfort-text p,
-    .memory-text p,
-    .response-text p {
-
-        font-size: 16px;
-
-        line-height: 2;
-
-    }
-
-    .love-highlight strong {
-
-        font-size: 27px;
-
-    }
-
-    .doctor-line {
-
-        font-size: 28px !important;
-
-    }
-
-    .heart-word {
-
-        font-size: 32px !important;
-
-    }
-
-    .confession-title {
-
-        font-size: 58px;
-
-    }
-
-    .big-confession {
-
-        font-size: 30px;
-
-    }
-
-    .final-content h1 {
-
-        font-size: 60px;
-
-    }
-
-    .final-message {
-
-        font-size: 16px;
-
-    }
-
-}
-
-
-/* =========================================
-   تحسين Scroll الصفحات الطويلة على الموبايل
-========================================= */
+========================================================= */
 
 @media (max-width: 600px) {
 
     .screen {
-
-        height: 100vh;
-        height: 100dvh;
-
-        min-height: 0;
-
-        padding:
-            35px 18px
-            120px;
-
-        align-items: center;
-
         justify-content: flex-start;
 
-        overflow-y: auto;
-        overflow-x: hidden;
-
-        -webkit-overflow-scrolling: touch;
-
-        overscroll-behavior-y: contain;
+        padding:
+            34px
+            17px
+            90px;
     }
 
-
-    /* المساحة الفاضية أسفل المحتوى */
-    .screen::after {
-
-        content: "";
-
-        display: block;
-
+    .content {
         width: 100%;
 
-        min-height: 180px;
-
-        flex-shrink: 0;
-
-    }
-
-
-    .content,
-    .personal-content,
-    .love-content,
-    .confession-content,
-    .final-content {
-
         margin-top: 0;
-
         margin-bottom: 0;
-
-        flex-shrink: 0;
-
     }
 
+    h1 {
+        font-size: clamp(1.9rem, 9vw, 2.5rem);
+    }
+
+    h2 {
+        font-size: clamp(1.35rem, 6.5vw, 1.8rem);
+    }
+
+    p {
+        font-size: 0.96rem;
+        line-height: 1.95;
+    }
+
+    .main-btn {
+        min-width: 165px;
+        min-height: 50px;
+    }
+
+    .observation-grid {
+        max-width: 340px;
+
+        gap: 8px;
+    }
+
+    .star {
+        border-radius: 15px;
+    }
+
+    .puzzle-box {
+        padding: 20px 16px;
+    }
+
+    .doors {
+        gap: 8px;
+    }
+
+    .door {
+        min-height: 135px;
+
+        border-radius: 18px;
+
+        padding: 12px 7px;
+    }
+
+    .door-icon {
+        font-size: 1.7rem;
+    }
+
+    .door-title {
+        font-size: 0.76rem;
+    }
+
+    .lock-box {
+        padding: 20px 16px;
+    }
+
+    .personal-name {
+        font-size: 1.8rem;
+    }
+
+    .rose-float,
+    .final-rose {
+        font-size: 2.6rem;
+    }
+
+    .final-screen h1 {
+        font-size: clamp(2rem, 10vw, 2.7rem);
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .screen {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    p {
+        font-size: 0.91rem;
+    }
+
+    .observation-grid {
+        gap: 6px;
+    }
+
+    .code-letter {
+        width: 52px;
+        height: 52px;
+    }
+
+    .symbol-slot {
+        width: 51px;
+        height: 51px;
+    }
+
+    .symbol-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .door {
+        min-height: 125px;
+    }
+
+    .main-btn {
+        min-width: 155px;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE MOBILE
+========================================================= */
+
+@media (max-height: 520px) and (orientation: landscape) {
+
+    .screen {
+        justify-content: flex-start;
+
+        padding-top: 20px;
+        padding-bottom: 70px;
+    }
+
+    .screen::after {
+        min-height: 90px;
+    }
+
+    h1 {
+        margin-bottom: 8px;
+    }
+
+    h2 {
+        margin-bottom: 8px;
+    }
+
+    .main-btn {
+        margin-top: 18px;
+    }
+
+    .doors {
+        margin-top: 15px;
+    }
+
+    .door {
+        min-height: 110px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+/* =========================================================
+   SAFE AREA — iPHONE
+========================================================= */
+
+@supports (padding: max(0px)) {
+
+    .screen {
+        padding-bottom:
+            max(90px, env(safe-area-inset-bottom) + 70px);
+
+        padding-left:
+            max(17px, env(safe-area-inset-left));
+
+        padding-right:
+            max(17px, env(safe-area-inset-right));
+    }
 }
