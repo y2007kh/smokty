@@ -2,24 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        🎵 أسماء ملفات الأغاني
-       =====================================================
-
-       حط ملفات الأغاني جنب:
-       index.html
-       style.css
-       script.js
-
-       وبعدها غيّر الأسماء هنا فقط.
     ===================================================== */
 
     const MUSIC = {
-
         confession: "A.m4a",
-
         memory: "B.m4a",
-
         afterDoor: "C.m4a"
-
     };
 
 
@@ -44,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const afterDoorAudio =
         document.getElementById("afterDoorAudio");
 
+
     let currentScreen = 0;
 
     let confessionPlayed = false;
@@ -55,9 +44,17 @@ document.addEventListener("DOMContentLoaded", () => {
        تحميل الأغاني
     ===================================================== */
 
-    confessionAudio.src = MUSIC.confession;
-    memoryAudio.src = MUSIC.memory;
-    afterDoorAudio.src = MUSIC.afterDoor;
+    if (confessionAudio) {
+        confessionAudio.src = MUSIC.confession;
+    }
+
+    if (memoryAudio) {
+        memoryAudio.src = MUSIC.memory;
+    }
+
+    if (afterDoorAudio) {
+        afterDoorAudio.src = MUSIC.afterDoor;
+    }
 
 
     /* =====================================================
@@ -72,8 +69,9 @@ document.addEventListener("DOMContentLoaded", () => {
             afterDoorAudio
         ].forEach((audio) => {
 
-            audio.pause();
+            if (!audio) return;
 
+            audio.pause();
             audio.currentTime = 0;
 
         });
@@ -83,9 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function playMusic(audio) {
 
-        if (!audio) {
-            return;
-        }
+        if (!audio) return;
 
         audio.volume = 0.75;
 
@@ -94,12 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (promise !== undefined) {
 
             promise.catch(() => {
-                /*
-                    المتصفح ممكن يمنع التشغيل
-                    لو مفيش User Gesture.
-                    في حالتنا الأغنية الأولى والثالثة
-                    بيتشغلوا من ضغطات المستخدم.
-                */
+                // المتصفح ممكن يمنع الصوت
             });
 
         }
@@ -108,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       إظهار شاشة معينة
+       إظهار شاشة
     ===================================================== */
 
     function showScreen(index) {
@@ -126,8 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         });
 
-        const nextScreen =
-            screens[index];
+        const nextScreen = screens[index];
 
         nextScreen.classList.add("active");
 
@@ -172,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
         star.addEventListener("click", () => {
 
             if (
+                puzzleNext &&
                 puzzleNext.classList.contains("show")
             ) {
                 return;
@@ -183,12 +174,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 star.classList.add("correct");
 
-                puzzleFeedback.textContent =
-                    "لقيتيها! 👀✨";
+                if (puzzleFeedback) {
 
-                puzzleFeedback.classList.add("show");
+                    puzzleFeedback.textContent =
+                        "لقيتيها! 👀✨";
 
-                puzzleNext.classList.add("show");
+                    puzzleFeedback.classList.add("show");
+
+                }
+
+                if (puzzleNext) {
+                    puzzleNext.classList.add("show");
+                }
 
             }
 
@@ -245,25 +242,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
             foundItems++;
 
-            codeLetters[index].textContent =
-                item.dataset.letter;
 
-            codeLetters[index].classList.add("revealed");
+            if (codeLetters[index]) {
+
+                codeLetters[index].textContent =
+                    item.dataset.letter;
+
+                codeLetters[index].classList.add(
+                    "revealed"
+                );
+
+            }
 
 
             if (
-                foundItems ===
-                hiddenItems.length
+                foundItems === hiddenItems.length
             ) {
 
-                hiddenArea.classList.add("completed");
+                if (hiddenArea) {
 
-                codeFeedback.textContent =
-                    "كده الكلمة اكتملت... ✨";
+                    hiddenArea.classList.add(
+                        "completed"
+                    );
 
-                codeFeedback.classList.add("show");
+                }
 
-                codeNext.classList.add("show");
+                if (codeFeedback) {
+
+                    codeFeedback.textContent =
+                        "كده الكلمة اكتملت... ✨";
+
+                    codeFeedback.classList.add(
+                        "show"
+                    );
+
+                }
+
+                if (codeNext) {
+
+                    codeNext.classList.add(
+                        "show"
+                    );
+
+                }
 
             }
 
@@ -271,81 +292,187 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-// =================================
-// Level 3 — الوردة 🌹
-// =================================
 
-const interactiveRose = document.getElementById("interactiveRose");
-const roseHint = document.getElementById("roseHint");
-const roseMessage = document.getElementById("roseMessage");
-const roseNext = document.getElementById("roseNext");
-const roseSound = document.getElementById("roseSound");
+    /* =====================================================
+       Puzzle 3 — الوردة 🌹
+    ===================================================== */
 
-let roseOpened = false;
+    const interactiveRose =
+        document.getElementById(
+            "interactiveRose"
+        );
 
-interactiveRose.addEventListener("click", () => {
+    const roseHint =
+        document.getElementById(
+            "roseHint"
+        );
 
-    if (roseOpened) return;
+    const roseMessage =
+        document.getElementById(
+            "roseMessage"
+        );
 
-    roseOpened = true;
+    const roseNext =
+        document.getElementById(
+            "roseNext"
+        );
 
-    // تشغيل الصوت
-    if (roseSound) {
-        roseSound.currentTime = 0;
-        roseSound.play().catch(() => {});
+    const roseSound =
+        document.getElementById(
+            "roseSound"
+        );
+
+
+    let roseOpened = false;
+
+
+    if (interactiveRose) {
+
+        interactiveRose.addEventListener(
+            "click",
+            () => {
+
+                if (roseOpened) {
+                    return;
+                }
+
+                roseOpened = true;
+
+
+                /* تشغيل الصوت */
+
+                if (roseSound) {
+
+                    roseSound.currentTime = 0;
+
+                    const soundPromise =
+                        roseSound.play();
+
+                    if (
+                        soundPromise !== undefined
+                    ) {
+
+                        soundPromise.catch(() => {});
+
+                    }
+
+                }
+
+
+                /* حركة الوردة */
+
+                interactiveRose.classList.add(
+                    "bloom"
+                );
+
+
+                /* إخفاء التلميح */
+
+                if (roseHint) {
+
+                    roseHint.classList.add(
+                        "hide"
+                    );
+
+                }
+
+
+                /* إظهار الرسالة */
+
+                setTimeout(() => {
+
+                    if (roseMessage) {
+
+                        roseMessage.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }, 600);
+
+
+                /* إظهار زر كملي */
+
+                setTimeout(() => {
+
+                    if (roseNext) {
+
+                        roseNext.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }, 1800);
+
+            }
+        );
+
     }
-
-    // حركة الوردة
-    interactiveRose.classList.add("bloom");
-
-    // إخفاء التلميح
-    roseHint.classList.add("hide");
-
-    // إظهار الرسالة
-    setTimeout(() => {
-        roseMessage.classList.add("show");
-    }, 600);
-
-    // إظهار زر كملي
-    setTimeout(() => {
-        roseNext.classList.add("show");
-    }, 1800);
-});
-
-
-// الانتقال للمرحلة الرابعة
-roseNext.addEventListener("click", () => {
-    showScreen(3);
-});
 
 
     /* =====================================================
-       Puzzle 4
+       الانتقال من الوردة → المرحلة الرابعة
+    ===================================================== */
+
+    if (roseNext) {
+
+        roseNext.addEventListener(
+            "click",
+            () => {
+
+                showScreen(3);
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       Puzzle 4 — القفل
     ===================================================== */
 
     const lockNumbers =
-        document.querySelectorAll(".lock-number");
+        document.querySelectorAll(
+            ".lock-number"
+        );
 
     const lockDigit1 =
-        document.getElementById("lockDigit1");
+        document.getElementById(
+            "lockDigit1"
+        );
 
     const lockDigit2 =
-        document.getElementById("lockDigit2");
+        document.getElementById(
+            "lockDigit2"
+        );
 
     const lockDigit3 =
-        document.getElementById("lockDigit3");
+        document.getElementById(
+            "lockDigit3"
+        );
 
     const lockClear =
-        document.getElementById("lockClear");
+        document.getElementById(
+            "lockClear"
+        );
 
     const lockFeedback =
-        document.getElementById("lockFeedback");
+        document.getElementById(
+            "lockFeedback"
+        );
 
     const lockNext =
-        document.getElementById("lockNext");
+        document.getElementById(
+            "lockNext"
+        );
 
     const lockBox =
-        document.querySelector(".lock-box");
+        document.querySelector(
+            ".lock-box"
+        );
 
 
     let enteredCode = "";
@@ -357,36 +484,45 @@ roseNext.addEventListener("click", () => {
 
     lockNumbers.forEach((number) => {
 
-        number.addEventListener("click", () => {
+        number.addEventListener(
+            "click",
+            () => {
 
-            if (lockSolved) {
-                return;
+                if (lockSolved) {
+                    return;
+                }
+
+                if (enteredCode.length >= 3) {
+                    return;
+                }
+
+                enteredCode +=
+                    number.dataset.number;
+
+                updateLockDisplay();
+
             }
-
-            if (enteredCode.length >= 3) {
-                return;
-            }
-
-            enteredCode +=
-                number.dataset.number;
-
-            updateLockDisplay();
-
-        });
+        );
 
     });
 
 
     function updateLockDisplay() {
 
-        lockDigit1.textContent =
-            enteredCode[0] || "_";
+        if (lockDigit1) {
+            lockDigit1.textContent =
+                enteredCode[0] || "_";
+        }
 
-        lockDigit2.textContent =
-            enteredCode[1] || "_";
+        if (lockDigit2) {
+            lockDigit2.textContent =
+                enteredCode[1] || "_";
+        }
 
-        lockDigit3.textContent =
-            enteredCode[2] || "_";
+        if (lockDigit3) {
+            lockDigit3.textContent =
+                enteredCode[2] || "_";
+        }
 
 
         const digits = [
@@ -398,15 +534,21 @@ roseNext.addEventListener("click", () => {
 
         digits.forEach((digit, index) => {
 
+            if (!digit) return;
+
             if (enteredCode[index]) {
 
-                digit.classList.add("filled");
+                digit.classList.add(
+                    "filled"
+                );
 
             }
 
             else {
 
-                digit.classList.remove("filled");
+                digit.classList.remove(
+                    "filled"
+                );
 
             }
 
@@ -432,20 +574,35 @@ roseNext.addEventListener("click", () => {
 
             lockSolved = true;
 
-            lockFeedback.textContent =
-                "اتفتح! 🔓✨";
 
-            lockFeedback.classList.add(
-                "show"
-            );
+            if (lockFeedback) {
 
-            lockBox.classList.add(
-                "unlocked"
-            );
+                lockFeedback.textContent =
+                    "اتفتح! 🔓✨";
 
-            lockNext.classList.add(
-                "show"
-            );
+                lockFeedback.classList.add(
+                    "show"
+                );
+
+            }
+
+
+            if (lockBox) {
+
+                lockBox.classList.add(
+                    "unlocked"
+                );
+
+            }
+
+
+            if (lockNext) {
+
+                lockNext.classList.add(
+                    "show"
+                );
+
+            }
 
 
             lockNumbers.forEach((number) => {
@@ -458,23 +615,36 @@ roseNext.addEventListener("click", () => {
 
         else {
 
-            lockFeedback.textContent =
-                "الاجابه ديما بتبقا قدام عينينا واحنا مش عارفين";
+            if (lockFeedback) {
 
-            lockFeedback.classList.add(
-                "show"
-            );
+                lockFeedback.textContent =
+                    "الإجابة دي دايمًا بتبقى قدام عينينا واحنا مش عارفين.";
 
-            lockBox.classList.add(
-                "wrong"
-            );
+                lockFeedback.classList.add(
+                    "show"
+                );
+
+            }
+
+
+            if (lockBox) {
+
+                lockBox.classList.add(
+                    "wrong"
+                );
+
+            }
 
 
             setTimeout(() => {
 
-                lockBox.classList.remove(
-                    "wrong"
-                );
+                if (lockBox) {
+
+                    lockBox.classList.remove(
+                        "wrong"
+                    );
+
+                }
 
                 enteredCode = "";
 
@@ -486,6 +656,10 @@ roseNext.addEventListener("click", () => {
 
     }
 
+
+    /* =====================================================
+       زر مسح القفل
+    ===================================================== */
 
     if (lockClear) {
 
@@ -499,9 +673,13 @@ roseNext.addEventListener("click", () => {
 
                 enteredCode = "";
 
-                lockFeedback.classList.remove(
-                    "show"
-                );
+                if (lockFeedback) {
+
+                    lockFeedback.classList.remove(
+                        "show"
+                    );
+
+                }
 
                 updateLockDisplay();
 
@@ -511,28 +689,68 @@ roseNext.addEventListener("click", () => {
     }
 
 
-   /* =====================================================
-   الانتقال من Puzzle 1 → 2
-   Puzzle 2 → 3
-   Puzzle 3 → 4
-   Puzzle 4 → الأبواب
-===================================================== */
+    /* =====================================================
+       انتقال المرحلة 1 → 2
+    ===================================================== */
 
-puzzleNext.addEventListener("click", () => {
-    showScreen(currentScreen + 1);
-});
+    if (puzzleNext) {
 
-codeNext.addEventListener("click", () => {
-    showScreen(currentScreen + 1);
-});
+        puzzleNext.addEventListener(
+            "click",
+            () => {
 
-lockNext.addEventListener("click", () => {
-    showScreen(currentScreen + 1);
-});
+                showScreen(
+                    currentScreen + 1
+                );
+
+            }
+        );
+
+    }
 
 
     /* =====================================================
-       Puzzle 5 - الأبواب
+       انتقال المرحلة 2 → 3
+    ===================================================== */
+
+    if (codeNext) {
+
+        codeNext.addEventListener(
+            "click",
+            () => {
+
+                showScreen(
+                    currentScreen + 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       انتقال المرحلة 4 → 5
+    ===================================================== */
+
+    if (lockNext) {
+
+        lockNext.addEventListener(
+            "click",
+            () => {
+
+                showScreen(
+                    currentScreen + 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       Puzzle 5 — الأبواب
     ===================================================== */
 
     const doors =
@@ -542,130 +760,174 @@ lockNext.addEventListener("click", () => {
         document.querySelector(".doors");
 
     const doorFeedback =
-        document.getElementById("doorFeedback");
+        document.getElementById(
+            "doorFeedback"
+        );
 
     const doorNext =
-        document.getElementById("doorNext");
+        document.getElementById(
+            "doorNext"
+        );
 
 
     doors.forEach((door) => {
 
-        door.addEventListener("click", () => {
+        door.addEventListener(
+            "click",
+            () => {
 
-            if (
-                doorsContainer.classList.contains(
-                    "completed"
-                )
-            ) {
-                return;
-            }
+                if (
+                    doorsContainer &&
+                    doorsContainer.classList.contains(
+                        "completed"
+                    )
+                ) {
 
+                    return;
 
-            const selectedDoor =
-                door.dataset.door;
-
-
-            /* =================================
-               الباب الصح 🌹
-            ================================= */
-
-            if (
-                selectedDoor === "rose"
-            ) {
-
-                door.classList.add(
-                    "correct"
-                );
-
-                doorsContainer.classList.add(
-                    "completed"
-                );
+                }
 
 
-                doorFeedback.textContent =
+                const selectedDoor =
+                    door.dataset.door;
+
+
+                /* الباب الصح 🌹 */
+
+                if (
+                    selectedDoor === "rose"
+                ) {
+
+                    door.classList.add(
+                        "correct"
+                    );
+
+
+                    if (doorsContainer) {
+
+                        doorsContainer.classList.add(
+                            "completed"
+                        );
+
+                    }
+
+
+                    if (doorFeedback) {
+
+                        doorFeedback.textContent =
 `كُلُّ إتجاه إلى عَينكِ يأخُذني
 مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟`;
 
-                doorFeedback.classList.add(
-                    "show"
-                );
+                        doorFeedback.classList.add(
+                            "show"
+                        );
+
+                    }
 
 
-                doorNext.classList.add(
-                    "show"
-                );
+                    if (doorNext) {
 
-            }
+                        doorNext.classList.add(
+                            "show"
+                        );
 
+                    }
 
-            /* =================================
-               الباب الغلط
-            ================================= */
-
-            else {
-
-                door.classList.add(
-                    "wrong"
-                );
+                }
 
 
-                doorFeedback.textContent =
-`لا تَسْأَليني هَلْ أُحِبُّهُما ؟
-عَيْناكِ إنّي مِنهُما لَهُما`;
+                /* الباب الغلط */
 
-                doorFeedback.classList.add(
-                    "show"
-                );
+                else {
 
-
-                setTimeout(() => {
-
-                    door.classList.remove(
+                    door.classList.add(
                         "wrong"
                     );
 
-                }, 500);
+
+                    if (doorFeedback) {
+
+                        doorFeedback.textContent =
+`لا تَسْأَليني هَلْ أُحِبُّهُما ؟
+عَيْناكِ إنّي مِنهُما لَهُما`;
+
+                        doorFeedback.classList.add(
+                            "show"
+                        );
+
+                    }
+
+
+                    setTimeout(() => {
+
+                        door.classList.remove(
+                            "wrong"
+                        );
+
+                    }, 500);
+
+                }
 
             }
-
-        });
+        );
 
     });
 
 
     /* =====================================================
        بعد الباب الصح
-       نفتح الصفحة الطويلة
     ===================================================== */
 
-    doorNext.addEventListener("click", () => {
+    if (doorNext) {
 
-        openLovePage();
+        doorNext.addEventListener(
+            "click",
+            () => {
 
-    });
+                openLovePage();
+
+            }
+        );
+
+    }
 
 
     function openLovePage() {
 
-        showScreenWithoutTransition();
+        screens.forEach((screen) => {
 
-        lovePage.classList.add("visible");
+            screen.classList.remove(
+                "active"
+            );
+
+            screen.style.display = "none";
+
+        });
+
+
+        if (lovePage) {
+
+            lovePage.classList.add(
+                "visible"
+            );
+
+        }
+
 
         document.body.classList.add(
             "love-page-open"
         );
 
 
-        /*
-            الأغنية الثالثة تبدأ من نفس ضغطة
-            فتح الباب، وده مهم جدًا للموبايل.
-        */
+        /* الأغنية الثالثة */
 
         if (!afterDoorPlayed) {
 
             stopAllMusic();
 
-            playMusic(afterDoorAudio);
+            playMusic(
+                afterDoorAudio
+            );
 
             afterDoorPlayed = true;
 
@@ -681,27 +943,7 @@ lockNext.addEventListener("click", () => {
 
 
     /* =====================================================
-       إخفاء نظام الشاشات
-    ===================================================== */
-
-    function showScreenWithoutTransition() {
-
-        screens.forEach((screen) => {
-
-            screen.classList.remove(
-                "active"
-            );
-
-            screen.style.display = "none";
-
-        });
-
-    }
-
-
-    /* =====================================================
        الأغنية الثانية
-       زر صغير اختياري عشان المتصفح يسمح بالصوت
     ===================================================== */
 
     const memoryMusicBtn =
@@ -717,6 +959,7 @@ lockNext.addEventListener("click", () => {
             () => {
 
                 if (
+                    memoryAudio &&
                     memoryAudio.paused
                 ) {
 
@@ -733,7 +976,7 @@ lockNext.addEventListener("click", () => {
 
                 }
 
-                else {
+                else if (memoryAudio) {
 
                     memoryAudio.pause();
 
@@ -749,17 +992,8 @@ lockNext.addEventListener("click", () => {
 
 
     /* =====================================================
-       الأغنية الأولى
-       مع زر "اسمعيني"
-       
-       ملاحظة:
-       الزر لم يعد موجودًا في الصفحة.
-       لذلك سنشغلها عند أول وصول فعلي
-       للاعتراف باستخدام IntersectionObserver.
+       الأغنية الأولى — الاعتراف
     ===================================================== */
-
-    let confessionObserver = null;
-
 
     function setupConfessionMusic() {
 
@@ -774,7 +1008,7 @@ lockNext.addEventListener("click", () => {
         }
 
 
-        confessionObserver =
+        const confessionObserver =
             new IntersectionObserver(
                 (entries) => {
 
@@ -815,7 +1049,7 @@ lockNext.addEventListener("click", () => {
 
 
     /* =====================================================
-       ظهور عناصر الصفحة تدريجيًا أثناء النزول
+       ظهور عناصر الصفحة تدريجيًا
     ===================================================== */
 
     const storyBlocks =
@@ -855,5 +1089,11 @@ lockNext.addEventListener("click", () => {
 
     });
 
+
+    /* =====================================================
+       البداية
+    ===================================================== */
+
+    showScreen(0);
 
 });
