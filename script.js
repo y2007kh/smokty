@@ -3,31 +3,35 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        💖 إنشاء قلوب متطايرة في الخلفية
     ===================================================== */
-    function createFloatingHearts() {
-        const heartsContainer = document.createElement("div");
-        heartsContainer.classList.add("hearts-container");
-        document.body.appendChild(heartsContainer);
+ let heartsInterval = null;
 
-        const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
+function startFloatingHearts() {
+    if (heartsInterval) return; // عشان متشتغلش مرتين
 
-        setInterval(() => {
-            const heart = document.createElement("span");
-            heart.classList.add("floating-heart");
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-            heart.style.fontSize = Math.random() * 10 + 16 + "px";
+    const heartsContainer = document.createElement("div");
+    heartsContainer.classList.add("hearts-container");
+    document.body.appendChild(heartsContainer);
 
-            heartsContainer.appendChild(heart);
+    const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
 
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
-        }, 500);
-    }
+    heartsInterval = setInterval(() => {
+        const heart = document.createElement("span");
+        heart.classList.add("floating-heart");
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+        heart.style.fontSize = Math.random() * 10 + 16 + "px";
 
-    createFloatingHearts();
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 7000);
+    }, 450);
+}
+
+// مسحنا استدعاء createFloatingHearts(); من البداية عشان متبدأش من الأول
 
     /* =====================================================
        🎵 أسماء ملفات الأغاني والكلمات
