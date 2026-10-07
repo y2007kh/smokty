@@ -2130,3 +2130,22 @@ body.love-page-open {
         opacity: 0;
     }
 }
+
+/* تأثير نبض وتوهج للوردة والأزرار المهمة */
+.rose-interactive, .lock-box, .btn-main {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rose-interactive:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.8));
+}
+
+/* توهج للنص الرومانسي */
+.puzzle-feedback, .code-feedback, .lock-feedback {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #ff6b81;
+    text-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
+}
+
