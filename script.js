@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
        🎵 أسماء ملفات الأغاني
-       ضع الملفات بجانب index.html
     ===================================================== */
 
     const MUSIC = {
@@ -13,206 +12,129 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       🎯 عناصر الشاشات
+       العناصر الأساسية
     ===================================================== */
 
     const screens = document.querySelectorAll(".screen");
-    const lovePage = document.getElementById("love-page");
+
+    const startBtn =
+        document.getElementById("startBtn");
+
+    const lovePage =
+        document.getElementById("love-page");
+
+    const confessionAudio =
+        document.getElementById("confessionAudio");
+
+    const memoryAudio =
+        document.getElementById("memoryAudio");
+
+    const afterDoorAudio =
+        document.getElementById("afterDoorAudio");
+
 
     let currentScreen = 0;
 
-
-    /* =====================================================
-       🔘 الأزرار
-    ===================================================== */
-
-    const startBtn = document.getElementById("startBtn");
-
-    const puzzleNext = document.getElementById("puzzleNext");
-    const codeNext = document.getElementById("codeNext");
-    const roseNext = document.getElementById("roseNext");
-    const lockNext = document.getElementById("lockNext");
-    const doorNext = document.getElementById("doorNext");
+    let confessionPlayed = false;
+    let memoryPlayed = false;
+    let afterDoorPlayed = false;
 
 
     /* =====================================================
-       🎵 الصوت
+       تحميل الأغاني
     ===================================================== */
-
-    const confessionAudio = document.getElementById("confessionAudio");
-    const memoryAudio = document.getElementById("memoryAudio");
-    const afterDoorAudio = document.getElementById("afterDoorAudio");
-    const roseSound = document.getElementById("roseSound");
 
     if (confessionAudio) {
         confessionAudio.src = MUSIC.confession;
-        confessionAudio.preload = "auto";
-        confessionAudio.playsInline = true;
     }
 
     if (memoryAudio) {
         memoryAudio.src = MUSIC.memory;
-        memoryAudio.preload = "auto";
-        memoryAudio.playsInline = true;
     }
 
     if (afterDoorAudio) {
         afterDoorAudio.src = MUSIC.afterDoor;
-        afterDoorAudio.preload = "auto";
-        afterDoorAudio.playsInline = true;
     }
 
 
     /* =====================================================
-       🎵 التحكم في الموسيقى
+       أدوات الصوت
     ===================================================== */
 
     function stopAllMusic() {
 
-        const audios = [
+        [
             confessionAudio,
             memoryAudio,
-            afterDoorAudio,
-            roseSound
-        ];
-
-        audios.forEach(audio => {
+            afterDoorAudio
+        ].forEach((audio) => {
 
             if (!audio) return;
 
             audio.pause();
-
-            try {
-                audio.currentTime = 0;
-            } catch (error) {}
+            audio.currentTime = 0;
 
         });
+
     }
 
 
-    function playAudio(audio) {
+    function playMusic(audio) {
 
         if (!audio) return;
 
-        stopAllMusic();
+        audio.volume = 0.75;
 
         const promise = audio.play();
 
         if (promise !== undefined) {
+
             promise.catch(() => {
-                console.log("Audio playback was blocked.");
+                // المتصفح ممكن يمنع الصوت
             });
+
         }
+
     }
 
 
     /* =====================================================
-       🍎 Safari / iPhone Audio Unlock
-       
-       أول ضغطة من المستخدم تسمح للمتصفح
-       بتجهيز ملفات الصوت.
-    ===================================================== */
-
-    let audioUnlocked = false;
-
-    function unlockAudio() {
-
-        if (audioUnlocked) return;
-
-        audioUnlocked = true;
-
-        const audios = [
-            confessionAudio,
-            memoryAudio,
-            afterDoorAudio,
-            roseSound
-        ];
-
-        audios.forEach(audio => {
-
-            if (!audio) return;
-
-            const oldMuted = audio.muted;
-
-            audio.muted = true;
-
-            const promise = audio.play();
-
-            if (promise !== undefined) {
-
-                promise
-                    .then(() => {
-
-                        audio.pause();
-
-                        try {
-                            audio.currentTime = 0;
-                        } catch (error) {}
-
-                        audio.muted = oldMuted;
-
-                    })
-                    .catch(() => {
-
-                        audio.muted = oldMuted;
-
-                    });
-
-            } else {
-
-                audio.pause();
-
-                try {
-                    audio.currentTime = 0;
-                } catch (error) {}
-
-                audio.muted = oldMuted;
-            }
-
-        });
-    }
-
-
-    /* =====================================================
-       🔄 الانتقال بين الشاشات
+       إظهار شاشة
     ===================================================== */
 
     function showScreen(index) {
 
-        if (!screens[index]) return;
+        if (
+            index < 0 ||
+            index >= screens.length
+        ) {
+            return;
+        }
 
-        screens.forEach(screen => {
+        screens.forEach((screen) => {
+
             screen.classList.remove("active");
+
         });
 
-        screens[index].classList.add("active");
+        const nextScreen = screens[index];
+
+        nextScreen.classList.add("active");
+
+        nextScreen.scrollTop = 0;
 
         currentScreen = index;
 
-        try {
-            screens[index].scrollTo({
-                top: 0,
-                behavior: "auto"
-            });
-        } catch (error) {}
-
-        window.scrollTo({
-            top: 0,
-            behavior: "auto"
-        });
     }
 
 
     /* =====================================================
-       🚀 البداية
+       البداية
     ===================================================== */
 
     if (startBtn) {
 
         startBtn.addEventListener("click", () => {
-
-            // مهم جداً لـ Safari / iPhone
-            unlockAudio();
 
             showScreen(1);
 
@@ -222,48 +144,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       ⭐ LEVEL 1
-       مين المختلف؟
+       Puzzle 1
     ===================================================== */
 
-    const puzzleStars = document.querySelectorAll(".puzzle-star");
-    const puzzleFeedback = document.getElementById("puzzleFeedback");
+    const puzzleStars =
+        document.querySelectorAll(".puzzle-star");
 
-    let puzzleSolved = false;
+    const puzzleFeedback =
+        document.getElementById("puzzleFeedback");
 
-    puzzleStars.forEach(star => {
+    const puzzleNext =
+        document.getElementById("puzzleNext");
+
+
+    puzzleStars.forEach((star) => {
 
         star.addEventListener("click", () => {
 
-            if (puzzleSolved) return;
+            if (
+                puzzleNext &&
+                puzzleNext.classList.contains("show")
+            ) {
+                return;
+            }
 
-            if (star.classList.contains("different")) {
+            if (
+                star.classList.contains("different")
+            ) {
 
-                puzzleSolved = true;
-
-                star.classList.add("found");
+                star.classList.add("correct");
 
                 if (puzzleFeedback) {
-                    puzzleFeedback.textContent = "لقيتيها 👀🤍";
-                    puzzleFeedback.classList.add("success");
+
+                    puzzleFeedback.textContent =
+                        "لقيتيها! 👀✨";
+
+                    puzzleFeedback.classList.add("show");
+
                 }
 
                 if (puzzleNext) {
                     puzzleNext.classList.add("show");
                 }
 
-            } else {
+            }
+
+            else {
 
                 star.classList.add("wrong");
 
                 setTimeout(() => {
-                    star.classList.remove("wrong");
-                }, 450);
 
-                if (puzzleFeedback) {
-                    puzzleFeedback.textContent = "لأ... بصي كويس 👀";
-                    puzzleFeedback.classList.remove("success");
-                }
+                    star.classList.remove("wrong");
+
+                }, 400);
 
             }
 
@@ -273,61 +207,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       ➡️ من LEVEL 1 إلى LEVEL 2
+       Puzzle 2
     ===================================================== */
 
-    if (puzzleNext) {
+    const hiddenItems =
+        document.querySelectorAll(".hidden-item");
 
-        puzzleNext.addEventListener("click", () => {
+    const codeLetters =
+        document.querySelectorAll(".code-letter");
 
-            showScreen(2);
+    const codeFeedback =
+        document.getElementById("codeFeedback");
 
-        });
+    const codeNext =
+        document.getElementById("codeNext");
 
-    }
+    const hiddenArea =
+        document.querySelector(".hidden-items");
+
+    let foundItems = 0;
 
 
-    /* =====================================================
-       🔐 LEVEL 2
-       الحروف المخفية
-    ===================================================== */
-
-    const hiddenItems = document.querySelectorAll(".hidden-item");
-    const codeLetters = document.querySelectorAll(".code-letter");
-    const codeFeedback = document.getElementById("codeFeedback");
-
-    let foundLetters = [];
-
-    hiddenItems.forEach(item => {
+    hiddenItems.forEach((item, index) => {
 
         item.addEventListener("click", () => {
 
-            if (item.classList.contains("found")) return;
-
-            const letter = item.dataset.letter;
-
-            if (!letter) return;
+            if (
+                item.classList.contains("found")
+            ) {
+                return;
+            }
 
             item.classList.add("found");
 
-            foundLetters.push(letter);
+            foundItems++;
 
-            const currentIndex = foundLetters.length - 1;
 
-            if (codeLetters[currentIndex]) {
-                codeLetters[currentIndex].textContent = letter;
-                codeLetters[currentIndex].classList.add("revealed");
+            if (codeLetters[index]) {
+
+                codeLetters[index].textContent =
+                    item.dataset.letter;
+
+                codeLetters[index].classList.add(
+                    "revealed"
+                );
+
             }
 
-            if (foundLetters.length === 3) {
+
+            if (
+                foundItems === hiddenItems.length
+            ) {
+
+                if (hiddenArea) {
+
+                    hiddenArea.classList.add(
+                        "completed"
+                    );
+
+                }
 
                 if (codeFeedback) {
-                    codeFeedback.textContent = "تمام... عرفتي الحروف كلها 🤍";
-                    codeFeedback.classList.add("success");
+
+                    codeFeedback.textContent =
+                        "كده الكلمة اكتملت... ✨";
+
+                    codeFeedback.classList.add(
+                        "show"
+                    );
+
                 }
 
                 if (codeNext) {
-                    codeNext.classList.add("show");
+
+                    codeNext.classList.add(
+                        "show"
+                    );
+
                 }
 
             }
@@ -338,120 +294,236 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-       ➡️ من LEVEL 2 إلى LEVEL 3
+       Puzzle 3 — الوردة 🌹
     ===================================================== */
 
-    if (codeNext) {
+    const interactiveRose =
+        document.getElementById(
+            "interactiveRose"
+        );
 
-        codeNext.addEventListener("click", () => {
+    const roseHint =
+        document.getElementById(
+            "roseHint"
+        );
 
-            showScreen(3);
+    const roseMessage =
+        document.getElementById(
+            "roseMessage"
+        );
 
-        });
+    const roseNext =
+        document.getElementById(
+            "roseNext"
+        );
 
-    }
+    const roseSound =
+        document.getElementById(
+            "roseSound"
+        );
 
-
-    /* =====================================================
-       🌹 LEVEL 3
-       الوردة
-    ===================================================== */
-
-    const interactiveRose = document.getElementById("interactiveRose");
-    const roseHint = document.getElementById("roseHint");
-    const roseMessage = document.getElementById("roseMessage");
 
     let roseOpened = false;
 
+
     if (interactiveRose) {
 
-        interactiveRose.addEventListener("click", () => {
+        interactiveRose.addEventListener(
+            "click",
+            () => {
 
-            if (roseOpened) return;
+                if (roseOpened) {
+                    return;
+                }
 
-            roseOpened = true;
+                roseOpened = true;
 
-            interactiveRose.classList.add("bloom");
 
-            if (roseHint) {
-                roseHint.style.opacity = "0";
+                /* تشغيل الصوت */
+
+                if (roseSound) {
+
+                    roseSound.currentTime = 0;
+
+                    const soundPromise =
+                        roseSound.play();
+
+                    if (
+                        soundPromise !== undefined
+                    ) {
+
+                        soundPromise.catch(() => {});
+
+                    }
+
+                }
+
+
+                /* حركة الوردة */
+
+                interactiveRose.classList.add(
+                    "bloom"
+                );
+
+
+                /* إخفاء التلميح */
+
+                if (roseHint) {
+
+                    roseHint.classList.add(
+                        "hide"
+                    );
+
+                }
+
+
+                /* إظهار الرسالة */
+
+                setTimeout(() => {
+
+                    if (roseMessage) {
+
+                        roseMessage.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }, 600);
+
+
+                /* إظهار زر كملي */
+
+                setTimeout(() => {
+
+                    if (roseNext) {
+
+                        roseNext.classList.add(
+                            "show"
+                        );
+
+                    }
+
+                }, 1800);
+
             }
-
-            // صوت الوردة
-            if (roseSound) {
-
-                const promise = roseSound.play();
-
-                if (promise !== undefined) {
-                    promise.catch(() => {});
-                }
-
-            }
-
-            setTimeout(() => {
-
-                if (roseMessage) {
-                    roseMessage.classList.add("show");
-                }
-
-            }, 600);
-
-
-            setTimeout(() => {
-
-                if (roseNext) {
-                    roseNext.classList.add("show");
-                }
-
-            }, 1800);
-
-        });
+        );
 
     }
 
 
     /* =====================================================
-       ➡️ من LEVEL 3 إلى LEVEL 4
+       الانتقال من الوردة → المرحلة الرابعة
     ===================================================== */
 
     if (roseNext) {
 
-        roseNext.addEventListener("click", () => {
+        roseNext.addEventListener(
+            "click",
+            () => {
 
-            showScreen(4);
+                showScreen(3);
 
-        });
+            }
+        );
 
     }
 
 
     /* =====================================================
-       🔢 LEVEL 4
-       القفل الرقمي
-       
-       🌙 + 🌙 = 4
-       🌙 + ⭐ = 8
-       ⭐ + ⭐ = 7
-
-       الحل = 487
+       Puzzle 4 — القفل
     ===================================================== */
 
-    const lockNumbers = document.querySelectorAll(".lock-number");
+    const lockNumbers =
+        document.querySelectorAll(
+            ".lock-number"
+        );
 
-    const lockDigit1 = document.getElementById("lockDigit1");
-    const lockDigit2 = document.getElementById("lockDigit2");
-    const lockDigit3 = document.getElementById("lockDigit3");
+    const lockDigit1 =
+        document.getElementById(
+            "lockDigit1"
+        );
 
-    const lockClear = document.getElementById("lockClear");
-    const lockFeedback = document.getElementById("lockFeedback");
-    const lockBox = document.querySelector(".lock-box");
+    const lockDigit2 =
+        document.getElementById(
+            "lockDigit2"
+        );
 
-    let lockCode = "";
+    const lockDigit3 =
+        document.getElementById(
+            "lockDigit3"
+        );
+
+    const lockClear =
+        document.getElementById(
+            "lockClear"
+        );
+
+    const lockFeedback =
+        document.getElementById(
+            "lockFeedback"
+        );
+
+    const lockNext =
+        document.getElementById(
+            "lockNext"
+        );
+
+    const lockBox =
+        document.querySelector(
+            ".lock-box"
+        );
+
+
+    let enteredCode = "";
+
     const correctCode = "487";
+
     let lockSolved = false;
 
 
+    lockNumbers.forEach((number) => {
+
+        number.addEventListener(
+            "click",
+            () => {
+
+                if (lockSolved) {
+                    return;
+                }
+
+                if (enteredCode.length >= 3) {
+                    return;
+                }
+
+                enteredCode +=
+                    number.dataset.number;
+
+                updateLockDisplay();
+
+            }
+        );
+
+    });
+
+
     function updateLockDisplay() {
+
+        if (lockDigit1) {
+            lockDigit1.textContent =
+                enteredCode[0] || "_";
+        }
+
+        if (lockDigit2) {
+            lockDigit2.textContent =
+                enteredCode[1] || "_";
+        }
+
+        if (lockDigit3) {
+            lockDigit3.textContent =
+                enteredCode[2] || "_";
+        }
+
 
         const digits = [
             lockDigit1,
@@ -459,371 +531,546 @@ document.addEventListener("DOMContentLoaded", () => {
             lockDigit3
         ];
 
+
         digits.forEach((digit, index) => {
 
             if (!digit) return;
 
-            if (lockCode[index]) {
-                digit.textContent = lockCode[index];
-                digit.classList.add("filled");
-            } else {
-                digit.textContent = "_";
-                digit.classList.remove("filled");
+            if (enteredCode[index]) {
+
+                digit.classList.add(
+                    "filled"
+                );
+
+            }
+
+            else {
+
+                digit.classList.remove(
+                    "filled"
+                );
+
             }
 
         });
+
+
+        if (
+            enteredCode.length === 3
+        ) {
+
+            checkLock();
+
+        }
 
     }
 
 
-    lockNumbers.forEach(button => {
+    function checkLock() {
 
-        button.addEventListener("click", () => {
+        if (
+            enteredCode === correctCode
+        ) {
 
-            if (lockSolved) return;
-
-            if (lockCode.length >= 3) return;
-
-            const number = button.dataset.number;
-
-            if (number === undefined) return;
-
-            lockCode += number;
-
-            updateLockDisplay();
+            lockSolved = true;
 
 
-            // بعد إدخال 3 أرقام
-            if (lockCode.length === 3) {
+            if (lockFeedback) {
 
-                if (lockCode === correctCode) {
+                lockFeedback.textContent =
+                    "اتفتح! 🔓✨";
 
-                    lockSolved = true;
-
-                    if (lockFeedback) {
-                        lockFeedback.textContent = "اتفتحت 🤍";
-                        lockFeedback.classList.add("success");
-                    }
-
-                    if (lockBox) {
-                        lockBox.classList.add("unlocked");
-                    }
-
-                    if (lockNext) {
-                        lockNext.classList.add("show");
-                    }
-
-                    lockNumbers.forEach(btn => {
-                        btn.disabled = true;
-                    });
-
-                } else {
-
-                    if (lockFeedback) {
-                        lockFeedback.textContent = "مش ده... جربي تاني 👀";
-                        lockFeedback.classList.remove("success");
-                    }
-
-                    if (lockBox) {
-                        lockBox.classList.add("wrong");
-                    }
-
-                    setTimeout(() => {
-
-                        lockCode = "";
-
-                        updateLockDisplay();
-
-                        if (lockBox) {
-                            lockBox.classList.remove("wrong");
-                        }
-
-                    }, 700);
-
-                }
+                lockFeedback.classList.add(
+                    "show"
+                );
 
             }
 
-        });
 
-    });
+            if (lockBox) {
+
+                lockBox.classList.add(
+                    "unlocked"
+                );
+
+            }
+
+
+            if (lockNext) {
+
+                lockNext.classList.add(
+                    "show"
+                );
+
+            }
+
+
+            lockNumbers.forEach((number) => {
+
+                number.disabled = true;
+
+            });
+
+        }
+
+        else {
+
+            if (lockFeedback) {
+
+                lockFeedback.textContent =
+                    "الإجابة دي دايمًا بتبقى قدام عينينا واحنا مش عارفين.";
+
+                lockFeedback.classList.add(
+                    "show"
+                );
+
+            }
+
+
+            if (lockBox) {
+
+                lockBox.classList.add(
+                    "wrong"
+                );
+
+            }
+
+
+            setTimeout(() => {
+
+                if (lockBox) {
+
+                    lockBox.classList.remove(
+                        "wrong"
+                    );
+
+                }
+
+                enteredCode = "";
+
+                updateLockDisplay();
+
+            }, 700);
+
+        }
+
+    }
 
 
     /* =====================================================
-       🧹 مسح القفل
+       زر مسح القفل
     ===================================================== */
 
     if (lockClear) {
 
-        lockClear.addEventListener("click", () => {
+        lockClear.addEventListener(
+            "click",
+            () => {
 
-            if (lockSolved) return;
+                if (lockSolved) {
+                    return;
+                }
 
-            lockCode = "";
+                enteredCode = "";
 
-            updateLockDisplay();
+                if (lockFeedback) {
 
-            if (lockFeedback) {
-                lockFeedback.textContent = "";
+                    lockFeedback.classList.remove(
+                        "show"
+                    );
+
+                }
+
+                updateLockDisplay();
+
             }
-
-        });
+        );
 
     }
 
 
     /* =====================================================
-       ➡️ من LEVEL 4 إلى LEVEL 5
+       انتقال المرحلة 1 → 2
+    ===================================================== */
+
+    if (puzzleNext) {
+
+        puzzleNext.addEventListener(
+            "click",
+            () => {
+
+                showScreen(
+                    currentScreen + 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       انتقال المرحلة 2 → 3
+    ===================================================== */
+
+    if (codeNext) {
+
+        codeNext.addEventListener(
+            "click",
+            () => {
+
+                showScreen(
+                    currentScreen + 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       انتقال المرحلة 4 → 5
     ===================================================== */
 
     if (lockNext) {
 
-        lockNext.addEventListener("click", () => {
+        lockNext.addEventListener(
+            "click",
+            () => {
 
-            showScreen(5);
+                showScreen(
+                    currentScreen + 1
+                );
 
-        });
+            }
+        );
 
     }
 
 
     /* =====================================================
-       🚪 LEVEL 5
-       اختيار الباب
-       
-       الباب الصحيح = الوردة 🌹
+       Puzzle 5 — الأبواب
     ===================================================== */
 
-    const doors = document.querySelectorAll(".door");
-    const doorFeedback = document.getElementById("doorFeedback");
+    const doors =
+        document.querySelectorAll(".door");
 
-    let correctDoorSelected = false;
+    const doorsContainer =
+        document.querySelector(".doors");
 
-    doors.forEach(door => {
+    const doorFeedback =
+        document.getElementById(
+            "doorFeedback"
+        );
 
-        door.addEventListener("click", () => {
+    const doorNext =
+        document.getElementById(
+            "doorNext"
+        );
 
-            if (correctDoorSelected) return;
 
-            const selectedDoor = door.dataset.door;
+    doors.forEach((door) => {
 
-            if (selectedDoor === "rose") {
+        door.addEventListener(
+            "click",
+            () => {
 
-                correctDoorSelected = true;
+                if (
+                    doorsContainer &&
+                    doorsContainer.classList.contains(
+                        "completed"
+                    )
+                ) {
 
-                door.classList.add("completed");
+                    return;
 
-                if (doorFeedback) {
-                    doorFeedback.textContent = "أيوه... ده هو الطريق الصح 🌹🤍";
-                    doorFeedback.classList.add("success");
                 }
 
-                if (doorNext) {
-                    doorNext.classList.add("show");
+
+                const selectedDoor =
+                    door.dataset.door;
+
+
+                /* الباب الصح 🌹 */
+
+                if (
+                    selectedDoor === "rose"
+                ) {
+
+                    door.classList.add(
+                        "correct"
+                    );
+
+
+                    if (doorsContainer) {
+
+                        doorsContainer.classList.add(
+                            "completed"
+                        );
+
+                    }
+
+
+                    if (doorFeedback) {
+
+                        doorFeedback.textContent =
+`كُلُّ إتجاه إلى عَينكِ يأخُذني
+مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟`;
+
+                        doorFeedback.classList.add(
+                            "show"
+                        );
+
+                    }
+
+
+                    if (doorNext) {
+
+                        doorNext.classList.add(
+                            "show"
+                        );
+
+                    }
+
                 }
 
-            } else {
 
-                door.classList.add("wrong");
+                /* الباب الغلط */
 
-                setTimeout(() => {
-                    door.classList.remove("wrong");
-                }, 500);
+                else {
 
-                if (doorFeedback) {
-                    doorFeedback.textContent = "مش ده 👀 جربي باب تاني.";
-                    doorFeedback.classList.remove("success");
+                    door.classList.add(
+                        "wrong"
+                    );
+
+
+                    if (doorFeedback) {
+
+                        doorFeedback.textContent =
+`لا تَسْأَليني هَلْ أُحِبُّهُما ؟
+عَيْناكِ إنّي مِنهُما لَهُما`;
+
+                        doorFeedback.classList.add(
+                            "show"
+                        );
+
+                    }
+
+
+                    setTimeout(() => {
+
+                        door.classList.remove(
+                            "wrong"
+                        );
+
+                    }, 500);
+
                 }
 
             }
-
-        });
+        );
 
     });
 
 
     /* =====================================================
-       ❤️ فتح صفحة الحب
+       بعد الباب الصح
     ===================================================== */
+
+    if (doorNext) {
+
+        doorNext.addEventListener(
+            "click",
+            () => {
+
+                openLovePage();
+
+            }
+        );
+
+    }
+
 
     function openLovePage() {
 
-        // إخفاء كل المراحل
-        screens.forEach(screen => {
+        screens.forEach((screen) => {
 
-            screen.classList.remove("active");
+            screen.classList.remove(
+                "active"
+            );
 
             screen.style.display = "none";
 
         });
 
 
-        // إظهار صفحة الحب
         if (lovePage) {
 
-            lovePage.classList.add("visible");
+            lovePage.classList.add(
+                "visible"
+            );
 
         }
 
 
-        // السماح بالـ scroll
-        document.body.classList.add("love-page-open");
+        document.body.classList.add(
+            "love-page-open"
+        );
 
 
-        // إيقاف أي صوت سابق
-        stopAllMusic();
+        /* الأغنية الثالثة */
 
+        if (!afterDoorPlayed) {
 
-        // تشغيل أغنية ما بعد الباب
-        if (afterDoorAudio) {
+            stopAllMusic();
 
-            const promise = afterDoorAudio.play();
+            playMusic(
+                afterDoorAudio
+            );
 
-            if (promise !== undefined) {
-
-                promise.catch(() => {
-
-                    console.log("After-door audio was blocked.");
-
-                });
-
-            }
+            afterDoorPlayed = true;
 
         }
 
 
-        // العودة لأعلى الصفحة
         window.scrollTo({
             top: 0,
-            behavior: "auto"
+            behavior: "instant"
         });
 
     }
 
 
     /* =====================================================
-       ➡️ زر الباب الأخير
+       الأغنية الثانية
     ===================================================== */
 
-    if (doorNext) {
-
-        doorNext.addEventListener("click", () => {
-
-            openLovePage();
-
-        });
-
-    }
+    const memoryMusicBtn =
+        document.getElementById(
+            "memoryMusicBtn"
+        );
 
 
-    /* =====================================================
-       🎵 زر موسيقى الذكريات
-    ===================================================== */
+    if (memoryMusicBtn) {
 
-    const memoryMusicBtn = document.getElementById("memoryMusicBtn");
+        memoryMusicBtn.addEventListener(
+            "click",
+            () => {
 
-    if (memoryMusicBtn && memoryAudio) {
+                if (
+                    memoryAudio &&
+                    memoryAudio.paused
+                ) {
 
-        memoryMusicBtn.addEventListener("click", () => {
+                    stopAllMusic();
 
-            if (memoryAudio.paused) {
+                    playMusic(
+                        memoryAudio
+                    );
 
-                stopAllMusic();
+                    memoryPlayed = true;
 
-                const promise = memoryAudio.play();
-
-                if (promise !== undefined) {
-
-                    promise.catch(() => {
-                        console.log("Memory audio was blocked.");
-                    });
+                    memoryMusicBtn.textContent =
+                        "❚❚";
 
                 }
 
-                memoryMusicBtn.textContent = "❚❚";
+                else if (memoryAudio) {
 
-            } else {
+                    memoryAudio.pause();
 
-                memoryAudio.pause();
+                    memoryMusicBtn.textContent =
+                        "▶";
 
-                memoryMusicBtn.textContent = "▶";
+                }
 
             }
-
-        });
-
-
-        memoryAudio.addEventListener("ended", () => {
-
-            memoryMusicBtn.textContent = "▶";
-
-        });
+        );
 
     }
 
 
     /* =====================================================
-       💗 تشغيل أغنية الاعتراف
-       
-       عند الوصول إلى confession
+       الأغنية الأولى — الاعتراف
     ===================================================== */
 
-    const confessionSection = document.getElementById("confession");
+    function setupConfessionMusic() {
 
-    let confessionPlayed = false;
+        const confession =
+            document.getElementById(
+                "confession"
+            );
 
 
-    if (confessionSection && confessionAudio) {
+        if (!confession) {
+            return;
+        }
 
-        const confessionObserver = new IntersectionObserver(
-            entries => {
 
-                entries.forEach(entry => {
+        const confessionObserver =
+            new IntersectionObserver(
+                (entries) => {
+
+                    entries.forEach((entry) => {
+
+                        if (
+                            entry.isIntersecting &&
+                            !confessionPlayed
+                        ) {
+
+                            stopAllMusic();
+
+                            playMusic(
+                                confessionAudio
+                            );
+
+                            confessionPlayed = true;
+
+                        }
+
+                    });
+
+                },
+                {
+                    threshold: 0.45
+                }
+            );
+
+
+        confessionObserver.observe(
+            confession
+        );
+
+    }
+
+
+    setupConfessionMusic();
+
+
+    /* =====================================================
+       ظهور عناصر الصفحة تدريجيًا
+    ===================================================== */
+
+    const storyBlocks =
+        document.querySelectorAll(
+            ".story-block"
+        );
+
+
+    const revealObserver =
+        new IntersectionObserver(
+            (entries) => {
+
+                entries.forEach((entry) => {
 
                     if (
-                        entry.isIntersecting &&
-                        !confessionPlayed
+                        entry.isIntersecting
                     ) {
 
-                        confessionPlayed = true;
-
-                        playAudio(confessionAudio);
-
-                    }
-
-                });
-
-            },
-            {
-                threshold: 0.45
-            }
-        );
-
-
-        confessionObserver.observe(confessionSection);
-
-    }
-
-
-    /* =====================================================
-       ✨ ظهور عناصر القصة أثناء الـ Scroll
-    ===================================================== */
-
-    const storyBlocks = document.querySelectorAll(".story-block");
-
-
-    if (storyBlocks.length > 0) {
-
-        const storyObserver = new IntersectionObserver(
-            entries => {
-
-                entries.forEach(entry => {
-
-                    if (entry.isIntersecting) {
-
-                        entry.target.classList.add("visible");
-
-                        storyObserver.unobserve(entry.target);
+                        entry.target.classList.add(
+                            "in-view"
+                        );
 
                     }
 
@@ -831,38 +1078,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
             },
             {
-                threshold: 0.15
+                threshold: 0.12
             }
         );
 
 
-        storyBlocks.forEach(block => {
+    storyBlocks.forEach((block) => {
 
-            storyObserver.observe(block);
+        revealObserver.observe(block);
 
-        });
-
-    }
+    });
 
 
     /* =====================================================
-       🧹 عند انتهاء أغنية الاعتراف
-    ===================================================== */
-
-    if (confessionAudio) {
-
-        confessionAudio.addEventListener("ended", () => {
-
-            // لا نفعل شيئاً هنا
-            // حتى تظل الصفحة هادئة بعد انتهاء الأغنية
-
-        });
-
-    }
-
-
-    /* =====================================================
-       🚪 البداية
+       البداية
     ===================================================== */
 
     showScreen(0);
