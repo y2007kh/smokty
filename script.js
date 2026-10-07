@@ -1,7 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
-       🎵 أسماء ملفات الأغاني
+       💖 إنشاء قلوب متطايرة في الخلفية
+    ===================================================== */
+    function createFloatingHearts() {
+        const heartsContainer = document.createElement("div");
+        heartsContainer.classList.add("hearts-container");
+        document.body.appendChild(heartsContainer);
+
+        const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
+
+        setInterval(() => {
+            const heart = document.createElement("span");
+            heart.classList.add("floating-heart");
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+            heart.style.fontSize = Math.random() * 10 + 16 + "px";
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }, 500);
+    }
+
+    createFloatingHearts();
+
+    /* =====================================================
+       🎵 أسماء ملفات الأغاني والكلمات
        ===================================================== */
 
     const MUSIC = {
@@ -9,32 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
         memory: "B.m4a",
         afterDoor: "C.m4a"
     };
-// إنشاء قلوب متطايرة في الخلفية بشكل رومانسي تلقائي
-function createFloatingHearts() {
-    const heartsContainer = document.createElement("div");
-    heartsContainer.classList.add("hearts-container");
-    document.body.appendChild(heartsContainer);
 
-    const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹"];
-
-    setInterval(() => {
-        const heart = document.createElement("span");
-        heart.classList.add("floating-heart");
-        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-        
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-        heart.style.fontSize = Math.random() * 10 + 15 + "px";
-
-        heartsContainer.appendChild(heart);
-
-        setTimeout(() => {
-            heart.remove();
-        }, 7000);
-    }, 600);
-}
-
-createFloatingHearts();
+    // كلمات أغنية الباب
+    const DOOR_SONG_LYRICS = "🎵 كُلُّ إتجاه إلى عَينكِ يأخُذني... مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟ ✨";
 
     /* =====================================================
        العناصر الأساسية
@@ -48,11 +54,15 @@ createFloatingHearts();
     const memoryAudio = document.getElementById("memoryAudio");
     const afterDoorAudio = document.getElementById("afterDoorAudio");
 
+    // عناصر الكلمات وزر التحكم
+    const lyricsContainer = document.getElementById("lyricsContainer");
+    const lyricsText = document.getElementById("lyricsText");
+    const toggleAudioBtn = document.getElementById("toggleAudioBtn");
+
     let currentScreen = 0;
 
     let confessionPlayed = false;
     let memoryPlayed = false;
-    let afterDoorPlayed = false;
 
     /* =====================================================
        تحميل الأغاني
@@ -61,6 +71,21 @@ createFloatingHearts();
     if (confessionAudio) confessionAudio.src = MUSIC.confession;
     if (memoryAudio) memoryAudio.src = MUSIC.memory;
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
+
+    /* =====================================================
+       🔓 فك حظر الصوت في الأيفون (iOS Audio Unlock)
+    ===================================================== */
+
+    function unlockIOSAudio() {
+        [confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
+            if (audio) {
+                audio.play().then(() => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }).catch(() => {});
+            }
+        });
+    }
 
     /* =====================================================
        أدوات الصوت
@@ -73,17 +98,48 @@ createFloatingHearts();
                 audio.currentTime = 0;
             }
         });
+        hideLyrics();
     }
 
     function playMusic(audio) {
         if (!audio) return;
-        audio.volume = 0.75;
+        audio.volume = 0.85;
         const promise = audio.play();
         if (promise !== undefined) {
-            promise.catch(() => {
-                /* إمكانيات حظر الصوت من المتصفح بدون User Gesture */
+            promise.catch((err) => {
+                console.log("Audio play blocked:", err);
             });
         }
+    }
+
+    /* =====================================================
+       تحكم كلمات الأغنية وزر التشغيل/الإيقاف
+    ===================================================== */
+
+    function showLyrics(text) {
+        if (lyricsContainer && lyricsText) {
+            lyricsText.textContent = text;
+            lyricsContainer.classList.add("show");
+            if (toggleAudioBtn) toggleAudioBtn.textContent = "❚❚ إيقاف";
+        }
+    }
+
+    function hideLyrics() {
+        if (lyricsContainer) {
+            lyricsContainer.classList.remove("show");
+        }
+    }
+
+    if (toggleAudioBtn) {
+        toggleAudioBtn.addEventListener("click", () => {
+            if (afterDoorAudio.paused) {
+                afterDoorAudio.play();
+                toggleAudioBtn.textContent = "❚❚ إيقاف";
+            } else {
+                afterDoorAudio.pause();
+                toggleAudioBtn.textContent = "▶ تشغيل";
+            }
+        });
     }
 
     /* =====================================================
@@ -111,6 +167,7 @@ createFloatingHearts();
 
     if (startBtn) {
         startBtn.addEventListener("click", () => {
+            unlockIOSAudio();
             showScreen(1);
         });
     }
@@ -130,7 +187,7 @@ createFloatingHearts();
             if (star.classList.contains("different")) {
                 star.classList.add("correct");
                 if (puzzleFeedback) {
-                    puzzleFeedback.textContent = "لقيتيها! 👀✨";
+                    puzzleFeedback.textContent = "حتى في وسط ألف نجمة... عيني مش بتشوف غيرك ✨❤";
                     puzzleFeedback.classList.add("show");
                 }
                 if (puzzleNext) puzzleNext.classList.add("show");
@@ -170,7 +227,7 @@ createFloatingHearts();
             if (foundItems === hiddenItems.length) {
                 if (hiddenArea) hiddenArea.classList.add("completed");
                 if (codeFeedback) {
-                    codeFeedback.textContent = "كده الكلمة اكتملت... ✨";
+                    codeFeedback.textContent = "كل حرف بيجمعنا... بيكمل الجزء الناقص في قلبي 🧩💖";
                     codeFeedback.classList.add("show");
                 }
                 if (codeNext) codeNext.classList.add("show");
@@ -280,7 +337,7 @@ createFloatingHearts();
             });
         } else {
             if (lockFeedback) {
-                lockFeedback.textContent = "الاجابه ديما بتبقا قدام عينينا واحنا مش عارفين";
+                lockFeedback.textContent = "ركزي في تاريخ أصلح فيه كل حاجة في حياتي... تاريخنا المميز 🗝❤";
                 lockFeedback.classList.add("show");
             }
             if (lockBox) lockBox.classList.add("wrong");
@@ -319,7 +376,7 @@ createFloatingHearts();
     }
 
     /* =====================================================
-       Puzzle 5 - الأبواب
+       Puzzle 5 - الأبواب 🚪
     ===================================================== */
 
     const doors = document.querySelectorAll(".door");
@@ -341,10 +398,16 @@ createFloatingHearts();
                     doorFeedback.classList.add("show");
                 }
                 if (doorNext) doorNext.classList.add("show");
+
+                // تشغيل أغنية الباب مع الكلمات
+                stopAllMusic();
+                playMusic(afterDoorAudio);
+                showLyrics(DOOR_SONG_LYRICS);
+
             } else {
                 door.classList.add("wrong");
                 if (doorFeedback) {
-                    doorFeedback.textContent = `لا تَسْأَليني هَلْ أُحِبُّهُما ؟\nعَيْناكِ إنّي مِنهُما لَهُما`;
+                    doorFeedback.textContent = `مهما كانت الطرق والخيارات... كل الطرق في الآخر بتؤدي لقلبك 🚪💖`;
                     doorFeedback.classList.add("show");
                 }
                 setTimeout(() => {
@@ -356,6 +419,7 @@ createFloatingHearts();
 
     if (doorNext) {
         doorNext.addEventListener("click", () => {
+            stopAllMusic(); // إيقاف أغنية الباب وإخفاء الكلمات
             openLovePage();
         });
     }
@@ -364,12 +428,6 @@ createFloatingHearts();
         showScreenWithoutTransition();
         if (lovePage) lovePage.classList.add("visible");
         document.body.classList.add("love-page-open");
-
-        if (!afterDoorPlayed) {
-            stopAllMusic();
-            playMusic(afterDoorAudio);
-            afterDoorPlayed = true;
-        }
 
         window.scrollTo({
             top: 0,
@@ -385,7 +443,7 @@ createFloatingHearts();
     }
 
     /* =====================================================
-       الأغنية الثانية
+       الأغنية الثانية (Memory)
     ===================================================== */
 
     const memoryMusicBtn = document.getElementById("memoryMusicBtn");
@@ -405,7 +463,7 @@ createFloatingHearts();
     }
 
     /* =====================================================
-       الأغنية الأولى (الاعتراف)
+       الأغنية الأولى (الاعتراف في السكرول)
     ===================================================== */
 
     let confessionObserver = null;
