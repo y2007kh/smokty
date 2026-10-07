@@ -272,121 +272,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    /* =====================================================
-       Puzzle 3
-    ===================================================== */
+    // =================================
+// Level 3 — الوردة 🌹
+// =================================
 
-    const symbols =
-        document.querySelectorAll(".symbol");
+const interactiveRose = document.getElementById("interactiveRose");
+const roseHint = document.getElementById("roseHint");
+const roseMessage = document.getElementById("roseMessage");
+const roseNext = document.getElementById("roseNext");
 
-    const symbolSlots =
-        document.querySelectorAll(".symbol-slot");
+let roseOpened = false;
 
-    const symbolFeedback =
-        document.getElementById("symbolFeedback");
+interactiveRose.addEventListener("click", () => {
 
-    const symbolNext =
-        document.getElementById("symbolNext");
+    if (roseOpened) return;
 
-    const symbolPuzzle =
-        document.querySelector(".symbol-puzzle");
+    roseOpened = true;
 
+    interactiveRose.classList.add("bloom");
 
-    const correctOrder = [
-        "moon",
-        "star",
-        "heart",
-        "sparkle"
-    ];
+    roseHint.classList.add("hide");
 
-    let currentSymbolIndex = 0;
+    setTimeout(() => {
+        roseMessage.classList.add("show");
+    }, 600);
 
+    setTimeout(() => {
+        roseNext.classList.add("show");
+    }, 1800);
 
-    symbols.forEach((symbol) => {
+});
 
-        symbol.addEventListener("click", () => {
-
-            if (
-                currentSymbolIndex >=
-                correctOrder.length
-            ) {
-                return;
-            }
-
-
-            const selectedSymbol =
-                symbol.dataset.symbol;
-
-
-            if (
-                selectedSymbol ===
-                correctOrder[currentSymbolIndex]
-            ) {
-
-                symbolSlots[
-                    currentSymbolIndex
-                ].textContent =
-                    symbol.textContent;
-
-                symbolSlots[
-                    currentSymbolIndex
-                ].classList.add("filled");
-
-                symbol.classList.add("used");
-
-                currentSymbolIndex++;
-
-
-                if (
-                    currentSymbolIndex ===
-                    correctOrder.length
-                ) {
-
-                    symbolPuzzle.classList.add(
-                        "completed"
-                    );
-
-                    symbolFeedback.textContent =
-                        "أهو كده 👀✨ الترتيب صح!";
-
-                    symbolFeedback.classList.add(
-                        "show"
-                    );
-
-                    symbolNext.classList.add(
-                        "show"
-                    );
-
-                }
-
-            }
-
-            else {
-
-                symbolFeedback.textContent =
-                    "لأ... جربي تاني 👀";
-
-                symbolFeedback.classList.add(
-                    "show"
-                );
-
-                symbol.classList.add(
-                    "wrong-symbol"
-                );
-
-                setTimeout(() => {
-
-                    symbol.classList.remove(
-                        "wrong-symbol"
-                    );
-
-                }, 400);
-
-            }
-
-        });
-
-    });
+roseNext.addEventListener("click", () => {
+    showScreen(3);
+});
 
 
     /* =====================================================
