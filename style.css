@@ -2149,3 +2149,68 @@ body.love-page-open {
     text-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
 }
 
+/* =====================================================
+   🎵 صندوق كلمات الأغنية وزر التحكم
+===================================================== */
+.lyrics-container {
+    display: none; /* مخفي افتراضياً */
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 105, 180, 0.3);
+    padding: 12px 20px;
+    border-radius: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    align-items: center;
+    gap: 15px;
+    max-width: 90%;
+    transition: all 0.4s ease;
+}
+
+.lyrics-container.show {
+    display: flex;
+    animation: fadeInUp 0.5s ease;
+}
+
+.lyrics-text {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 182, 193, 0.6);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px;
+}
+
+.lyrics-toggle-btn {
+    background: linear-gradient(135deg, #ff6b81, #ff4757);
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(255, 71, 87, 0.4);
+    transition: transform 0.2s;
+}
+
+.lyrics-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
