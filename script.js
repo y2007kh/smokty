@@ -243,6 +243,10 @@ function startFloatingHearts() {
        Level 3 — الوردة 🌹
     ===================================================== */
 
+     /* =====================================================
+       Level 3 — الوردة 🌹
+    ===================================================== */
+
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
@@ -255,6 +259,9 @@ function startFloatingHearts() {
         interactiveRose.addEventListener("click", () => {
             if (roseOpened) return;
             roseOpened = true;
+
+            // 💖 تشغيل تساقط القلوب والورود فور فتح الوردة واستمرارها للنهاية!
+            startFloatingHearts();
 
             if (roseSound) {
                 roseSound.currentTime = 0;
@@ -274,11 +281,6 @@ function startFloatingHearts() {
         });
     }
 
-    if (roseNext) {
-        roseNext.addEventListener("click", () => {
-            showScreen(currentScreen + 1);
-        });
-    }
 
     /* =====================================================
        Puzzle 4 - الرقم السري
