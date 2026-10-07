@@ -2213,4 +2213,46 @@ body.love-page-open {
         transform: translate(-50%, 0);
     }
 }
+/* =====================================================
+   🎵 تنسيق زر الأغنية بجانب المحتوى
+===================================================== */
+.memory-music-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.memory-music-btn {
+    background: linear-gradient(135deg, #ff6b81, #ff4757);
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    flex-shrink: 0;
+}
+
+.memory-music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
+}
+
+.memory-music-btn:active {
+    transform: scale(0.95);
+}
+
+.memory-music-label {
+    font-size: 0.95rem;
+    color: #6d6070;
+    font-weight: 500;
+}
 
