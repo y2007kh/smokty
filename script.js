@@ -511,39 +511,24 @@ roseNext.addEventListener("click", () => {
     }
 
 
-    /* =====================================================
-       الانتقال من Puzzle 1 → 2
-       Puzzle 2 → 3
-       Puzzle 3 → 4
-       Puzzle 4 → الأبواب
-    ===================================================== */
+   /* =====================================================
+   الانتقال من Puzzle 1 → 2
+   Puzzle 2 → 3
+   Puzzle 3 → 4
+   Puzzle 4 → الأبواب
+===================================================== */
 
-    puzzleNext.addEventListener("click", () => {
+puzzleNext.addEventListener("click", () => {
+    showScreen(currentScreen + 1);
+});
 
-        showScreen(currentScreen + 1);
+codeNext.addEventListener("click", () => {
+    showScreen(currentScreen + 1);
+});
 
-    });
-
-
-    codeNext.addEventListener("click", () => {
-
-        showScreen(currentScreen + 1);
-
-    });
-
-
-    symbolNext.addEventListener("click", () => {
-
-        showScreen(currentScreen + 1);
-
-    });
-
-
-    lockNext.addEventListener("click", () => {
-
-        showScreen(currentScreen + 1);
-
-    });
+lockNext.addEventListener("click", () => {
+    showScreen(currentScreen + 1);
+});
 
 
     /* =====================================================
