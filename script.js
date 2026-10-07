@@ -282,12 +282,16 @@ const roseMessage = document.getElementById("roseMessage");
 const roseNext = document.getElementById("roseNext");
 
 let roseOpened = false;
-
+const roseSound = document.getElementById("roseSound");
 interactiveRose.addEventListener("click", () => {
 
     if (roseOpened) return;
 
     roseOpened = true;
+   roseSound.currentTime = 0;
+
+    roseSound.play();
+
 
     interactiveRose.classList.add("bloom");
 
