@@ -9,6 +9,32 @@ document.addEventListener("DOMContentLoaded", () => {
         memory: "B.m4a",
         afterDoor: "C.m4a"
     };
+// إنشاء قلوب متطايرة في الخلفية بشكل رومانسي تلقائي
+function createFloatingHearts() {
+    const heartsContainer = document.createElement("div");
+    heartsContainer.classList.add("hearts-container");
+    document.body.appendChild(heartsContainer);
+
+    const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹"];
+
+    setInterval(() => {
+        const heart = document.createElement("span");
+        heart.classList.add("floating-heart");
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+        heart.style.fontSize = Math.random() * 10 + 15 + "px";
+
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 7000);
+    }, 600);
+}
+
+createFloatingHearts();
 
     /* =====================================================
        العناصر الأساسية
