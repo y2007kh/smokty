@@ -271,8 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
-    // =================================
+// =================================
 // Level 3 — الوردة 🌹
 // =================================
 
@@ -280,33 +279,41 @@ const interactiveRose = document.getElementById("interactiveRose");
 const roseHint = document.getElementById("roseHint");
 const roseMessage = document.getElementById("roseMessage");
 const roseNext = document.getElementById("roseNext");
+const roseSound = document.getElementById("roseSound");
 
 let roseOpened = false;
-const roseSound = document.getElementById("roseSound");
+
 interactiveRose.addEventListener("click", () => {
 
     if (roseOpened) return;
 
     roseOpened = true;
-   roseSound.currentTime = 0;
 
-    roseSound.play();
+    // تشغيل الصوت
+    if (roseSound) {
+        roseSound.currentTime = 0;
+        roseSound.play().catch(() => {});
+    }
 
-
+    // حركة الوردة
     interactiveRose.classList.add("bloom");
 
+    // إخفاء التلميح
     roseHint.classList.add("hide");
 
+    // إظهار الرسالة
     setTimeout(() => {
         roseMessage.classList.add("show");
     }, 600);
 
+    // إظهار زر كملي
     setTimeout(() => {
         roseNext.classList.add("show");
     }, 1800);
-
 });
 
+
+// الانتقال للمرحلة الرابعة
 roseNext.addEventListener("click", () => {
     showScreen(3);
 });
