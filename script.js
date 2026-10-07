@@ -43,8 +43,44 @@ function startFloatingHearts() {
         afterDoor: "C.m4a"
     };
 
-    // كلمات أغنية الباب
-    const DOOR_SONG_LYRICS = "🎵 كُلُّ إتجاه إلى عَينكِ يأخُذني... مِن أينَ أعبرُ يا كُلُّ اتجاهاتي؟ ✨";
+    // كلمات أغنية الباب// 🎵 مصفوفة كلمات المقطع (23 ثانية)
+const roseLyrics = [
+    { time: 0,   text: "لا برتاح في ليلة ولا بنساك... 🌸" },
+    { time: 5.5, text: "ولا لقيت نهاية..." },
+    { time: 8.5, text: "ولو حتى ببعد ببقى معاك..." },
+    { time: 11.5, text: "ومانتش معايا... 💕" },
+    { time: 14.5, text: "لا برتاح في ليلة ولا بنساك..." },
+    { time: 17.5, text: "ولا لقيت نهاية..." },
+    { time: 19.5, text: "ولو حتى ببعد ببقى معاك... 🌹" },
+    { time: 21.5, text: "ومانتش معايا..." }
+];
+
+const roseSound = document.getElementById("roseSound");
+const roseLyricsText = document.getElementById("roseLyricsText");
+
+if (roseSound && roseLyricsText) {
+    roseSound.addEventListener("timeupdate", () => {
+        const currentTime = roseSound.currentTime;
+        
+        let currentLine = roseLyrics[0].text;
+        for (let i = 0; i < roseLyrics.length; i++) {
+            if (currentTime >= roseLyrics[i].time) {
+                currentLine = roseLyrics[i].text;
+            } else {
+                break;
+            }
+        }
+
+        if (roseLyricsText.textContent !== currentLine) {
+            roseLyricsText.classList.add("lyric-fade");
+            setTimeout(() => {
+                roseLyricsText.textContent = currentLine;
+                roseLyricsText.classList.remove("lyric-fade");
+            }, 150);
+        }
+    });
+}
+
 
     /* =====================================================
        العناصر الأساسية
