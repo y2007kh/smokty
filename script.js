@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let heartsInterval = null;
 
     function startFloatingHearts() {
-        if (heartsInterval) return; // عشان متشتغلش مرتين
+        if (heartsInterval) return;
 
         const heartsContainer = document.createElement("div");
         heartsContainer.classList.add("hearts-container");
@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
         🎵 أسماء ملفات الأغاني والكلمات
-        ===================================================== */
+    ===================================================== */
 
     const MUSIC = {
         confession: "A.m4a",
@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         afterDoor: "C.m4a"
     };
 
-    // كلمات أغنية الباب// 🎵 مصفوفة كلمات المقطع (23 ثانية)
     const roseLyrics = [
         { time: 0,   text: "لا برتاح في ليلة ولا بنساك... 🌸" },
         { time: 5.5, text: "ولا لقيت نهاية..." },
@@ -53,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: 21.5, text: "ومانتش معايا..." }
     ];
 
+    // التعريف الوحيد لـ roseSound (في أعلى الكود)
     const roseSound = document.getElementById("roseSound");
     const roseLyricsText = document.getElementById("roseLyricsText");
 
@@ -91,27 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const memoryAudio = document.getElementById("memoryAudio");
     const afterDoorAudio = document.getElementById("afterDoorAudio");
 
-    // عناصر الكلمات وزر التحكم
     const lyricsContainer = document.getElementById("lyricsContainer");
     const lyricsText = document.getElementById("lyricsText");
     const toggleAudioBtn = document.getElementById("toggleAudioBtn");
 
     let currentScreen = 0;
-
     let confessionPlayed = false;
     let memoryPlayed = false;
-
-    /* =====================================================
-        تحميل الأغاني
-    ===================================================== */
 
     if (confessionAudio) confessionAudio.src = MUSIC.confession;
     if (memoryAudio) memoryAudio.src = MUSIC.memory;
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
-
-    /* =====================================================
-        🔓 فك حظر الصوت في الأيفون (iOS Audio Unlock)
-    ===================================================== */
 
     function unlockIOSAudio() {
         [confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
@@ -123,10 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
-    /* =====================================================
-        أدوات الصوت
-    ===================================================== */
 
     function stopAllMusic() {
         [confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
@@ -148,10 +134,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
-
-    /* =====================================================
-        تحكم كلمات الأغنية وزر التشغيل/الإيقاف
-    ===================================================== */
 
     function showLyrics(text) {
         if (lyricsContainer && lyricsText) {
@@ -179,10 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =====================================================
-        إظهار شاشة معينة
-    ===================================================== */
-
     function showScreen(index) {
         if (index < 0 || index >= screens.length) return;
 
@@ -197,10 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
             currentScreen = index;
         }
     }
-
-    /* =====================================================
-        البداية
-    ===================================================== */
 
     if (startBtn) {
         startBtn.addEventListener("click", () => {
@@ -272,14 +246,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-   /* =====================================================
+    /* =====================================================
         Level 3 — الوردة 🌹
     ===================================================== */
 
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
-    const roseNextBtn = document.getElementById("roseNextBtn"); // الزرار بالاسم الجديد
+    const roseNext = document.getElementById("roseNext");
+    // تم حذف التكرار الخاطئ لـ roseSound هنا
 
     let roseOpened = false;
 
@@ -303,15 +278,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 600);
 
             setTimeout(() => {
-                if (roseNextBtn) roseNextBtn.classList.add("show");
+                if (roseNext) roseNext.classList.add("show");
             }, 1800);
-        });
-    }
-
-    // ربط زر الوردة للانتقال للمرحلة التالية (مثلاً الشاشة رقم 3 أو 4 حسب الترتيب)
-    if (roseNextBtn) {
-        roseNextBtn.addEventListener("click", () => {
-            showScreen(3); // الانتقال للشاشة التالية (المرحلة الرابعة)
         });
     }
 
@@ -398,21 +366,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =====================================================
-        التنقل بين الشاشات
-    ===================================================== */
-
-    if (puzzleNext) {
-        puzzleNext.addEventListener("click", () => showScreen(currentScreen + 1));
-    }
-
-    if (codeNext) {
-        codeNext.addEventListener("click", () => showScreen(currentScreen + 1));
-    }
-
-    if (lockNext) {
-        lockNext.addEventListener("click", () => showScreen(currentScreen + 1));
-    }
+    if (puzzleNext) puzzleNext.addEventListener("click", () => showScreen(currentScreen + 1));
+    if (codeNext) codeNext.addEventListener("click", () => showScreen(currentScreen + 1));
+    if (lockNext) lockNext.addEventListener("click", () => showScreen(currentScreen + 1));
 
     /* =====================================================
         Puzzle 5 - الأبواب 🚪
@@ -440,7 +396,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 stopAllMusic();
                 playMusic(afterDoorAudio);
-                // تأكد أن متغير DOOR_SONG_LYRICS مُعرف أو استبدله بالنص المناسب إن وجد
                 showLyrics(typeof DOOR_SONG_LYRICS !== 'undefined' ? DOOR_SONG_LYRICS : "");
 
             } else {
