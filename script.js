@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         { time: 21.5, text: "ومانتش معايا..." }
     ];
 
-    // التعريف الوحيد لـ roseSound (في أعلى الكود)
     const roseSound = document.getElementById("roseSound");
     const roseLyricsText = document.getElementById("roseLyricsText");
 
@@ -97,7 +96,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentScreen = 0;
     let confessionPlayed = false;
-    let memoryPlayed = false;
 
     if (confessionAudio) confessionAudio.src = MUSIC.confession;
     if (memoryAudio) memoryAudio.src = MUSIC.memory;
@@ -253,8 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
-    const roseNext = document.getElementById("roseNext");
-    // تم حذف التكرار الخاطئ لـ roseSound هنا
+    const roseNextBtn = document.getElementById("roseNextBtn");
 
     let roseOpened = false;
 
@@ -278,8 +275,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 600);
 
             setTimeout(() => {
-                if (roseNext) roseNext.classList.add("show");
+                if (roseNextBtn) roseNextBtn.classList.add("show");
             }, 1800);
+        });
+    }
+
+    // الانتقال المباشر للمرحلة الرابعة (رقم 4) لتجنب أي تكرار أو لخبطة
+    if (roseNextBtn) {
+        roseNextBtn.addEventListener("click", () => {
+            showScreen(4);
         });
     }
 
@@ -396,7 +400,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 stopAllMusic();
                 playMusic(afterDoorAudio);
-                showLyrics(typeof DOOR_SONG_LYRICS !== 'undefined' ? DOOR_SONG_LYRICS : "");
+                showLyrics("🎵 تفاصيل الأغنية...");
 
             } else {
                 door.classList.add("wrong");
@@ -447,7 +451,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (memoryAudio.paused) {
                 stopAllMusic();
                 playMusic(memoryAudio);
-                memoryPlayed = true;
                 memoryMusicBtn.textContent = "❚❚";
             } else {
                 memoryAudio.pause();
