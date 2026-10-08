@@ -2097,6 +2097,19 @@ body.love-page-open {
     }
 
 }
+/* إخفاء صندوق الكلمات في المرحلة الثالثة حتى الضغط على الوردة */
+.rose-lyrics-box {
+    display: none;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 182, 193, 0.5);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(217, 154, 196, 0.2);
+    backdrop-filter: blur(8px);
+    max-width: 90%;
+    transition: transform 0.3s ease;
+}
 
 /* =====================================================
    💖 خلفية القلوب الطايرة
