@@ -1,5 +1,5 @@
 /* =====================================================
-   RESET
+   RESET & GLOBAL STYLES
 ===================================================== */
 
 * {
@@ -8,32 +8,25 @@
     box-sizing: border-box;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden !important; /* منع التمرير الأفقي تماماً */
+    -webkit-text-size-adjust: 100%;
+}
+
 html {
     scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
 }
 
 body {
     min-height: 100vh;
     min-height: 100dvh;
-
     font-family: Tahoma, Arial, sans-serif;
-
     color: #302735;
-
-    background:
-        radial-gradient(
-            circle at top,
-            #fff7fb 0%,
-            #f8eef7 45%,
-            #eee8f5 100%
-        );
-
-    overflow: hidden;
-
+    background: radial-gradient(circle at top, #fff7fb 0%, #f8eef7 45%, #eee8f5 100%);
     -webkit-font-smoothing: antialiased;
 }
-
 
 /* =====================================================
    EXPERIENCE
@@ -41,54 +34,35 @@ body {
 
 #experience {
     width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
+    max-width: 100vw;
     position: relative;
+    overflow-x: hidden;
 }
 
-
 /* =====================================================
-   SCREENS - الألغاز فقط
+   SCREENS - الألغاز
 ===================================================== */
 
 .screen {
     position: absolute;
-
     inset: 0;
-
     width: 100%;
+    max-width: 100vw;
     height: 100vh;
     height: 100dvh;
-
-    min-height: 0;
-
     display: flex;
     flex-direction: column;
-
     justify-content: center;
     align-items: center;
-
-    padding:
-        30px 20px
-        calc(110px + env(safe-area-inset-bottom));
-
+    padding: 30px 20px calc(110px + env(safe-area-inset-bottom));
     overflow-y: auto;
     overflow-x: hidden;
-
     opacity: 0;
     visibility: hidden;
-
     transform: scale(0.97);
-
-    transition:
-        opacity 0.6s ease,
-        transform 0.6s ease,
-        visibility 0.6s ease;
-
+    transition: opacity 0.6s ease, transform 0.6s ease, visibility 0.6s ease;
     -webkit-overflow-scrolling: touch;
-
     overscroll-behavior-y: contain;
-
     scrollbar-width: none;
 }
 
@@ -104,13 +78,10 @@ body {
 
 .screen::after {
     content: "";
-
     width: 100%;
     min-height: 100px;
-
     flex-shrink: 0;
 }
-
 
 /* =====================================================
    CONTENT
@@ -118,18 +89,13 @@ body {
 
 .content {
     width: min(100%, 520px);
-
     text-align: center;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-
     gap: 20px;
-
     flex-shrink: 0;
 }
-
 
 /* =====================================================
    TYPOGRAPHY
@@ -161,23 +127,15 @@ p {
 .level-number {
     width: 48px;
     height: 48px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-
     background: rgba(255, 255, 255, 0.7);
-
-    box-shadow:
-        0 10px 30px rgba(80, 50, 80, 0.08);
-
+    box-shadow: 0 10px 30px rgba(80, 50, 80, 0.08);
     color: #a36a92;
-
     font-size: 18px;
 }
-
 
 /* =====================================================
    BUTTONS
@@ -185,37 +143,24 @@ p {
 
 .main-btn {
     border: none;
-
     padding: 14px 32px;
-
     border-radius: 999px;
-
     background: #302735;
-
     color: white;
-
     font-size: 16px;
-
     font-family: inherit;
-
     cursor: pointer;
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .main-btn:hover {
     transform: translateY(-3px);
-
-    box-shadow:
-        0 12px 25px rgba(48, 39, 53, 0.2);
+    box-shadow: 0 12px 25px rgba(48, 39, 53, 0.2);
 }
 
 .main-btn:active {
     transform: scale(0.96);
 }
-
 
 /* =====================================================
    PUZZLE 1
@@ -223,54 +168,30 @@ p {
 
 .observation-puzzle {
     width: min(100%, 330px);
-
     aspect-ratio: 1 / 1;
-
     padding: 25px;
-
     display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-
     border-radius: 30px;
-
-    background:
-        rgba(255, 255, 255, 0.58);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.9);
-
-    box-shadow:
-        0 25px 70px rgba(80, 50, 80, 0.1);
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 25px 70px rgba(80, 50, 80, 0.1);
 }
 
 .puzzle-star {
     border: none;
-
     background: transparent;
-
     font-size: 32px;
-
     color: #b99bb8;
-
     cursor: pointer;
-
     border-radius: 15px;
-
-    transition:
-        transform 0.25s ease,
-        color 0.25s ease,
-        background 0.25s ease;
+    transition: transform 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
 
 .puzzle-star:hover {
     transform: scale(1.25);
-
-    background:
-        rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .puzzle-star:active {
@@ -279,59 +200,30 @@ p {
 
 .puzzle-star.correct {
     color: white;
-
     background: #d99ac4;
-
     transform: scale(1.2);
-
-    box-shadow:
-        0 0 30px rgba(217, 154, 196, 0.45);
-
-    animation:
-        correctStar 0.6s ease;
+    box-shadow: 0 0 30px rgba(217, 154, 196, 0.45);
+    animation: correctStar 0.6s ease;
 }
 
 @keyframes correctStar {
-
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform:
-            scale(1.45)
-            rotate(10deg);
-    }
-
-    100% {
-        transform: scale(1.2);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.45) rotate(10deg); }
+    100% { transform: scale(1.2); }
 }
 
 .puzzle-star.wrong {
-    animation:
-        wrongStar 0.35s ease;
+    animation: wrongStar 0.35s ease;
 }
 
 @keyframes wrongStar {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(6px);
-    }
-
-    75% {
-        transform: translateX(-6px);
-    }
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(6px); }
+    75% { transform: translateX(-6px); }
 }
 
-
 /* =====================================================
-   FEEDBACK
+   FEEDBACK & NEXT BUTTONS
 ===================================================== */
 
 .puzzle-feedback,
@@ -340,19 +232,12 @@ p {
 .lock-feedback,
 .door-feedback {
     min-height: 28px;
-
-    color: #a06b91;
-
+    color: #ff6b81;
     font-weight: bold;
-
     opacity: 0;
-
-    transform:
-        translateY(8px);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.4s ease;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    text-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
 }
 
 .puzzle-feedback.show,
@@ -361,38 +246,21 @@ p {
 .lock-feedback.show,
 .door-feedback.show {
     opacity: 1;
-
-    transform:
-        translateY(0);
+    transform: translateY(0);
 }
-
-
-/* =====================================================
-   NEXT BUTTON
-===================================================== */
 
 .puzzle-next {
     opacity: 0;
-
     pointer-events: none;
-
-    transform:
-        translateY(10px);
-
-    transition:
-        opacity 0.4s ease,
-        transform 0.4s ease;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .puzzle-next.show {
     opacity: 1;
-
     pointer-events: auto;
-
-    transform:
-        translateY(0);
+    transform: translateY(0);
 }
-
 
 /* =====================================================
    PUZZLE 2
@@ -400,1547 +268,105 @@ p {
 
 .secret-code {
     display: flex;
-
     direction: rtl;
-
     gap: 12px;
 }
 
 .code-letter {
     width: 52px;
     height: 52px;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     border-radius: 16px;
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.9);
-
-    box-shadow:
-        0 10px 30px rgba(80, 50, 80, 0.07);
-
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 10px 30px rgba(80, 50, 80, 0.07);
     font-size: 24px;
-
     color: #9e819b;
-
-    transition:
-        transform 0.3s ease,
-        background 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .code-letter.revealed {
     background: #d99ac4;
-
     color: white;
-
-    transform:
-        translateY(-4px)
-        scale(1.05);
+    transform: translateY(-4px) scale(1.05);
 }
 
 .hidden-items {
     width: min(100%, 360px);
-
     height: 260px;
-
     position: relative;
-
     overflow: hidden;
-
     border-radius: 30px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,0.72),
-            rgba(250,239,248,0.65)
-        );
-
-    border:
-        1px solid rgba(255,255,255,0.9);
-
-    box-shadow:
-        0 25px 70px rgba(80,50,80,0.09);
+    background: linear-gradient(145deg, rgba(255,255,255,0.72), rgba(250,239,248,0.65));
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: 0 25px 70px rgba(80,50,80,0.09);
 }
 
 .hidden-item {
     position: absolute;
-
     width: 48px;
     height: 48px;
-
     border: none;
-
     border-radius: 50%;
-
-    background:
-        rgba(255,255,255,0.5);
-
+    background: rgba(255,255,255,0.5);
     color: #a887a4;
-
     font-size: 27px;
-
     cursor: pointer;
-
-    transition:
-        transform 0.3s ease,
-        opacity 0.3s ease,
-        background 0.3s ease;
-
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
     z-index: 3;
 }
 
 .hidden-item:hover {
     transform: scale(1.25);
-
-    background:
-        rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.9);
 }
 
 .hidden-item.found {
     background: #d99ac4;
-
     color: white;
-
     transform: scale(1.15);
-
-    animation:
-        foundItem 0.6s ease;
+    animation: foundItem 0.6s ease;
 }
 
 @keyframes foundItem {
-
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform:
-            scale(1.45)
-            rotate(15deg);
-    }
-
-    100% {
-        transform: scale(1.15);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.45) rotate(15deg); }
+    100% { transform: scale(1.15); }
 }
 
-.item-one {
-    top: 25px;
-    right: 45px;
-}
-
-.item-two {
-    bottom: 45px;
-    left: 55px;
-}
-
-.item-three {
-    top: 105px;
-    left: 50%;
-
-    transform:
-        translateX(-50%);
-}
+.item-one { top: 25px; right: 45px; }
+.item-two { bottom: 45px; left: 55px; }
+.item-three { top: 105px; left: 50%; transform: translateX(-50%); }
 
 .decoy-item {
     position: absolute;
-
-    color:
-        rgba(160,130,155,0.25);
-
+    color: rgba(160,130,155,0.25);
     user-select: none;
-
     pointer-events: none;
 }
 
-.decoy-one {
-    top: 35px;
-    left: 50px;
-    font-size: 25px;
-}
-
-.decoy-two {
-    top: 80px;
-    right: 120px;
-    font-size: 20px;
-}
-
-.decoy-three {
-    bottom: 30px;
-    right: 45px;
-    font-size: 28px;
-}
-
-.decoy-four {
-    bottom: 75px;
-    left: 145px;
-    font-size: 20px;
-}
-
-.decoy-five {
-    top: 175px;
-    right: 75px;
-    font-size: 16px;
-}
+.decoy-one { top: 35px; left: 50px; font-size: 25px; }
+.decoy-two { top: 80px; right: 120px; font-size: 20px; }
+.decoy-three { bottom: 30px; right: 45px; font-size: 28px; }
+.decoy-four { bottom: 75px; left: 145px; font-size: 20px; }
+.decoy-five { top: 175px; right: 75px; font-size: 16px; }
 
 .hidden-items.completed {
-    animation:
-        puzzleComplete 0.7s ease;
+    animation: puzzleComplete 0.7s ease;
 }
 
 @keyframes puzzleComplete {
-
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.025);
-    }
-
-    70% {
-        transform: scale(0.99);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    40% { transform: scale(1.025); }
+    70% { transform: scale(0.99); }
+    100% { transform: scale(1); }
 }
-
 
 /* =====================================================
-   PUZZLE 3
+   PUZZLE 3 - INTERACTIVE ROSE
 ===================================================== */
-
-.symbol-puzzle,
-.symbols {
-    width: 100%;
-    max-width: 420px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 12px;
-}
-
-.symbol-puzzle {
-    margin:
-        20px auto 10px;
-}
-
-.symbols {
-    margin:
-        10px auto;
-}
-
-.symbol-slot {
-    height: 75px;
-
-    border:
-        2px dashed
-        rgba(120, 90, 130, 0.35);
-
-    border-radius: 18px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    font-size: 32px;
-
-    background:
-        rgba(255, 255, 255, 0.45);
-
-    transition:
-        0.3s ease;
-}
-
-.symbol-slot.filled {
-    border-style: solid;
-
-    border-color:
-        rgba(120, 90, 130, 0.5);
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    transform:
-        scale(1.03);
-}
-
-.symbol {
-    height: 65px;
-
-    border: none;
-
-    border-radius: 18px;
-
-    background:
-        rgba(255, 255, 255, 0.75);
-
-    font-size: 30px;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        opacity 0.2s ease;
-
-    box-shadow:
-        0 8px 20px
-        rgba(100, 70, 120, 0.08);
-}
-
-.symbol:hover {
-    transform:
-        translateY(-4px);
-}
-
-.symbol:active {
-    transform:
-        scale(0.92);
-}
-
-.symbol.used {
-    opacity: 0.25;
-    pointer-events: none;
-}
-
-.symbol.wrong-symbol {
-    animation:
-        symbolWrong 0.35s ease;
-}
-
-@keyframes symbolWrong {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-7px);
-    }
-
-    75% {
-        transform: translateX(7px);
-    }
-}
-
-.symbol-puzzle.completed .symbol-slot {
-    border-color:
-        rgba(100, 150, 110, 0.5);
-
-    background:
-        rgba(240, 255, 240, 0.75);
-}
-
-
-/* =====================================================
-   PUZZLE 4
-===================================================== */
-
-.lock-box {
-    width: 100%;
-    max-width: 360px;
-
-    margin:
-        10px auto;
-
-    padding: 22px;
-
-    border-radius: 28px;
-
-    background:
-        rgba(255, 255, 255, 0.55);
-
-    box-shadow:
-        0 15px 40px
-        rgba(90, 60, 100, 0.08);
-
-    backdrop-filter:
-        blur(10px);
-}
-
-.lock-screen {
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 12px;
-
-    margin-bottom: 22px;
-}
-
-.lock-screen span {
-    width: 55px;
-    height: 62px;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    border-radius: 15px;
-
-    background:
-        rgba(255, 255, 255, 0.8);
-
-    border:
-        1px solid
-        rgba(120, 90, 130, 0.2);
-
-    font-size: 28px;
-
-    font-weight: 600;
-
-    transition:
-        0.25s ease;
-}
-
-.lock-screen span.filled {
-    transform:
-        scale(1.05);
-}
-
-.lock-hint {
-    margin-bottom: 20px;
-
-    padding: 14px;
-
-    border-radius: 18px;
-
-    background:
-        rgba(255, 255, 255, 0.5);
-}
-
-.lock-hint p {
-    margin: 5px 0;
-
-    font-size: 15px;
-}
-
-.lock-inputs {
-    display: grid;
-
-    grid-template-columns:
-        repeat(5, 1fr);
-
-    gap: 8px;
-}
-
-.lock-number {
-    height: 48px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background:
-        rgba(255, 255, 255, 0.8);
-
-    font-size: 18px;
-
-    cursor: pointer;
-
-    transition:
-        0.2s ease;
-}
-
-.lock-number:hover {
-    transform:
-        translateY(-3px);
-}
-
-.lock-number:active {
-    transform:
-        scale(0.9);
-}
-
-.lock-number:disabled {
-    opacity: 0.35;
-    cursor: default;
-}
-
-.lock-clear {
-    margin-top: 12px;
-
-    width: 100%;
-    height: 42px;
-
-    border: none;
-
-    border-radius: 14px;
-
-    background:
-        rgba(120, 90, 130, 0.1);
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    transition:
-        0.2s ease;
-}
-
-.lock-clear:hover {
-    background:
-        rgba(120, 90, 130, 0.18);
-}
-
-.lock-box.unlocked {
-    animation:
-        unlockAnimation 0.7s ease;
-}
-
-@keyframes unlockAnimation {
-
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.04);
-    }
-
-    70% {
-        transform: scale(0.98);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-.lock-box.wrong {
-    animation:
-        lockShake 0.4s ease;
-}
-
-@keyframes lockShake {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-7px);
-    }
-
-    50% {
-        transform: translateX(7px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-}
-
-
-/* =====================================================
-   PUZZLE 5 - DOORS
-===================================================== */
-
-.doors {
-    width: 100%;
-    max-width: 480px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(3, 1fr);
-
-    gap: 14px;
-
-    margin:
-        20px auto 10px;
-}
-
-.door {
-    min-height: 190px;
-
-    border:
-        1px solid
-        rgba(120, 90, 130, 0.15);
-
-    border-radius: 24px;
-
-    background:
-        rgba(255, 255, 255, 0.65);
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 15px;
-
-    cursor: pointer;
-
-    box-shadow:
-        0 12px 30px
-        rgba(100, 70, 120, 0.08);
-
-    transition:
-        transform 0.3s ease,
-        opacity 0.3s ease,
-        box-shadow 0.3s ease;
-}
-
-.door:hover {
-    transform:
-        translateY(-7px);
-
-    box-shadow:
-        0 18px 35px
-        rgba(100, 70, 120, 0.13);
-}
-
-.door:active {
-    transform:
-        scale(0.96);
-}
-
-.door-icon {
-    font-size: 48px;
-
-    transition:
-        transform 0.4s ease;
-}
-
-.door-label {
-    font-size: 14px;
-    opacity: 0.65;
-}
-
-.door:hover .door-icon {
-    transform:
-        scale(1.12);
-}
-
-.door.wrong {
-    animation:
-        doorWrong 0.5s ease;
-}
-
-@keyframes doorWrong {
-
-    0%,
-    100% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-8px);
-    }
-
-    50% {
-        transform: translateX(8px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-}
-
-.door.correct {
-    transform:
-        scale(1.05);
-
-    box-shadow:
-        0 0 35px
-        rgba(180, 120, 150, 0.25);
-}
-
-.door.correct .door-icon {
-    animation:
-        roseGrow 0.7s ease;
-}
-
-@keyframes roseGrow {
-
-    0% {
-        transform: scale(0.7);
-        opacity: 0.5;
-    }
-
-    60% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.doors.completed .door:not(.correct) {
-    opacity: 0;
-
-    transform:
-        scale(0.8);
-
-    pointer-events: none;
-}
-
-.doors.completed .door.correct {
-    transform:
-        scale(1.08);
-}
-
-
-/* =====================================================
-   LOVE PAGE
-===================================================== */
-
-#love-page {
-    display: none;
-
-    width: 100%;
-
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    background:
-        linear-gradient(
-            180deg,
-            #fff8fc 0%,
-            #f8eef7 45%,
-            #eee6f3 100%
-        );
-
-    overflow-x: hidden;
-
-    padding-bottom:
-        calc(
-            160px +
-            env(safe-area-inset-bottom)
-        );
-}
-
-#love-page.visible {
-    display: block;
-}
-
-body.love-page-open {
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    background:
-        #f7edf6;
-}
-
-
-/* =====================================================
-   STORY BLOCK
-===================================================== */
-
-.story-block {
-    width: 100%;
-    min-height: 100vh;
-    min-height: 100dvh;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    padding:
-        90px 20px
-        calc(110px + env(safe-area-inset-bottom));
-
-    position: relative;
-
-    opacity: 0;
-    transform:
-        translateY(35px);
-
-    transition:
-        opacity 1s ease,
-        transform 1s ease;
-}
-
-.story-block.in-view {
-    opacity: 1;
-    transform:
-        translateY(0);
-}
-
-
-/* =====================================================
-   PERSONAL
-===================================================== */
-
-.personal-block {
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,245,250,0.95),
-            rgba(245,232,255,0.95)
-        );
-}
-
-.personal-content {
-    width: 100%;
-    max-width: 650px;
-
-    text-align: center;
-}
-
-.personal-name {
-    display: block;
-
-    font-size: 19px;
-
-    color: #9d7895;
-
-    margin-bottom: 28px;
-}
-
-.personal-title {
-    font-size:
-        clamp(26px, 5vw, 40px);
-
-    line-height: 1.65;
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-}
-
-.personal-text p {
-    margin: 18px 0;
-
-    color:
-        rgba(48,39,53,0.78);
-}
-
-.personal-text .highlight {
-    font-size: 23px;
-
-    font-weight: 600;
-
-    color: #302735;
-
-    margin-top: 30px;
-}
-
-
-/* =====================================================
-   الأغنية الثانية
-===================================================== */
-
-.music-break {
-    width: min(100%, 430px);
-
-    margin:
-        55px auto 35px;
-
-    padding:
-        22px 24px;
-
-    border-radius: 24px;
-
-    background:
-        rgba(255,255,255,0.55);
-
-    border:
-        1px solid
-        rgba(255,255,255,0.85);
-
-    box-shadow:
-        0 15px 45px
-        rgba(80,50,80,0.08);
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 18px;
-}
-
-.music-break span {
-    font-size: 15px;
-
-    color: #8f728b;
-}
-
-.music-button {
-    width: 42px;
-    height: 42px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background:
-        #302735;
-
-    color: white;
-
-    cursor: pointer;
-
-    font-size: 14px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    transition:
-        transform 0.25s ease;
-}
-
-.music-button:hover {
-    transform:
-        scale(1.08);
-}
-
-.music-button:active {
-    transform:
-        scale(0.94);
-}
-
-.personal-poem {
-    margin-top: 30px;
-
-    font-size: 18px;
-
-    line-height: 2.1;
-
-    color: #6d6070;
-}
-
-
-/* =====================================================
-   LOVE SECTIONS
-===================================================== */
-
-.love-section {
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,250,252,0.98),
-            rgba(246,237,250,0.98)
-        );
-}
-
-.love-content {
-    width: 100%;
-    max-width: 680px;
-
-    text-align: center;
-}
-
-.love-small {
-    display: block;
-
-    font-size: 16px;
-
-    color: #9d7895;
-
-    margin-bottom: 25px;
-}
-
-.love-content h2 {
-    font-size:
-        clamp(26px, 5vw, 40px);
-
-    line-height: 1.7;
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-}
-
-.love-lines p,
-.journey-text p,
-.comfort-text p,
-.memory-text p,
-.response-text p {
-    font-size: 18px;
-
-    line-height: 2;
-
-    margin: 18px 0;
-
-    color:
-        rgba(48,39,53,0.78);
-}
-
-.love-highlight {
-    margin-top: 40px;
-}
-
-.love-highlight span {
-    display: block;
-
-    font-size: 17px;
-
-    margin-bottom: 8px;
-
-    color: #8f728b;
-}
-
-.love-highlight strong {
-    display: block;
-
-    font-size: 31px;
-
-    font-weight: 600;
-}
-
-.doctor-line {
-    font-size: 32px !important;
-
-    font-weight: 600;
-
-    margin:
-        28px 0 !important;
-}
-
-.strong-line {
-    font-size: 26px !important;
-
-    font-weight: 600;
-
-    margin:
-        32px 0 !important;
-
-    color:
-        #302735 !important;
-}
-
-.memory-section {
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,247,250,0.98),
-            rgba(241,234,248,0.98)
-        );
-}
-
-.memory-highlight {
-    font-weight: 600;
-
-    margin-top: 30px !important;
-}
-
-.heart-word {
-    font-size: 36px !important;
-
-    font-weight: 600;
-
-    margin-top: 28px !important;
-}
-
-
-/* =====================================================
-   CONFESSION INTRO
-===================================================== */
-
-.confession-section {
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,246,250,1),
-            rgba(239,229,247,1)
-        );
-}
-
-.confession-content {
-    width: 100%;
-    max-width: 720px;
-
-    text-align: center;
-}
-
-.confession-content h2 {
-    font-size:
-        clamp(27px, 6vw, 43px);
-
-    line-height: 1.7;
-
-    font-weight: 500;
-
-    margin-bottom: 35px;
-}
-
-.confession-small {
-    display: block;
-
-    font-size: 17px;
-
-    color: #9d7895;
-
-    margin:
-        35px 0 25px;
-}
-
-.confession-line {
-    font-size: 20px;
-
-    line-height: 2;
-
-    margin: 20px 0;
-
-    color:
-        rgba(48,39,53,0.78);
-}
-
-
-/* =====================================================
-   MAIN CONFESSION
-===================================================== */
-
-.confession-main {
-    min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,247,251,1),
-            rgba(235,222,242,1)
-        );
-}
-
-.rose-glow {
-    font-size: 65px;
-
-    margin-bottom: 15px;
-
-    animation:
-        roseFloat 3s ease-in-out infinite;
-}
-
-@keyframes roseFloat {
-
-    0%,
-    100% {
-        transform:
-            translateY(0);
-    }
-
-    50% {
-        transform:
-            translateY(-10px);
-    }
-}
-
-.confession-before {
-    font-size: 20px;
-
-    margin-bottom: 20px;
-}
-
-.confession-title {
-    font-size:
-        clamp(55px, 12vw, 100px);
-
-    font-weight: 600;
-
-    margin:
-        10px 0 30px;
-}
-
-.confession-text {
-    font-size: 19px;
-
-    line-height: 2;
-
-    margin: 12px 0;
-}
-
-.big-confession {
-    margin-top: 42px;
-
-    font-size:
-        clamp(30px, 7vw, 54px);
-
-    line-height: 1.7;
-
-    font-weight: 600;
-}
-
-.big-confession span {
-    display: inline-block;
-
-    margin-top: 5px;
-}
-
-
-/* =====================================================
-   RESPONSE
-===================================================== */
-
-.response-section {
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,250,252,1),
-            rgba(243,235,248,1)
-        );
-}
-
-.response-highlight {
-    font-size: 27px !important;
-
-    font-weight: 600;
-
-    color:
-        #302735 !important;
-}
-
-
-/* =====================================================
-   FINAL
-===================================================== */
-
-.final-love {
-    min-height: 100vh;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(255,250,252,1),
-            rgba(239,229,247,1)
-        );
-}
-
-.final-content {
-    width: 100%;
-    max-width: 680px;
-
-    text-align: center;
-}
-
-.final-rose {
-    font-size: 75px;
-
-    animation:
-        finalRose 3s ease-in-out infinite;
-}
-
-@keyframes finalRose {
-
-    0%,
-    100% {
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-    50% {
-        transform:
-            translateY(-8px)
-            scale(1.06);
-    }
-}
-
-.final-small {
-    font-size: 17px;
-
-    line-height: 2;
-
-    margin-top: 18px;
-
-    opacity: 0.7;
-}
-
-.final-content h1 {
-    font-size:
-        clamp(55px, 12vw, 100px);
-
-    margin:
-        15px 0 35px;
-
-    font-weight: 600;
-}
-
-.final-message {
-    font-size: 18px;
-
-    line-height: 2;
-
-    margin: 17px 0;
-}
-
-.final-last {
-    margin-top: 45px;
-
-    font-size: 20px;
-
-    font-weight: 500;
-}
-
-.final-i-love-you {
-    font-size:
-        clamp(38px, 9vw, 70px);
-
-    font-weight: 600;
-
-    margin:
-        32px 0;
-}
-
-.flower-message {
-    font-size: 18px;
-
-    line-height: 2;
-
-    margin-top: 38px;
-
-    opacity: 0.8;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 600px) {
-
-    .screen {
-        justify-content: flex-start;
-
-        padding:
-            45px 18px
-            calc(120px + env(safe-area-inset-bottom));
-    }
-
-    .content {
-        gap: 16px;
-    }
-
-    h1 {
-        font-size: 36px;
-    }
-
-    h2 {
-        font-size: 27px;
-    }
-
-    p {
-        font-size: 16px;
-    }
-
-    .observation-puzzle {
-        max-width: 310px;
-
-        padding: 20px;
-
-        gap: 9px;
-    }
-
-    .puzzle-star {
-        font-size: 27px;
-    }
-
-    .hidden-items {
-        max-width: 340px;
-    }
-
-    .symbol-puzzle,
-    .symbols {
-        max-width: 330px;
-
-        gap: 9px;
-    }
-
-    .symbol-slot {
-        height: 62px;
-
-        font-size: 27px;
-    }
-
-    .symbol {
-        height: 58px;
-
-        font-size: 26px;
-    }
-
-    .lock-box {
-        max-width: 330px;
-
-        padding: 18px;
-    }
-
-    .lock-screen span {
-        width: 50px;
-        height: 58px;
-    }
-
-    .doors {
-        max-width: 340px;
-
-        gap: 9px;
-    }
-
-    .door {
-        min-height: 165px;
-
-        border-radius: 20px;
-    }
-
-    .door-icon {
-        font-size: 40px;
-    }
-
-    .door-label {
-        font-size: 12px;
-    }
-
-
-    /* الصفحة الطويلة */
-
-    .story-block {
-        min-height: 100svh;
-
-        padding:
-            90px 18px
-            calc(120px + env(safe-area-inset-bottom));
-    }
-
-    .personal-content,
-    .love-content,
-    .confession-content,
-    .final-content {
-        width: 100%;
-    }
-
-    .personal-title,
-    .love-content h2 {
-        font-size: 25px;
-
-        line-height: 1.75;
-    }
-
-    .personal-text p,
-    .love-lines p,
-    .journey-text p,
-    .comfort-text p,
-    .memory-text p,
-    .response-text p {
-        font-size: 16px;
-
-        line-height: 2;
-    }
-
-    .personal-text .highlight {
-        font-size: 20px;
-    }
-
-    .music-break {
-        padding:
-            18px;
-
-        margin:
-            50px auto 25px;
-    }
-
-    .music-break span {
-        font-size: 13px;
-    }
-
-    .personal-poem {
-        font-size: 17px;
-    }
-
-    .love-highlight strong {
-        font-size: 27px;
-    }
-
-    .doctor-line {
-        font-size: 28px !important;
-    }
-
-    .strong-line {
-        font-size: 24px !important;
-    }
-
-    .heart-word {
-        font-size: 32px !important;
-    }
-
-    .confession-content h2 {
-        font-size: 27px;
-
-        line-height: 1.8;
-    }
-
-    .confession-title {
-        font-size: 58px;
-    }
-
-    .confession-text {
-        font-size: 17px;
-    }
-
-    .big-confession {
-        font-size: 30px;
-    }
-
-    .response-highlight {
-        font-size: 23px !important;
-    }
-
-    .final-content h1 {
-        font-size: 60px;
-    }
-
-    .final-message {
-        font-size: 16px;
-    }
-
-    .final-i-love-you {
-        font-size: 43px;
-    }
-
-    .flower-message {
-        font-size: 17px;
-    }
-}
-
-
-/* =====================================================
-   SAFE MOTION
-===================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* =================================
-   Level 3 — Interactive Rose 🌹
-================================= */
 
 .rose-puzzle {
     min-height: 100%;
@@ -1963,12 +389,13 @@ body.love-page-open {
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-
     animation: roseBreath 2.8s ease-in-out infinite;
+    transition: transform 0.7s ease, filter 0.7s ease;
+}
 
-    transition:
-        transform 0.7s ease,
-        filter 0.7s ease;
+.interactive-rose:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.8));
 }
 
 .interactive-rose:active {
@@ -1977,19 +404,14 @@ body.love-page-open {
 
 .interactive-rose.bloom {
     animation: roseBloom 1.2s ease forwards;
-    filter:
-        drop-shadow(0 0 15px rgba(210, 80, 100, 0.35))
-        drop-shadow(0 0 35px rgba(210, 80, 100, 0.2));
+    filter: drop-shadow(0 0 15px rgba(210, 80, 100, 0.35)) drop-shadow(0 0 35px rgba(210, 80, 100, 0.2));
 }
 
 .rose-hint {
     margin-top: 25px;
     color: #999;
     font-size: 0.9rem;
-
-    transition:
-        opacity 0.5s ease,
-        transform 0.5s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .rose-hint.hide {
@@ -2000,15 +422,10 @@ body.love-page-open {
 .rose-message {
     opacity: 0;
     transform: translateY(15px);
-
     margin-top: 20px;
-
     color: #555;
     line-height: 2;
-
-    transition:
-        opacity 0.8s ease,
-        transform 0.8s ease;
+    transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .rose-message.show {
@@ -2016,88 +433,24 @@ body.love-page-open {
     transform: translateY(0);
 }
 
-.rose-message p {
-    margin: 4px 0;
-}
+.rose-message p { margin: 4px 0; }
 
 .rose-next {
     opacity: 0;
     pointer-events: none;
-
     position: relative;
     z-index: 20;
-
     transform: translateY(10px);
-
     margin-top: 25px;
-
-    transition:
-        opacity 0.7s ease,
-        transform 0.7s ease;
+    transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
 .rose-next.show {
     opacity: 1;
     pointer-events: auto;
-
-    position: relative;
-    z-index: 20;
-
     transform: translateY(0);
 }
 
-
-/* حركة الوردة وهي مستنية الضغط */
-
-@keyframes roseBreath {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.06);
-    }
-}
-
-
-/* لحظة الضغط */
-
-@keyframes roseBloom {
-
-    0% {
-        transform: scale(1);
-    }
-
-    45% {
-        transform: scale(1.22) rotate(-3deg);
-    }
-
-    70% {
-        transform: scale(1.12) rotate(3deg);
-    }
-
-    100% {
-        transform: scale(1.15);
-    }
-}
-
-
-/* موبايل */
-
-@media (max-width: 600px) {
-
-    .interactive-rose {
-        font-size: 85px;
-    }
-
-    .puzzle-subtitle {
-        font-size: 0.98rem;
-    }
-
-}
-/* إخفاء صندوق الكلمات في المرحلة الثالثة حتى الضغط على الوردة */
 .rose-lyrics-box {
     display: none;
     margin-top: 20px;
@@ -2111,9 +464,598 @@ body.love-page-open {
     transition: transform 0.3s ease;
 }
 
+#roseLyricsText {
+    font-size: 1.05rem;
+    color: #a06b91;
+    font-weight: 600;
+    margin: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lyric-fade {
+    opacity: 0;
+    transform: translateY(5px);
+}
+
+@keyframes roseBreath {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+@keyframes roseBloom {
+    0% { transform: scale(1); }
+    45% { transform: scale(1.22) rotate(-3deg); }
+    70% { transform: scale(1.12) rotate(3deg); }
+    100% { transform: scale(1.15); }
+}
+
 /* =====================================================
-   💖 خلفية القلوب الطايرة
+   PUZZLE 4 - LOCK BOX
 ===================================================== */
+
+.lock-box {
+    width: 100%;
+    max-width: 360px;
+    margin: 10px auto;
+    padding: 22px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 15px 40px rgba(90, 60, 100, 0.08);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lock-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.lock-screen span {
+    width: 55px;
+    height: 62px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(120, 90, 130, 0.2);
+    font-size: 28px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+.lock-screen span.filled {
+    transform: scale(1.05);
+}
+
+.lock-hint {
+    margin-bottom: 20px;
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.lock-hint p {
+    margin: 5px 0;
+    font-size: 15px;
+}
+
+.lock-inputs {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+}
+
+.lock-number {
+    height: 48px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.lock-number:hover { transform: translateY(-3px); }
+.lock-number:active { transform: scale(0.9); }
+.lock-number:disabled { opacity: 0.35; cursor: default; }
+
+.lock-clear {
+    margin-top: 12px;
+    width: 100%;
+    height: 42px;
+    border: none;
+    border-radius: 14px;
+    background: rgba(120, 90, 130, 0.1);
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.lock-clear:hover { background: rgba(120, 90, 130, 0.18); }
+
+.lock-box.unlocked {
+    animation: unlockAnimation 0.7s ease;
+}
+
+@keyframes unlockAnimation {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.04); }
+    70% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+}
+
+.lock-box.wrong {
+    animation: lockShake 0.4s ease;
+}
+
+@keyframes lockShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-7px); }
+    50% { transform: translateX(7px); }
+    75% { transform: translateX(-5px); }
+}
+
+/* =====================================================
+   PUZZLE 5 - DOORS
+===================================================== */
+
+.doors {
+    width: 100%;
+    max-width: 480px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 20px auto 10px;
+}
+
+.door {
+    min-height: 190px;
+    border: 1px solid rgba(120, 90, 130, 0.15);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.65);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    box-shadow: 0 12px 30px rgba(100, 70, 120, 0.08);
+    transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+}
+
+.door:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 18px 35px rgba(100, 70, 120, 0.13);
+}
+
+.door:active { transform: scale(0.96); }
+
+.door-icon { font-size: 48px; transition: transform 0.4s ease; }
+.door-label { font-size: 14px; opacity: 0.65; }
+
+.door:hover .door-icon { transform: scale(1.12); }
+
+.door.wrong { animation: doorWrong 0.5s ease; }
+
+@keyframes doorWrong {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-5px); }
+}
+
+.door.correct {
+    transform: scale(1.05);
+    box-shadow: 0 0 35px rgba(180, 120, 150, 0.25);
+}
+
+.door.correct .door-icon { animation: roseGrow 0.7s ease; }
+
+@keyframes roseGrow {
+    0% { transform: scale(0.7); opacity: 0.5; }
+    60% { transform: scale(1.25); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.doors.completed .door:not(.correct) {
+    opacity: 0;
+    transform: scale(0.8);
+    pointer-events: none;
+}
+
+.doors.completed .door.correct { transform: scale(1.08); }
+
+/* =====================================================
+   LOVE PAGE (إصلاح التمدد والتصفح الرأسي)
+===================================================== */
+
+body.love-page-open {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    position: relative;
+    width: 100%;
+    background: #f7edf6;
+}
+
+#love-page {
+    display: none;
+    width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
+    overflow-x: hidden !important;
+    background: linear-gradient(180deg, #fff8fc 0%, #f8eef7 45%, #eee6f3 100%);
+    padding-bottom: calc(160px + env(safe-area-inset-bottom));
+}
+
+#love-page.visible {
+    display: block;
+}
+
+/* =====================================================
+   STORY BLOCK
+===================================================== */
+
+.story-block {
+    width: 100%;
+    max-width: 100vw;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px calc(110px + env(safe-area-inset-bottom));
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.story-block.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =====================================================
+   PERSONAL SECTION
+===================================================== */
+
+.personal-block {
+    background: radial-gradient(circle at center, rgba(255,245,250,0.95), rgba(245,232,255,0.95));
+}
+
+.personal-content {
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.personal-name {
+    display: block;
+    font-size: 19px;
+    color: #9d7895;
+    margin-bottom: 28px;
+}
+
+.personal-title {
+    font-size: clamp(26px, 5vw, 40px);
+    line-height: 1.65;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+.personal-text p {
+    margin: 18px 0;
+    color: rgba(48,39,53,0.78);
+}
+
+.personal-text .highlight {
+    font-size: 23px;
+    font-weight: 600;
+    color: #302735;
+    margin-top: 30px;
+}
+
+.personal-poem {
+    margin-top: 30px;
+    font-size: 18px;
+    line-height: 2.1;
+    color: #6d6070;
+}
+
+/* =====================================================
+   LOVE SECTIONS
+===================================================== */
+
+.love-section {
+    background: radial-gradient(circle at center, rgba(255,250,252,0.98), rgba(246,237,250,0.98));
+}
+
+.love-content {
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
+}
+
+.love-small {
+    display: block;
+    font-size: 16px;
+    color: #9d7895;
+    margin-bottom: 25px;
+}
+
+.love-content h2 {
+    font-size: clamp(26px, 5vw, 40px);
+    line-height: 1.7;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+.love-lines p,
+.journey-text p,
+.comfort-text p,
+.memory-text p,
+.response-text p {
+    font-size: 18px;
+    line-height: 2;
+    margin: 18px 0;
+    color: rgba(48,39,53,0.78);
+}
+
+.love-highlight {
+    margin-top: 40px;
+}
+
+.love-highlight span {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 8px;
+    color: #8f728b;
+}
+
+.love-highlight strong {
+    display: block;
+    font-size: 31px;
+    font-weight: 600;
+}
+
+.doctor-line {
+    font-size: 32px !important;
+    font-weight: 600;
+    margin: 28px 0 !important;
+}
+
+.strong-line {
+    font-size: 26px !important;
+    font-weight: 600;
+    margin: 32px 0 !important;
+    color: #302735 !important;
+}
+
+.memory-section {
+    background: radial-gradient(circle at center, rgba(255,247,250,0.98), rgba(241,234,248,0.98));
+}
+
+.memory-highlight {
+    font-weight: 600;
+    margin-top: 30px !important;
+}
+
+.heart-word {
+    font-size: 36px !important;
+    font-weight: 600;
+    margin-top: 28px !important;
+}
+
+/* =====================================================
+   MUSIC BREAK & WRAPPER
+===================================================== */
+
+.memory-music-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+}
+
+.memory-music-btn {
+    background: linear-gradient(135deg, #ff6b81, #ff4757);
+    color: white;
+    border: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    flex-shrink: 0;
+}
+
+.memory-music-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
+}
+
+.memory-music-btn:active { transform: scale(0.95); }
+
+.memory-music-label {
+    font-size: 0.95rem;
+    color: #6d6070;
+    font-weight: 500;
+}
+
+/* =====================================================
+   CONFESSION INTRO & MAIN
+===================================================== */
+
+.confession-section {
+    background: radial-gradient(circle at center, rgba(255,246,250,1), rgba(239,229,247,1));
+}
+
+.confession-content {
+    width: 100%;
+    max-width: 720px;
+    text-align: center;
+}
+
+.confession-content h2 {
+    font-size: clamp(27px, 6vw, 43px);
+    line-height: 1.7;
+    font-weight: 500;
+    margin-bottom: 35px;
+}
+
+.confession-small {
+    display: block;
+    font-size: 17px;
+    color: #9d7895;
+    margin: 35px 0 25px;
+}
+
+.confession-line {
+    font-size: 20px;
+    line-height: 2;
+    margin: 20px 0;
+    color: rgba(48,39,53,0.78);
+}
+
+.confession-main {
+    min-height: 100vh;
+    background: radial-gradient(circle at center, rgba(255,247,251,1), rgba(235,222,242,1));
+}
+
+.rose-glow {
+    font-size: 65px;
+    margin-bottom: 15px;
+    animation: roseFloat 3s ease-in-out infinite;
+}
+
+@keyframes roseFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.confession-before {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.confession-title {
+    font-size: clamp(55px, 12vw, 100px);
+    font-weight: 600;
+    margin: 10px 0 30px;
+}
+
+.confession-text {
+    font-size: 19px;
+    line-height: 2;
+    margin: 12px 0;
+}
+
+.big-confession {
+    margin-top: 42px;
+    font-size: clamp(30px, 7vw, 54px);
+    line-height: 1.7;
+    font-weight: 600;
+}
+
+.big-confession span {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+/* =====================================================
+   RESPONSE
+===================================================== */
+
+.response-section {
+    background: radial-gradient(circle at center, rgba(255,250,252,1), rgba(243,235,248,1));
+}
+
+.response-highlight {
+    font-size: 27px !important;
+    font-weight: 600;
+    color: #302735 !important;
+}
+
+/* =====================================================
+   FINAL SECTION
+===================================================== */
+
+.final-love {
+    min-height: 100vh;
+    background: radial-gradient(circle at center, rgba(255,250,252,1), rgba(239,229,247,1));
+}
+
+.final-content {
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
+}
+
+.final-rose {
+    font-size: 75px;
+    animation: finalRose 3s ease-in-out infinite;
+}
+
+@keyframes finalRose {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.06); }
+}
+
+.final-small {
+    font-size: 17px;
+    line-height: 2;
+    margin-top: 18px;
+    opacity: 0.7;
+}
+
+.final-content h1 {
+    font-size: clamp(55px, 12vw, 100px);
+    margin: 15px 0 35px;
+    font-weight: 600;
+}
+
+.final-message {
+    font-size: 18px;
+    line-height: 2;
+    margin: 17px 0;
+}
+
+.final-last {
+    margin-top: 45px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.final-i-love-you {
+    font-size: clamp(38px, 9vw, 70px);
+    font-weight: 600;
+    margin: 32px 0;
+}
+
+.flower-message {
+    font-size: 18px;
+    line-height: 2;
+    margin-top: 38px;
+    opacity: 0.8;
+}
+
+/* =====================================================
+   FLOATING HEARTS & LYRICS CONTROLLER
+===================================================== */
+
 .hearts-container {
     position: fixed;
     top: 0;
@@ -2134,39 +1076,12 @@ body.love-page-open {
 }
 
 @keyframes floatUp {
-    0% {
-        transform: translateY(0) scale(0.8) rotate(0deg);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-105vh) scale(1.3) rotate(360deg);
-        opacity: 0;
-    }
+    0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0.8; }
+    100% { transform: translateY(-105vh) scale(1.3) rotate(360deg); opacity: 0; }
 }
 
-/* تأثير نبض وتوهج للوردة والأزرار المهمة */
-.rose-interactive, .lock-box, .btn-main {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.rose-interactive:hover {
-    transform: scale(1.08);
-    filter: drop-shadow(0 0 15px rgba(255, 105, 180, 0.8));
-}
-
-/* توهج للنص الرومانسي */
-.puzzle-feedback, .code-feedback, .lock-feedback {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #ff6b81;
-    text-shadow: 0 0 10px rgba(255, 107, 129, 0.4);
-}
-
-/* =====================================================
-   🎵 صندوق كلمات الأغنية وزر التحكم
-===================================================== */
 .lyrics-container {
-    display: none; /* مخفي افتراضياً */
+    display: none;
     position: fixed;
     bottom: 25px;
     left: 50%;
@@ -2212,88 +1127,95 @@ body.love-page-open {
     transition: transform 0.2s;
 }
 
-.lyrics-toggle-btn:active {
-    transform: scale(0.95);
-}
+.lyrics-toggle-btn:active { transform: scale(0.95); }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translate(-50%, 20px);
-    }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-    }
+    from { opacity: 0; transform: translate(-50%, 20px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
 }
+
 /* =====================================================
-   🎵 تنسيق زر الأغنية بجانب المحتوى
+   MOBILE MEDIA QUERIES
 ===================================================== */
-.memory-music-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
+
+@media (max-width: 600px) {
+    .screen {
+        justify-content: flex-start;
+        padding: 45px 18px calc(120px + env(safe-area-inset-bottom));
+    }
+
+    .content { gap: 16px; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 27px; }
+    p { font-size: 16px; }
+
+    .observation-puzzle { max-width: 310px; padding: 20px; gap: 9px; }
+    .puzzle-star { font-size: 27px; }
+    .hidden-items { max-width: 340px; }
+    .lock-box { max-width: 330px; padding: 18px; }
+    .lock-screen span { width: 50px; height: 58px; }
+    .doors { max-width: 340px; gap: 9px; }
+    .door { min-height: 165px; border-radius: 20px; }
+    .door-icon { font-size: 40px; }
+    .door-label { font-size: 12px; }
+    .interactive-rose { font-size: 85px; }
+    .puzzle-subtitle { font-size: 0.98rem; }
+
+    /* الصفحة الطويلة على المحمول */
+    .story-block {
+        min-height: 100svh;
+        padding: 80px 18px calc(120px + env(safe-area-inset-bottom));
+    }
+
+    .personal-content,
+    .love-content,
+    .confession-content,
+    .final-content {
+        width: 100%;
+    }
+
+    .personal-title,
+    .love-content h2 {
+        font-size: 25px;
+        line-height: 1.75;
+    }
+
+    .personal-text p,
+    .love-lines p,
+    .journey-text p,
+    .comfort-text p,
+    .memory-text p,
+    .response-text p {
+        font-size: 16px;
+        line-height: 2;
+    }
+
+    .personal-text .highlight { font-size: 20px; }
+    .personal-poem { font-size: 17px; }
+    .love-highlight strong { font-size: 27px; }
+    .doctor-line { font-size: 28px !important; }
+    .strong-line { font-size: 24px !important; }
+    .heart-word { font-size: 32px !important; }
+    .confession-content h2 { font-size: 27px; line-height: 1.8; }
+    .confession-title { font-size: 58px; }
+    .confession-text { font-size: 17px; }
+    .big-confession { font-size: 30px; }
+    .response-highlight { font-size: 23px !important; }
+    .final-content h1 { font-size: 60px; }
+    .final-message { font-size: 16px; }
+    .final-i-love-you { font-size: 43px; }
+    .flower-message { font-size: 17px; }
 }
 
-.memory-music-btn {
-    background: linear-gradient(135deg, #ff6b81, #ff4757);
-    color: white;
-    border: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    flex-shrink: 0;
-}
-
-.memory-music-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
-}
-
-.memory-music-btn:active {
-    transform: scale(0.95);
-}
-
-.memory-music-label {
-    font-size: 0.95rem;
-    color: #6d6070;
-    font-weight: 500;
-}
 /* =====================================================
-   🌹 كلمات أغنية الوردة المتزامنة
+   SAFE MOTION
 ===================================================== */
-.rose-lyrics-box {
-    margin-top: 20px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(255, 182, 193, 0.5);
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(217, 154, 196, 0.2);
-    backdrop-filter: blur(8px);
-    max-width: 90%;
-    transition: transform 0.3s ease;
-}
 
-#roseLyricsText {
-    font-size: 1.05rem;
-    color: #a06b91;
-    font-weight: 600;
-    margin: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
 }
-
-/* تأثير بسيط مع تغير السطر */
-.lyric-fade {
-    opacity: 0;
-    transform: translateY(5px);
-}
-
