@@ -32,11 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        🎵 أسماء ملفات الأغاني والكلمات
+        🎵 أسماء ملفات الأغاني والتنسيق الجديد
     ===================================================== */
 
     const MUSIC = {
-        confession: "A.m4a",
+        confession: "rose.mp3", // تم التبديل هنا
         memory: "B.m4a",
         afterDoor: "C.m4a"
     };
@@ -53,6 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const roseSound = document.getElementById("roseSound");
+    if (roseSound) roseSound.src = "A.m4a"; // تم التبديل هنا للوردة
+
     const roseLyricsText = document.getElementById("roseLyricsText");
 
     if (roseSound && roseLyricsText) {
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
 
     function unlockIOSAudio() {
-        [confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
+        [roseSound, confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
             if (audio) {
                 audio.play().then(() => {
                     audio.pause();
@@ -113,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function stopAllMusic() {
-        [confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
+        [roseSound, confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
             if (audio) {
                 audio.pause();
                 audio.currentTime = 0;
@@ -252,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
     const roseNextBtn = document.getElementById("roseNextBtn");
+    const roseLyricsBox = document.getElementById("roseLyricsBox");
 
     let roseOpened = false;
 
@@ -272,6 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             setTimeout(() => {
                 if (roseMessage) roseMessage.classList.add("show");
+                if (roseLyricsBox) roseLyricsBox.style.display = "block";
             }, 600);
 
             setTimeout(() => {
@@ -280,10 +284,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // الانتقال المباشر للمرحلة الرابعة (رقم 4) لتجنب أي تكرار أو لخبطة
+    // الانتقال للمرحلة الرابعة مباشرة وبترتيب صحيح
     if (roseNextBtn) {
         roseNextBtn.addEventListener("click", () => {
-            showScreen(4);
+            if (roseSound) roseSound.pause();
+            showScreen(currentScreen + 1);
         });
     }
 
