@@ -272,15 +272,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    /* =====================================================
+   /* =====================================================
         Level 3 — الوردة 🌹
     ===================================================== */
 
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
-    const roseNext = document.getElementById("roseNext");
-    // (تم إزالة الإعلان المكرر لـ roseSound من هنا)
+    const roseNextBtn = document.getElementById("roseNextBtn"); // الزرار بالاسم الجديد
 
     let roseOpened = false;
 
@@ -304,8 +303,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 600);
 
             setTimeout(() => {
-                if (roseNext) roseNext.classList.add("show");
+                if (roseNextBtn) roseNextBtn.classList.add("show");
             }, 1800);
+        });
+    }
+
+    // ربط زر الوردة للانتقال للمرحلة التالية (مثلاً الشاشة رقم 3 أو 4 حسب الترتيب)
+    if (roseNextBtn) {
+        roseNextBtn.addEventListener("click", () => {
+            showScreen(3); // الانتقال للشاشة التالية (المرحلة الرابعة)
         });
     }
 
