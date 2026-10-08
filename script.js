@@ -1,41 +1,39 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     /* =====================================================
-       💖 إنشاء قلوب متطايرة في الخلفية
+        💖 إنشاء قلوب متطايرة في الخلفية
     ===================================================== */
- let heartsInterval = null;
+    let heartsInterval = null;
 
-function startFloatingHearts() {
-    if (heartsInterval) return; // عشان متشتغلش مرتين
+    function startFloatingHearts() {
+        if (heartsInterval) return; // عشان متشتغلش مرتين
 
-    const heartsContainer = document.createElement("div");
-    heartsContainer.classList.add("hearts-container");
-    document.body.appendChild(heartsContainer);
+        const heartsContainer = document.createElement("div");
+        heartsContainer.classList.add("hearts-container");
+        document.body.appendChild(heartsContainer);
 
-    const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
+        const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
 
-    heartsInterval = setInterval(() => {
-        const heart = document.createElement("span");
-        heart.classList.add("floating-heart");
-        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-        
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-        heart.style.fontSize = Math.random() * 10 + 16 + "px";
+        heartsInterval = setInterval(() => {
+            const heart = document.createElement("span");
+            heart.classList.add("floating-heart");
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+            heart.style.fontSize = Math.random() * 10 + 16 + "px";
 
-        heartsContainer.appendChild(heart);
+            heartsContainer.appendChild(heart);
 
-        setTimeout(() => {
-            heart.remove();
-        }, 7000);
-    }, 450);
-}
-
-// مسحنا استدعاء createFloatingHearts(); من البداية عشان متبدأش من الأول
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }, 450);
+    }
 
     /* =====================================================
-       🎵 أسماء ملفات الأغاني والكلمات
-       ===================================================== */
+        🎵 أسماء ملفات الأغاني والكلمات
+        ===================================================== */
 
     const MUSIC = {
         confession: "A.m4a",
@@ -44,46 +42,45 @@ function startFloatingHearts() {
     };
 
     // كلمات أغنية الباب// 🎵 مصفوفة كلمات المقطع (23 ثانية)
-const roseLyrics = [
-    { time: 0,   text: "لا برتاح في ليلة ولا بنساك... 🌸" },
-    { time: 5.5, text: "ولا لقيت نهاية..." },
-    { time: 8.5, text: "ولو حتى ببعد ببقى معاك..." },
-    { time: 11.5, text: "ومانتش معايا... 💕" },
-    { time: 14.5, text: "لا برتاح في ليلة ولا بنساك..." },
-    { time: 17.5, text: "ولا لقيت نهاية..." },
-    { time: 19.5, text: "ولو حتى ببعد ببقى معاك... 🌹" },
-    { time: 21.5, text: "ومانتش معايا..." }
-];
+    const roseLyrics = [
+        { time: 0,   text: "لا برتاح في ليلة ولا بنساك... 🌸" },
+        { time: 5.5, text: "ولا لقيت نهاية..." },
+        { time: 8.5, text: "ولو حتى ببعد ببقى معاك..." },
+        { time: 11.5, text: "ومانتش معايا... 💕" },
+        { time: 14.5, text: "لا برتاح في ليلة ولا بنساك..." },
+        { time: 17.5, text: "ولا لقيت نهاية..." },
+        { time: 19.5, text: "ولو حتى ببعد ببقى معاك... 🌹" },
+        { time: 21.5, text: "ومانتش معايا..." }
+    ];
 
-const roseSound = document.getElementById("roseSound");
-const roseLyricsText = document.getElementById("roseLyricsText");
+    const roseSound = document.getElementById("roseSound");
+    const roseLyricsText = document.getElementById("roseLyricsText");
 
-if (roseSound && roseLyricsText) {
-    roseSound.addEventListener("timeupdate", () => {
-        const currentTime = roseSound.currentTime;
-        
-        let currentLine = roseLyrics[0].text;
-        for (let i = 0; i < roseLyrics.length; i++) {
-            if (currentTime >= roseLyrics[i].time) {
-                currentLine = roseLyrics[i].text;
-            } else {
-                break;
+    if (roseSound && roseLyricsText) {
+        roseSound.addEventListener("timeupdate", () => {
+            const currentTime = roseSound.currentTime;
+            
+            let currentLine = roseLyrics[0].text;
+            for (let i = 0; i < roseLyrics.length; i++) {
+                if (currentTime >= roseLyrics[i].time) {
+                    currentLine = roseLyrics[i].text;
+                } else {
+                    break;
+                }
             }
-        }
 
-        if (roseLyricsText.textContent !== currentLine) {
-            roseLyricsText.classList.add("lyric-fade");
-            setTimeout(() => {
-                roseLyricsText.textContent = currentLine;
-                roseLyricsText.classList.remove("lyric-fade");
-            }, 150);
-        }
-    });
-}
-
+            if (roseLyricsText.textContent !== currentLine) {
+                roseLyricsText.classList.add("lyric-fade");
+                setTimeout(() => {
+                    roseLyricsText.textContent = currentLine;
+                    roseLyricsText.classList.remove("lyric-fade");
+                }, 150);
+            }
+        });
+    }
 
     /* =====================================================
-       العناصر الأساسية
+        العناصر الأساسية
     ===================================================== */
 
     const screens = document.querySelectorAll(".screen");
@@ -105,7 +102,7 @@ if (roseSound && roseLyricsText) {
     let memoryPlayed = false;
 
     /* =====================================================
-       تحميل الأغاني
+        تحميل الأغاني
     ===================================================== */
 
     if (confessionAudio) confessionAudio.src = MUSIC.confession;
@@ -113,7 +110,7 @@ if (roseSound && roseLyricsText) {
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
 
     /* =====================================================
-       🔓 فك حظر الصوت في الأيفون (iOS Audio Unlock)
+        🔓 فك حظر الصوت في الأيفون (iOS Audio Unlock)
     ===================================================== */
 
     function unlockIOSAudio() {
@@ -128,7 +125,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       أدوات الصوت
+        أدوات الصوت
     ===================================================== */
 
     function stopAllMusic() {
@@ -153,7 +150,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       تحكم كلمات الأغنية وزر التشغيل/الإيقاف
+        تحكم كلمات الأغنية وزر التشغيل/الإيقاف
     ===================================================== */
 
     function showLyrics(text) {
@@ -183,7 +180,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       إظهار شاشة معينة
+        إظهار شاشة معينة
     ===================================================== */
 
     function showScreen(index) {
@@ -202,7 +199,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       البداية
+        البداية
     ===================================================== */
 
     if (startBtn) {
@@ -213,7 +210,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       Puzzle 1
+        Puzzle 1
     ===================================================== */
 
     const puzzleStars = document.querySelectorAll(".puzzle-star");
@@ -241,7 +238,7 @@ if (roseSound && roseLyricsText) {
     });
 
     /* =====================================================
-       Puzzle 2
+        Puzzle 2
     ===================================================== */
 
     const hiddenItems = document.querySelectorAll(".hidden-item");
@@ -276,18 +273,14 @@ if (roseSound && roseLyricsText) {
     });
 
     /* =====================================================
-       Level 3 — الوردة 🌹
-    ===================================================== */
-
-     /* =====================================================
-       Level 3 — الوردة 🌹
+        Level 3 — الوردة 🌹
     ===================================================== */
 
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
     const roseNext = document.getElementById("roseNext");
-    const roseSound = document.getElementById("roseSound");
+    // (تم إزالة الإعلان المكرر لـ roseSound من هنا)
 
     let roseOpened = false;
 
@@ -296,7 +289,6 @@ if (roseSound && roseLyricsText) {
             if (roseOpened) return;
             roseOpened = true;
 
-            // 💖 تشغيل تساقط القلوب والورود فور فتح الوردة واستمرارها للنهاية!
             startFloatingHearts();
 
             if (roseSound) {
@@ -317,9 +309,8 @@ if (roseSound && roseLyricsText) {
         });
     }
 
-
     /* =====================================================
-       Puzzle 4 - الرقم السري
+        Puzzle 4 - الرقم السري
     ===================================================== */
 
     const lockNumbers = document.querySelectorAll(".lock-number");
@@ -402,7 +393,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       التنقل بين الشاشات
+        التنقل بين الشاشات
     ===================================================== */
 
     if (puzzleNext) {
@@ -418,7 +409,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       Puzzle 5 - الأبواب 🚪
+        Puzzle 5 - الأبواب 🚪
     ===================================================== */
 
     const doors = document.querySelectorAll(".door");
@@ -441,10 +432,10 @@ if (roseSound && roseLyricsText) {
                 }
                 if (doorNext) doorNext.classList.add("show");
 
-                // تشغيل أغنية الباب مع الكلمات
                 stopAllMusic();
                 playMusic(afterDoorAudio);
-                showLyrics(DOOR_SONG_LYRICS);
+                // تأكد أن متغير DOOR_SONG_LYRICS مُعرف أو استبدله بالنص المناسب إن وجد
+                showLyrics(typeof DOOR_SONG_LYRICS !== 'undefined' ? DOOR_SONG_LYRICS : "");
 
             } else {
                 door.classList.add("wrong");
@@ -461,7 +452,7 @@ if (roseSound && roseLyricsText) {
 
     if (doorNext) {
         doorNext.addEventListener("click", () => {
-            stopAllMusic(); // إيقاف أغنية الباب وإخفاء الكلمات
+            stopAllMusic();
             openLovePage();
         });
     }
@@ -485,7 +476,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       الأغنية الثانية (Memory)
+        الأغنية الثانية (Memory)
     ===================================================== */
 
     const memoryMusicBtn = document.getElementById("memoryMusicBtn");
@@ -505,7 +496,7 @@ if (roseSound && roseLyricsText) {
     }
 
     /* =====================================================
-       الأغنية الأولى (الاعتراف في السكرول)
+        الأغنية الأولى (الاعتراف في السكرول)
     ===================================================== */
 
     let confessionObserver = null;
@@ -533,7 +524,7 @@ if (roseSound && roseLyricsText) {
     setupConfessionMusic();
 
     /* =====================================================
-       ظهور عناصر الصفحة تدريجيًا
+        ظهور عناصر الصفحة تدريجيًا
     ===================================================== */
 
     const storyBlocks = document.querySelectorAll(".story-block");
