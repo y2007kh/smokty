@@ -1,70 +1,68 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     /* =====================================================
-   💖 تأثير قلب عبارات الحب بلغات العالم
-===================================================== */
-function initLoveHeartCanvas() {
-    const canvas = document.getElementById("loveHeartCanvas");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+       💖 تأثير قلب عبارات الحب (يعمل عند الوصول لقسم الاعتراف فقط)
+    ===================================================== */
+    let canvasInitialized = false;
 
-    canvas.width = 400;
-    canvas.height = 400;
+    function initLoveHeartCanvas() {
+        if (canvasInitialized) return;
+        canvasInitialized = true;
 
-    const phrases = [
-        "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
-        "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
-        "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
-        "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo"
-    ];
+        const canvas = document.getElementById("loveHeartCanvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
 
-    // معادلة رسم إحداثيات القلب الرياضية
-    function getHeartPoint(t) {
-        const x = 16 * Math.sin(t) ** 3;
-        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-        return { x: x * 15 + canvas.width / 2, y: y * 15 + canvas.height / 2 + 10 };
+        canvas.width = 400;
+        canvas.height = 400;
+
+        const phrases = [
+            "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
+            "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
+            "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
+            "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo"
+        ];
+
+        function getHeartPoint(t) {
+            const x = 16 * Math.sin(t) ** 3;
+            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            return { x: x * 15 + canvas.width / 2, y: y * 15 + canvas.height / 2 + 10 };
+        }
+
+        const points = [];
+        for (let i = 0; i < 60; i++) {
+            const t = Math.random() * Math.PI * 2;
+            const p = getHeartPoint(t);
+            points.push({
+                x: p.x + (Math.random() - 0.5) * 30,
+                y: p.y + (Math.random() - 0.5) * 30,
+                text: phrases[Math.floor(Math.random() * phrases.length)],
+                size: Math.random() * 6 + 10,
+                alpha: Math.random() * 0.5 + 0.5,
+                speed: Math.random() * 0.02 + 0.01
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.font = "bold 14px Tahoma";
+            ctx.textAlign = "center";
+
+            points.forEach((p) => {
+                ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
+                ctx.fillText(p.text, p.x, p.y);
+
+                p.alpha += Math.sin(Date.now() * p.speed) * 0.01;
+                if (p.alpha < 0.2) p.alpha = 0.2;
+                if (p.alpha > 1) p.alpha = 1;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
     }
-
-    const points = [];
-    for (let i = 0; i < 60; i++) {
-        const t = Math.random() * Math.PI * 2;
-        const p = getHeartPoint(t);
-        points.push({
-            x: p.x + (Math.random() - 0.5) * 30,
-            y: p.y + (Math.random() - 0.5) * 30,
-            text: phrases[Math.floor(Math.random() * phrases.length)],
-            size: Math.random() * 6 + 10,
-            alpha: Math.random() * 0.5 + 0.5,
-            speed: Math.random() * 0.02 + 0.01
-        });
-    }
-
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        ctx.font = "bold 14px Tahoma";
-        ctx.textAlign = "center";
-
-        points.forEach((p) => {
-            ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
-            ctx.fillText(p.text, p.x, p.y);
-
-            // حركة نبض خفيفة للكلمات داخل القلب
-            p.alpha += Math.sin(Date.now() * p.speed) * 0.01;
-            if (p.alpha < 0.2) p.alpha = 0.2;
-            if (p.alpha > 1) p.alpha = 1;
-        });
-
-        requestAnimationFrame(animate);
-    }
-
-    animate();
-}
-
-// تشغيل التأثير عند تحميل الصفحة
-document.addEventListener("DOMContentLoaded", () => {
-    initLoveHeartCanvas();
-});
 
 
     /* =====================================================
@@ -329,8 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (roseOpened) return;
             roseOpened = true;
 
-            startFloatingHearts();
-
             if (roseSound) {
                 roseSound.currentTime = 0;
                 roseSound.play().catch(() => {});
@@ -487,6 +483,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (doorNext) {
         doorNext.addEventListener("click", () => {
+            // بدء تشغيل الورود/القلوب المتطايرة من صفحة الأبواب وصولاً للنهاية
+            startFloatingHearts();
             stopAllMusic();
             openLovePage();
         });
@@ -530,32 +528,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        🎵 الأغنية الأولى (الاعتراف في السكرول عند الوصول لقسم confession)
+        🎵 الأغنية الأولى وتفعيل تأثير القلب عند الوصول للقسم
     ===================================================== */
 
-    let confessionObserver = null;
-
-    function setupConfessionMusic() {
+    function setupConfessionSection() {
         const confession = document.getElementById("confession");
         if (!confession) return;
 
-        confessionObserver = new IntersectionObserver(
+        const confessionObserver = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
-                    if (entry.isIntersecting && !confessionPlayed) {
-                        stopAllMusic();
-                        playMusic(confessionAudio);
-                        confessionPlayed = true;
+                    if (entry.isIntersecting) {
+                        // 1. تشغيل تأثير Canvas للقلب عند الوصول هنا فقط
+                        initLoveHeartCanvas();
+
+                        // 2. تشغيل أغنية الاعتراف إذا لم تعمل من قبل
+                        if (!confessionPlayed) {
+                            stopAllMusic();
+                            playMusic(confessionAudio);
+                            confessionPlayed = true;
+                        }
                     }
                 });
             },
-            { threshold: 0.45 }
+            { threshold: 0.55 } // يرتفع التفعيل ليتم بدقة عند الدخول في القسم
         );
 
         confessionObserver.observe(confession);
     }
 
-    setupConfessionMusic();
+    setupConfessionSection();
 
     /* =====================================================
         ظهور عناصر الصفحة تدريجيًا
