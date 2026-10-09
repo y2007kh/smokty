@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     /* =====================================================
-       💖 تأثير قلب الكلمات (تعبئة القلب من الداخل للخارج + ظهور تدريجي + دوران عكس عقارب الساعة)
+       💖 تأثير قلب الكلمات (ثابت، محدد بوضوح، ظهور تدريجي ورا بعض، دوران عكس عقارب الساعة)
     ===================================================== */
     let canvasInitialized = false;
 
@@ -20,57 +20,71 @@ document.addEventListener("DOMContentLoaded", () => {
             "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
             "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
             "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
-            "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo"
+            "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo",
+            "أنا بحبك", "I love you", "Te amo", "Je t'aime"
         ];
 
+        // معادلة إحداثيات القلب الرياضية المضبوطة بدقة وثبات لإظهار شكل القلب بوضوح
         function getHeartPoint(t) {
             const x = 16 * Math.sin(t) ** 3;
             const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-            return { x: x * 13 + canvas.width / 2, y: y * 13 + canvas.height / 2 + 10 };
+            return { 
+                x: x * 11.5 + canvas.width / 2, 
+                y: y * 11.5 + canvas.height / 2 + 12 
+            };
         }
 
         const particles = [];
-        const totalParticles = 130; 
+        const totalParticles = 110; 
 
         for (let i = 0; i < totalParticles; i++) {
-            const t = Math.random() * Math.PI * 2;
-            const innerFactor = Math.random() * 0.85 + 0.15; 
-            const hp = getHeartPoint(t);
+            const t = (i / totalParticles) * Math.PI * 2;
+            const innerFactor = Math.random() * 0.75 + 0.25; // تباعد منتظم لملء القلب وتحديد شكله
             
             particles.push({
-                t: t,
+                baseAngle: t,
                 innerFactor: innerFactor,
                 text: phrases[Math.floor(Math.random() * phrases.length)],
-                alpha: 0, 
-                maxAlpha: Math.random() * 0.65 + 0.35,
-                fadeInSpeed: Math.random() * 0.015 + 0.005, 
-                scale: Math.random() * 4 + 10
+                alpha: 0, // تبدأ مخفية تماماً
+                maxAlpha: Math.random() * 0.5 + 0.5,
+                fadeInSpeed: Math.random() * 0.008 + 0.003, // ظهور تدريجي هادئ وواحدة ورا واحدة
+                scale: Math.random() * 3.5 + 10,
+                delay: i * 3 // تأخير زمني بسيط لتظهر العناصر واحدة تلو الأخرى بشكل متسلسل
             });
         }
 
         let globalRotation = 0;
+        let frameCount = 0;
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
-            globalRotation -= 0.002;
+            frameCount++;
 
-            particles.forEach((p) => {
-                if (p.alpha < p.maxAlpha) {
-                    p.alpha += p.fadeInSpeed;
+            // دوران بطيء جداً وثابت عكس اتجاه عقارب الساعة
+            globalRotation -= 0.0015;
+
+            particles.forEach((p, index) => {
+                // التحكم في ظهور العناصر ورا بعض (تتابع تدريجي)
+                if (frameCount > p.delay) {
+                    if (p.alpha < p.maxAlpha) {
+                        p.alpha += p.fadeInSpeed;
+                    }
                 }
 
-                const currentT = p.t + globalRotation;
-                const hp = getHeartPoint(currentT);
-                
-                const x = canvas.width / 2 + (hp.x - canvas.width / 2) * p.innerFactor;
-                const y = canvas.height / 2 + (hp.y - canvas.height / 2) * p.innerFactor;
+                if (p.alpha > 0) {
+                    const currentAngle = p.baseAngle + globalRotation;
+                    const hp = getHeartPoint(currentAngle);
+                    
+                    const x = canvas.width / 2 + (hp.x - canvas.width / 2) * p.innerFactor;
+                    const y = canvas.height / 2 + (hp.y - canvas.height / 2) * p.innerFactor;
 
-                ctx.font = `bold ${p.scale}px Tahoma`;
-                ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
-                ctx.fillText(p.text, x, y);
+                    ctx.font = `bold ${p.scale}px Tahoma`;
+                    ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
+                    ctx.fillText(p.text, x, y);
+                }
             });
 
             requestAnimationFrame(animate);
@@ -81,16 +95,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     /* =====================================================
-        💖 إنشاء قلوب متطايرة في الخلفية
+        💖 إنشاء قلوب متطايرة في الخلفية (تظهر بانتظام في الصفحة الأخيرة)
     ===================================================== */
     let heartsInterval = null;
 
     function startFloatingHearts() {
         if (heartsInterval) return;
 
-        const heartsContainer = document.createElement("div");
-        heartsContainer.classList.add("hearts-container");
-        document.body.appendChild(heartsContainer);
+        // التحقق من عدم تكرار الحاوية إذا كانت موجودة مسبقاً
+        let heartsContainer = document.querySelector(".hearts-container");
+        if (!heartsContainer) {
+            heartsContainer = document.createElement("div");
+            heartsContainer.classList.add("hearts-container");
+            document.body.appendChild(heartsContainer);
+        }
 
         const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
 
@@ -108,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => {
                 heart.remove();
             }, 7000);
-        }, 450);
+        }, 400);
     }
 
     /* =====================================================
@@ -118,7 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const MUSIC = {
         confession: "rose.mp3", 
         memory: "B.m4a",
-        afterDoor: "A.m4a" // تم التأكد من إضافتها لكي لا تحدث أخطاء
+        afterDoor: "A.m4a"
     };
 
     const roseLyrics = [
@@ -446,6 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (doorNext) {
         doorNext.addEventListener("click", () => {
+            // تفعيل القلوب المتطايرة فوراً وبشكل دائم عند الخروج من الأبواب للنهاية
             startFloatingHearts(); 
             stopAllMusic();
             openLovePage();
@@ -490,7 +509,7 @@ document.addEventListener("DOMContentLoaded", () => {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        initLoveHeartCanvas(); 
+                        initLoveHeartCanvas(); // تفعيل رسم القلب بالثبات والظهور التدريجي المتسلسل
 
                         if (!confessionPlayed) {
                             stopAllMusic();
