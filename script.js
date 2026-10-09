@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const phrases = [
             "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
-            "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
+            "Seni seviyorum", "Je t'aime", "Amo te", "bmoot feky", 
             "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
-            "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo",
+            "Miluj tě", "Jeg elsker dig","smokah"," 君を愛してる", "Σ' αγαπώ", "Ti amo",
             "أنا بحبك", "I love you", "Te amo", "Je t'aime"
         ];
 
@@ -35,63 +35,69 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const particles = [];
-        const totalParticles = 110; 
+const phrasesList = phrases;
+const spacingX = 5;
+const spacingY = 18;
 
-        for (let i = 0; i < totalParticles; i++) {
-            const t = (i / totalParticles) * Math.PI * 2;
-            const innerFactor = Math.random() * 0.75 + 0.25; // تباعد منتظم لملء القلب وتحديد شكله
-            
+for (let y = -14; y <= 14; y += 1.25) {
+    for (let x = -16; x <= 16; x += 0.65) {
+        // معادلة تحدد إذا كانت النقطة داخل القلب
+        const heartValue =
+            Math.pow(x * x + y * y - 1, 3) -
+            x * x * y * y * y;
+
+        if (heartValue <= 0) {
             particles.push({
-                baseAngle: t,
-                innerFactor: innerFactor,
-                text: phrases[Math.floor(Math.random() * phrases.length)],
-                alpha: 0, // تبدأ مخفية تماماً
-                maxAlpha: Math.random() * 0.5 + 0.5,
-                fadeInSpeed: Math.random() * 0.008 + 0.003, // ظهور تدريجي هادئ وواحدة ورا واحدة
-                scale: Math.random() * 3.5 + 10,
-                delay: i * 3 // تأخير زمني بسيط لتظهر العناصر واحدة تلو الأخرى بشكل متسلسل
+                x: x * 10.5 + canvas.width / 2,
+                y: -y * 10.5 + canvas.height / 2 + 10,
+                text: phrasesList[
+                    Math.floor(Math.random() * phrasesList.length)
+                ],
+                alpha: 0,
+                maxAlpha: 0.9,
+                fadeInSpeed: 0.025,
+                delay: particles.length * 1.5,
+                scale: 11
             });
         }
-
+    }
+}
         let globalRotation = 0;
         let frameCount = 0;
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+       function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
-            frameCount++;
+    frameCount++;
 
-            // دوران بطيء جداً وثابت عكس اتجاه عقارب الساعة
-            globalRotation = 0;
-
-            particles.forEach((p, index) => {
-                // التحكم في ظهور العناصر ورا بعض (تتابع تدريجي)
-                if (frameCount > p.delay) {
-                    if (p.alpha < p.maxAlpha) {
-                        p.alpha += p.fadeInSpeed;
-                    }
-                }
-
-                if (p.alpha > 0) {
-                    const currentAngle = p.baseAngle + globalRotation;
-                    const hp = getHeartPoint(currentAngle);
-                    
-                    const x = canvas.width / 2 + (hp.x - canvas.width / 2) * p.innerFactor;
-                    const y = canvas.height / 2 + (hp.y - canvas.height / 2) * p.innerFactor;
-
-                    ctx.font = `bold ${p.scale}px Tahoma`;
-                    ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
-                    ctx.fillText(p.text, x, y);
-                }
-            });
-
-            requestAnimationFrame(animate);
+    particles.forEach((p) => {
+        if (frameCount > p.delay && p.alpha < p.maxAlpha) {
+            p.alpha = Math.min(
+                p.maxAlpha,
+                p.alpha + p.fadeInSpeed
+            );
         }
 
-        animate();
+        if (p.alpha > 0) {
+            ctx.font = `bold ${p.scale}px Tahoma`;
+            ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
+            ctx.fillText(p.text, p.x, p.y);
+        }
+    });
+
+    const stillAppearing = particles.some(
+        p => p.alpha < p.maxAlpha
+    );
+
+    if (stillAppearing) {
+        requestAnimationFrame(animate);
     }
+}
+
+animate();
+}
 
     /* =====================================================
         💖 إنشاء قلوب متطايرة في الخلفية (تظهر بانتظام في الصفحة الأخيرة)
