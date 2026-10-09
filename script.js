@@ -211,35 +211,59 @@ function startFloatingHearts() {
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
 
     // دالة فك قفل الصوت لأجهزة الآيفون
-    function unlockIOSAudio() {
-        [roseSound, confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
-            if (audio) {
-                audio.play().then(() => {
-                    audio.pause();
-                    audio.currentTime = 0;
-                }).catch((e) => console.log("Audio unlock error:", e));
-            }
-        });
-    }
+function unlockIOSAudio() {
+    const audioList = [
+        roseSound,
+        confessionAudio,
+        memoryAudio,
+        afterDoorAudio
+    ].filter(Boolean);
 
-    function stopAllMusic() {
-        [roseSound, confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
-            if (audio) {
+    audioList.forEach((audio) => {
+        const originalMuted = audio.muted;
+        audio.muted = true;
+
+        const promise = audio.play();
+
+        if (promise && typeof promise.then === "function") {
+            promise.then(() => {
                 audio.pause();
                 audio.currentTime = 0;
-            }
-        });
-        hideLyrics();
-    }
+                audio.muted = originalMuted;
+            }).catch(() => {
+                audio.muted = originalMuted;
+            });
+        } else {
+            audio.pause();
+            audio.currentTime = 0;
+            audio.muted = originalMuted;
+        }
+    });
+}
 
-    function playMusic(audio) {
-        if (!audio) return;
-        audio.volume = 0.9;
-        audio.play().catch((err) => {
-            console.log("iOS Audio play blocked:", err);
+ function stopAllMusic() {
+    [roseSound, confessionAudio, memoryAudio, afterDoorAudio]
+        .filter(Boolean)
+        .forEach((audio) => {
+            audio.pause();
+            audio.currentTime = 0;
         });
-    }
 
+    hideLyrics();
+}
+
+function playMusic(audio) {
+    if (!audio) return;
+
+    stopAllMusic();
+    audio.volume = 0.9;
+
+    audio.play().catch((err) => {
+        console.log("Audio playback blocked:", err);
+    });
+}
+
+  
     function showLyrics(text) {
         if (lyricsContainer && lyricsText) {
             lyricsText.textContent = text;
