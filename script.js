@@ -1,4 +1,71 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
+    /* =====================================================
+   💖 تأثير قلب عبارات الحب بلغات العالم
+===================================================== */
+function initLoveHeartCanvas() {
+    const canvas = document.getElementById("loveHeartCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = 400;
+    canvas.height = 400;
+
+    const phrases = [
+        "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
+        "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
+        "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
+        "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo"
+    ];
+
+    // معادلة رسم إحداثيات القلب الرياضية
+    function getHeartPoint(t) {
+        const x = 16 * Math.sin(t) ** 3;
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+        return { x: x * 15 + canvas.width / 2, y: y * 15 + canvas.height / 2 + 10 };
+    }
+
+    const points = [];
+    for (let i = 0; i < 60; i++) {
+        const t = Math.random() * Math.PI * 2;
+        const p = getHeartPoint(t);
+        points.push({
+            x: p.x + (Math.random() - 0.5) * 30,
+            y: p.y + (Math.random() - 0.5) * 30,
+            text: phrases[Math.floor(Math.random() * phrases.length)],
+            size: Math.random() * 6 + 10,
+            alpha: Math.random() * 0.5 + 0.5,
+            speed: Math.random() * 0.02 + 0.01
+        });
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.font = "bold 14px Tahoma";
+        ctx.textAlign = "center";
+
+        points.forEach((p) => {
+            ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
+            ctx.fillText(p.text, p.x, p.y);
+
+            // حركة نبض خفيفة للكلمات داخل القلب
+            p.alpha += Math.sin(Date.now() * p.speed) * 0.01;
+            if (p.alpha < 0.2) p.alpha = 0.2;
+            if (p.alpha > 1) p.alpha = 1;
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+// تشغيل التأثير عند تحميل الصفحة
+document.addEventListener("DOMContentLoaded", () => {
+    initLoveHeartCanvas();
+});
+
 
     /* =====================================================
         💖 إنشاء قلوب متطايرة في الخلفية
@@ -36,9 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
     ===================================================== */
 
     const MUSIC = {
-        confession: "rose.mp3", // تم التبديل هنا
+        confession: "rose.mp3", 
         memory: "B.m4a"
-        
     };
 
     const roseLyrics = [
@@ -53,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const roseSound = document.getElementById("roseSound");
-    if (roseSound) roseSound.src = "A.m4a"; // تم التبديل هنا للوردة
+    if (roseSound) roseSound.src = "A.m4a";
 
     const roseLyricsText = document.getElementById("roseLyricsText");
 
@@ -284,7 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // الانتقال للمرحلة الرابعة مباشرة وبترتيب صحيح
     if (roseNextBtn) {
         roseNextBtn.addEventListener("click", () => {
             if (roseSound) roseSound.pause();
@@ -465,7 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        الأغنية الأولى (الاعتراف في السكرول)
+        🎵 الأغنية الأولى (الاعتراف في السكرول عند الوصول لقسم confession)
     ===================================================== */
 
     let confessionObserver = null;
