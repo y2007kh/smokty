@@ -3,131 +3,120 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
        💖 تأثير قلب الكلمات (ثابت، محدد بوضوح، ظهور تدريجي ورا بعض، دوران عكس عقارب الساعة)
     ===================================================== */
-    let canvasInitialized = false;
+ const canvas = document.getElementById("loveHeartCanvas");
+if (!canvas) return;
 
-    function initLoveHeartCanvas() {
-        if (canvasInitialized) return;
-        canvasInitialized = true;
+const ctx = canvas.getContext("2d");
+if (!ctx) return;
 
-        const canvas = document.getElementById("loveHeartCanvas");
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+canvasInitialized = true;
 
-        canvas.width = 400;
-        canvas.height = 400;
+const size = 500;
+canvas.width = size;
+canvas.height = size;
 
-        const phrases = [
-            "أنا بحبك", "Te amo", "I love you", "Ich liebe dich", 
-            "Seni seviyorum", "Je t'aime", "Amo te", "القلب بيحبك", 
-            "Kocham cię", "Я тебя люблю", "사랑해", "Aku cinta kamu",
-            "Miluj tě", "Jeg elsker dig", "Σ' αγαπώ", "Ti amo",
-            "أنا بحبك", "I love you", "Te amo", "Je t'aime"
-        ];
+const phrases = [
+    "أنا بحبك", "I love you", "Te amo", "Je t'aime",
+    "Ich liebe dich", "Ti amo", "Seni seviyorum",
+    "القلب بيحبك", "Kocham cię", "Я тебя люблю",
+    "사랑해", "Aku cinta kamu", "أنا بحبك",
+    "I love you", "Te amo", "Je t'aime"
+];
 
-        // معادلة إحداثيات القلب الرياضية المضبوطة بدقة وثبات لإظهار شكل القلب بوضوح
-        function getHeartPoint(t) {
-            const x = 16 * Math.sin(t) ** 3;
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-            return { 
-                x: x * 11.5 + canvas.width / 2, 
-                y: y * 11.5 + canvas.height / 2 + 12 
-            };
+function getHeartPoint(t) {
+    return {
+        x: 16 * Math.sin(t) ** 3,
+        y: -(13 * Math.cos(t) -
+            5 * Math.cos(2 * t) -
+            2 * Math.cos(3 * t) -
+            Math.cos(4 * t))
+    };
+}
+
+const particles = [];
+const totalParticles = 420;
+
+for (let i = 0; i < totalParticles; i++) {
+    const angle = Math.random() * Math.PI * 2;
+
+    particles.push({
+        angle,
+        factor: Math.sqrt(Math.random()),
+        text: phrases[Math.floor(Math.random() * phrases.length)],
+        alpha: 0,
+        maxAlpha: 0.65 + Math.random() * 0.35,
+        speed: 0.012 + Math.random() * 0.012,
+        size: 7 + Math.random() * 3,
+        delay: i * 2
+    });
+}
+
+let frame = 0;
+let rotation = 0;
+
+function animate() {
+    ctx.clearRect(0, 0, size, size);
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    frame++;
+    rotation -= 0.0007;
+
+    particles.forEach((p) => {
+        if (frame > p.delay && p.alpha < p.maxAlpha) {
+            p.alpha = Math.min(p.maxAlpha, p.alpha + p.speed);
         }
 
-        const particles = [];
-        const totalParticles = 110; 
+        if (p.alpha <= 0) return;
 
-        for (let i = 0; i < totalParticles; i++) {
-            const t = (i / totalParticles) * Math.PI * 2;
-            const innerFactor = Math.random() * 0.75 + 0.25; // تباعد منتظم لملء القلب وتحديد شكله
-            
-            particles.push({
-                baseAngle: t,
-                innerFactor: innerFactor,
-                text: phrases[Math.floor(Math.random() * phrases.length)],
-                alpha: 0, // تبدأ مخفية تماماً
-                maxAlpha: Math.random() * 0.5 + 0.5,
-                fadeInSpeed: Math.random() * 0.008 + 0.003, // ظهور تدريجي هادئ وواحدة ورا واحدة
-                scale: Math.random() * 3.5 + 10,
-                delay: i * 3 // تأخير زمني بسيط لتظهر العناصر واحدة تلو الأخرى بشكل متسلسل
-            });
-        }
+        const point = getHeartPoint(p.angle + rotation);
+        const x = size / 2 + point.x * 12 * p.factor;
+        const y = size / 2 + point.y * 12 * p.factor;
 
-        let globalRotation = 0;
-        let frameCount = 0;
+        ctx.font = `bold ${p.size}px Tahoma, sans-serif`;
+        ctx.fillStyle = `rgba(255, 75, 115, ${p.alpha})`;
+        ctx.fillText(p.text, x, y);
+    });
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+    requestAnimationFrame(animate);
+}
 
-            frameCount++;
-
-            // دوران بطيء جداً وثابت عكس اتجاه عقارب الساعة
-            globalRotation -= 0.0015;
-
-            particles.forEach((p, index) => {
-                // التحكم في ظهور العناصر ورا بعض (تتابع تدريجي)
-                if (frameCount > p.delay) {
-                    if (p.alpha < p.maxAlpha) {
-                        p.alpha += p.fadeInSpeed;
-                    }
-                }
-
-                if (p.alpha > 0) {
-                    const currentAngle = p.baseAngle + globalRotation;
-                    const hp = getHeartPoint(currentAngle);
-                    
-                    const x = canvas.width / 2 + (hp.x - canvas.width / 2) * p.innerFactor;
-                    const y = canvas.height / 2 + (hp.y - canvas.height / 2) * p.innerFactor;
-
-                    ctx.font = `bold ${p.scale}px Tahoma`;
-                    ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
-                    ctx.fillText(p.text, x, y);
-                }
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        animate();
-    }
+animate();
+}
 
 
     /* =====================================================
         💖 إنشاء قلوب متطايرة في الخلفية (تظهر بانتظام في الصفحة الأخيرة)
     ===================================================== */
-    let heartsInterval = null;
+ if (!heartsContainer) {
+    heartsContainer = document.createElement("div");
+    heartsContainer.className = "hearts-container";
+    document.body.appendChild(heartsContainer);
+}
 
-    function startFloatingHearts() {
-        if (heartsInterval) return;
+heartsContainer.style.display = "block";
 
-        // التحقق من عدم تكرار الحاوية إذا كانت موجودة مسبقاً
-        let heartsContainer = document.querySelector(".hearts-container");
-        if (!heartsContainer) {
-            heartsContainer = document.createElement("div");
-            heartsContainer.classList.add("hearts-container");
-            document.body.appendChild(heartsContainer);
-        }
+if (heartsInterval) return;
 
-        const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
+const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
 
-        heartsInterval = setInterval(() => {
-            const heart = document.createElement("span");
-            heart.classList.add("floating-heart");
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-            heart.style.fontSize = Math.random() * 10 + 16 + "px";
+heartsInterval = setInterval(() => {
+    const heart = document.createElement("span");
 
-            heartsContainer.appendChild(heart);
+    heart.className = "floating-heart";
+    heart.textContent =
+        heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
 
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
-        }, 400);
-    }
+    heart.style.left = Math.random() * 95 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 3) + "s";
+    heart.style.fontSize = (16 + Math.random() * 14) + "px";
+
+    heartsContainer.appendChild(heart);
+
+    heart.addEventListener("animationend", () => heart.remove(), {
+        once: true
+    });
+}, 350);
 
     /* =====================================================
         🎵 أسماء ملفات الأغاني وإصلاح مشكلة الآيفون
