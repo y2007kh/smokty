@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     /* =====================================================
-       💖 تأثير قلب عبارات الحب (يعمل عند الوصول لقسم الاعتراف فقط)
+       💖 تأثير قلب الكلمات (تعبئة القلب من الداخل للخارج + ظهور تدريجي + دوران عكس عقارب الساعة)
     ===================================================== */
     let canvasInitialized = false;
 
@@ -26,36 +26,51 @@ document.addEventListener("DOMContentLoaded", () => {
         function getHeartPoint(t) {
             const x = 16 * Math.sin(t) ** 3;
             const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-            return { x: x * 15 + canvas.width / 2, y: y * 15 + canvas.height / 2 + 10 };
+            return { x: x * 13 + canvas.width / 2, y: y * 13 + canvas.height / 2 + 10 };
         }
 
-        const points = [];
-        for (let i = 0; i < 60; i++) {
+        const particles = [];
+        const totalParticles = 130; 
+
+        for (let i = 0; i < totalParticles; i++) {
             const t = Math.random() * Math.PI * 2;
-            const p = getHeartPoint(t);
-            points.push({
-                x: p.x + (Math.random() - 0.5) * 30,
-                y: p.y + (Math.random() - 0.5) * 30,
+            const innerFactor = Math.random() * 0.85 + 0.15; 
+            const hp = getHeartPoint(t);
+            
+            particles.push({
+                t: t,
+                innerFactor: innerFactor,
                 text: phrases[Math.floor(Math.random() * phrases.length)],
-                size: Math.random() * 6 + 10,
-                alpha: Math.random() * 0.5 + 0.5,
-                speed: Math.random() * 0.02 + 0.01
+                alpha: 0, 
+                maxAlpha: Math.random() * 0.65 + 0.35,
+                fadeInSpeed: Math.random() * 0.015 + 0.005, 
+                scale: Math.random() * 4 + 10
             });
         }
 
+        let globalRotation = 0;
+
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.font = "bold 14px Tahoma";
             ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
 
-            points.forEach((p) => {
+            globalRotation -= 0.002;
+
+            particles.forEach((p) => {
+                if (p.alpha < p.maxAlpha) {
+                    p.alpha += p.fadeInSpeed;
+                }
+
+                const currentT = p.t + globalRotation;
+                const hp = getHeartPoint(currentT);
+                
+                const x = canvas.width / 2 + (hp.x - canvas.width / 2) * p.innerFactor;
+                const y = canvas.height / 2 + (hp.y - canvas.height / 2) * p.innerFactor;
+
+                ctx.font = `bold ${p.scale}px Tahoma`;
                 ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
-                ctx.fillText(p.text, p.x, p.y);
-
-                p.alpha += Math.sin(Date.now() * p.speed) * 0.01;
-                if (p.alpha < 0.2) p.alpha = 0.2;
-                if (p.alpha > 1) p.alpha = 1;
+                ctx.fillText(p.text, x, y);
             });
 
             requestAnimationFrame(animate);
@@ -97,12 +112,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        🎵 أسماء ملفات الأغاني والتنسيق الجديد
+        🎵 أسماء ملفات الأغاني وإصلاح مشكلة الآيفون
     ===================================================== */
 
     const MUSIC = {
         confession: "rose.mp3", 
-        memory: "B.m4a"
+        memory: "B.m4a",
+        afterDoor: "A.m4a" // تم التأكد من إضافتها لكي لا تحدث أخطاء
     };
 
     const roseLyrics = [
@@ -117,14 +133,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const roseSound = document.getElementById("roseSound");
-    if (roseSound) roseSound.src = "A.m4a";
+    if (roseSound) roseSound.src = MUSIC.afterDoor;
 
     const roseLyricsText = document.getElementById("roseLyricsText");
 
     if (roseSound && roseLyricsText) {
         roseSound.addEventListener("timeupdate", () => {
             const currentTime = roseSound.currentTime;
-            
             let currentLine = roseLyrics[0].text;
             for (let i = 0; i < roseLyrics.length; i++) {
                 if (currentTime >= roseLyrics[i].time) {
@@ -143,10 +158,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
-    /* =====================================================
-        العناصر الأساسية
-    ===================================================== */
 
     const screens = document.querySelectorAll(".screen");
     const startBtn = document.getElementById("startBtn");
@@ -167,13 +178,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (memoryAudio) memoryAudio.src = MUSIC.memory;
     if (afterDoorAudio) afterDoorAudio.src = MUSIC.afterDoor;
 
+    // دالة فك قفل الصوت لأجهزة الآيفون
     function unlockIOSAudio() {
         [roseSound, confessionAudio, memoryAudio, afterDoorAudio].forEach((audio) => {
             if (audio) {
                 audio.play().then(() => {
                     audio.pause();
                     audio.currentTime = 0;
-                }).catch(() => {});
+                }).catch((e) => console.log("Audio unlock error:", e));
             }
         });
     }
@@ -190,13 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function playMusic(audio) {
         if (!audio) return;
-        audio.volume = 0.85;
-        const promise = audio.play();
-        if (promise !== undefined) {
-            promise.catch((err) => {
-                console.log("Audio play blocked:", err);
-            });
-        }
+        audio.volume = 0.9;
+        audio.play().catch((err) => {
+            console.log("iOS Audio play blocked:", err);
+        });
     }
 
     function showLyrics(text) {
@@ -227,11 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showScreen(index) {
         if (index < 0 || index >= screens.length) return;
-
-        screens.forEach((screen) => {
-            screen.classList.remove("active");
-        });
-
+        screens.forEach((screen) => screen.classList.remove("active"));
         const nextScreen = screens[index];
         if (nextScreen) {
             nextScreen.classList.add("active");
@@ -248,9 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        Puzzle 1
+        Puzzle 1 (النجوم)
     ===================================================== */
-
     const puzzleStars = document.querySelectorAll(".puzzle-star");
     const puzzleFeedback = document.getElementById("puzzleFeedback");
     const puzzleNext = document.getElementById("puzzleNext");
@@ -258,7 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
     puzzleStars.forEach((star) => {
         star.addEventListener("click", () => {
             if (puzzleNext && puzzleNext.classList.contains("show")) return;
-
             if (star.classList.contains("different")) {
                 star.classList.add("correct");
                 if (puzzleFeedback) {
@@ -268,37 +271,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (puzzleNext) puzzleNext.classList.add("show");
             } else {
                 star.classList.add("wrong");
-                setTimeout(() => {
-                    star.classList.remove("wrong");
-                }, 400);
+                setTimeout(() => star.classList.remove("wrong"), 400);
             }
         });
     });
 
     /* =====================================================
-        Puzzle 2
+        Puzzle 2 (الحروف المخفية)
     ===================================================== */
-
     const hiddenItems = document.querySelectorAll(".hidden-item");
     const codeLetters = document.querySelectorAll(".code-letter");
     const codeFeedback = document.getElementById("codeFeedback");
     const codeNext = document.getElementById("codeNext");
     const hiddenArea = document.querySelector(".hidden-items");
-
     let foundItems = 0;
 
     hiddenItems.forEach((item, index) => {
         item.addEventListener("click", () => {
             if (item.classList.contains("found")) return;
-
             item.classList.add("found");
             foundItems++;
-
             if (codeLetters[index]) {
                 codeLetters[index].textContent = item.dataset.letter;
                 codeLetters[index].classList.add("revealed");
             }
-
             if (foundItems === hiddenItems.length) {
                 if (hiddenArea) hiddenArea.classList.add("completed");
                 if (codeFeedback) {
@@ -311,35 +307,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     /* =====================================================
-        Level 3 — الوردة 🌹
+        Level 3 (الوردة)
     ===================================================== */
-
     const interactiveRose = document.getElementById("interactiveRose");
     const roseHint = document.getElementById("roseHint");
     const roseMessage = document.getElementById("roseMessage");
     const roseNextBtn = document.getElementById("roseNextBtn");
     const roseLyricsBox = document.getElementById("roseLyricsBox");
-
     let roseOpened = false;
 
     if (interactiveRose) {
         interactiveRose.addEventListener("click", () => {
             if (roseOpened) return;
             roseOpened = true;
-
             if (roseSound) {
                 roseSound.currentTime = 0;
-                roseSound.play().catch(() => {});
+                playMusic(roseSound);
             }
-
             interactiveRose.classList.add("bloom");
             if (roseHint) roseHint.classList.add("hide");
-
             setTimeout(() => {
                 if (roseMessage) roseMessage.classList.add("show");
                 if (roseLyricsBox) roseLyricsBox.style.display = "block";
             }, 600);
-
             setTimeout(() => {
                 if (roseNextBtn) roseNextBtn.classList.add("show");
             }, 1800);
@@ -354,9 +344,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        Puzzle 4 - الرقم السري
+        Puzzle 4 (الرقم السري)
     ===================================================== */
-
     const lockNumbers = document.querySelectorAll(".lock-number");
     const lockDigit1 = document.getElementById("lockDigit1");
     const lockDigit2 = document.getElementById("lockDigit2");
@@ -365,7 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const lockFeedback = document.getElementById("lockFeedback");
     const lockNext = document.getElementById("lockNext");
     const lockBox = document.querySelector(".lock-box");
-
     let enteredCode = "";
     const correctCode = "487";
     let lockSolved = false;
@@ -382,21 +370,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (lockDigit1) lockDigit1.textContent = enteredCode[0] || "_";
         if (lockDigit2) lockDigit2.textContent = enteredCode[1] || "_";
         if (lockDigit3) lockDigit3.textContent = enteredCode[2] || "_";
-
-        const digits = [lockDigit1, lockDigit2, lockDigit3];
-        digits.forEach((digit, index) => {
-            if (digit) {
-                if (enteredCode[index]) {
-                    digit.classList.add("filled");
-                } else {
-                    digit.classList.remove("filled");
-                }
-            }
-        });
-
-        if (enteredCode.length === 3) {
-            checkLock();
-        }
+        if (enteredCode.length === 3) checkLock();
     }
 
     function checkLock() {
@@ -408,17 +382,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             if (lockBox) lockBox.classList.add("unlocked");
             if (lockNext) lockNext.classList.add("show");
-
-            lockNumbers.forEach((number) => {
-                number.disabled = true;
-            });
+            lockNumbers.forEach((n) => n.disabled = true);
         } else {
             if (lockFeedback) {
-                lockFeedback.textContent = "ركزي في تاريخ أصلح فيه كل حاجة في حياتي... تاريخنا المميز 🗝❤";
+                lockFeedback.textContent = "تاريخنا المميز 🗝❤";
                 lockFeedback.classList.add("show");
             }
             if (lockBox) lockBox.classList.add("wrong");
-
             setTimeout(() => {
                 if (lockBox) lockBox.classList.remove("wrong");
                 enteredCode = "";
@@ -441,9 +411,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (lockNext) lockNext.addEventListener("click", () => showScreen(currentScreen + 1));
 
     /* =====================================================
-        Puzzle 5 - الأبواب 🚪
+        Puzzle 5 (الأبواب)
     ===================================================== */
-
     const doors = document.querySelectorAll(".door");
     const doorsContainer = document.querySelector(".doors");
     const doorFeedback = document.getElementById("doorFeedback");
@@ -452,10 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
     doors.forEach((door) => {
         door.addEventListener("click", () => {
             if (doorsContainer && doorsContainer.classList.contains("completed")) return;
-
-            const selectedDoor = door.dataset.door;
-
-            if (selectedDoor === "rose") {
+            if (door.dataset.door === "rose") {
                 door.classList.add("correct");
                 if (doorsContainer) doorsContainer.classList.add("completed");
                 if (doorFeedback) {
@@ -467,53 +433,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 stopAllMusic();
                 playMusic(afterDoorAudio);
                 showLyrics("🎵 تفاصيل الأغنية...");
-
             } else {
                 door.classList.add("wrong");
                 if (doorFeedback) {
-                    doorFeedback.textContent = `مهما كانت الطرق والخيارات... كل الطرق في الآخر بتؤدي لقلبك 🚪💖`;
+                    doorFeedback.textContent = `كل الطرق في الآخر بتؤدي لقلبك 🚪💖`;
                     doorFeedback.classList.add("show");
                 }
-                setTimeout(() => {
-                    door.classList.remove("wrong");
-                }, 500);
+                setTimeout(() => door.classList.remove("wrong"), 500);
             }
         });
     });
 
     if (doorNext) {
         doorNext.addEventListener("click", () => {
-            // بدء تشغيل الورود/القلوب المتطايرة من صفحة الأبواب وصولاً للنهاية
-            startFloatingHearts();
+            startFloatingHearts(); 
             stopAllMusic();
             openLovePage();
         });
     }
 
     function openLovePage() {
-        showScreenWithoutTransition();
-        if (lovePage) lovePage.classList.add("visible");
-        document.body.classList.add("love-page-open");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "instant"
-        });
-    }
-
-    function showScreenWithoutTransition() {
         screens.forEach((screen) => {
             screen.classList.remove("active");
             screen.style.display = "none";
         });
+        if (lovePage) lovePage.classList.add("visible");
+        document.body.classList.add("love-page-open");
+        window.scrollTo({ top: 0, behavior: "instant" });
     }
 
     /* =====================================================
         الأغنية الثانية (Memory)
     ===================================================== */
-
     const memoryMusicBtn = document.getElementById("memoryMusicBtn");
-
     if (memoryMusicBtn) {
         memoryMusicBtn.addEventListener("click", () => {
             if (memoryAudio.paused) {
@@ -528,9 +480,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =====================================================
-        🎵 الأغنية الأولى وتفعيل تأثير القلب عند الوصول للقسم
+        🎵 تشغيل أغنية الاعتراف وتفعيل تأثير القلب عند الوصول للقسم
     ===================================================== */
-
     function setupConfessionSection() {
         const confession = document.getElementById("confession");
         if (!confession) return;
@@ -539,10 +490,8 @@ document.addEventListener("DOMContentLoaded", () => {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        // 1. تشغيل تأثير Canvas للقلب عند الوصول هنا فقط
-                        initLoveHeartCanvas();
+                        initLoveHeartCanvas(); 
 
-                        // 2. تشغيل أغنية الاعتراف إذا لم تعمل من قبل
                         if (!confessionPlayed) {
                             stopAllMusic();
                             playMusic(confessionAudio);
@@ -551,7 +500,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
             },
-            { threshold: 0.55 } // يرتفع التفعيل ليتم بدقة عند الدخول في القسم
+            { threshold: 0.5 }
         );
 
         confessionObserver.observe(confession);
@@ -562,9 +511,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
         ظهور عناصر الصفحة تدريجيًا
     ===================================================== */
-
     const storyBlocks = document.querySelectorAll(".story-block");
-
     const revealObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
@@ -576,7 +523,5 @@ document.addEventListener("DOMContentLoaded", () => {
         { threshold: 0.12 }
     );
 
-    storyBlocks.forEach((block) => {
-        revealObserver.observe(block);
-    });
+    storyBlocks.forEach((block) => revealObserver.observe(block));
 });
