@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =====================================================
         💖 إنشاء قلوب متطايرة في الخلفية (تظهر بانتظام في الصفحة الأخيرة)
     ===================================================== */
-    let heartsInterval = null;
+
 
   
 let heartsInterval = null;
@@ -149,7 +149,8 @@ function startFloatingHearts() {
 
     const MUSIC = {
         confession: "rose.mp3", 
-        memory: "B.m4a"
+        memory: "B.m4a",
+        afterDoor: "A.m4a"
     };
 
     const roseLyrics = [
