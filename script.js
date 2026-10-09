@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             frameCount++;
 
             // دوران بطيء جداً وثابت عكس اتجاه عقارب الساعة
-            globalRotation -= 0.0015;
+            globalRotation = 0;
 
             particles.forEach((p, index) => {
                 // التحكم في ظهور العناصر ورا بعض (تتابع تدريجي)
