@@ -34,46 +34,92 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         }
 
-        const particles = [];
-const phrasesList = phrases;
-const spacingX = 5;
-const spacingY = 18;
+       const particles = [];
 
-for (let y = -14; y <= 14; y += 1.25) {
-    for (let x = -16; x <= 16; x += 0.65) {
-        // معادلة تحدد إذا كانت النقطة داخل القلب
-        const heartValue =
-            Math.pow(x * x + y * y - 1, 3) -
-            x * x * y * y * y;
+const centerX = canvas.width / 2;
+const centerY = canvas.height / 2;
+const heartScale = 155;
+const lineHeight = 15;
+const fontSize = 11;
+const wordGap = 5;
 
-        if (heartValue <= 0) {
-            particles.push({
-                x: x * 10.5 + canvas.width / 2,
-                y: -y * 10.5 + canvas.height / 2 + 10,
-                text: phrasesList[
-                    Math.floor(Math.random() * phrasesList.length)
-                ],
-                alpha: 0,
-                maxAlpha: 0.9,
-                fadeInSpeed: 0.025,
-                delay: particles.length * 1.5,
-                scale: 11
-            });
+ctx.font = `bold ${fontSize}px Tahoma`;
+
+let phraseIndex = 0;
+
+// إنشاء صفوف أفقية تملأ القلب بالكلمات
+for (let row = 0; row <= 28; row++) {
+    const heartY = 1.05 - row * 0.075;
+    const availableX = [];
+
+    for (let x = -1.3; x <= 1.3; x += 0.005) {
+        const value =
+            Math.pow(x * x + heartY * heartY - 1, 3) -
+            x * x * Math.pow(heartY, 3);
+
+        if (value <= 0) {
+            availableX.push(x);
         }
     }
-}
-        let globalRotation = 0;
-        let frameCount = 0;
 
-       function animate() {
+    if (availableX.length === 0) continue;
+
+    const leftX = centerX + availableX[0] * heartScale;
+    const rightX =
+        centerX + availableX[availableX.length - 1] * heartScale;
+
+    const availableWidth = rightX - leftX;
+    const words = [];
+    let usedWidth = 0;
+
+    // ملء الصف بكلمات متتالية حتى حافتي القلب
+    while (usedWidth < availableWidth) {
+        const text = phrases[phraseIndex % phrases.length];
+        phraseIndex++;
+
+        const width = ctx.measureText(text).width;
+
+        if (usedWidth + width > availableWidth) break;
+
+        words.push({
+            text,
+            width,
+            x: usedWidth + width / 2
+        });
+
+        usedWidth += width + wordGap;
+    }
+
+    // توسيط الكلمات داخل الصف
+    const startX = centerX - usedWidth / 2;
+    const y = centerY - heartY * heartScale;
+
+    words.forEach((word) => {
+        particles.push({
+            text: word.text,
+            x: startX + word.x,
+            y,
+            alpha: 0,
+            maxAlpha: 0.92,
+            delay: particles.length * 2,
+            fadeInSpeed: 0.035
+        });
+    });
+}
+
+let frameCount = 0;
+
+function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
+    ctx.font = `bold ${fontSize}px Tahoma`;
 
     frameCount++;
 
     particles.forEach((p) => {
-        if (frameCount > p.delay && p.alpha < p.maxAlpha) {
+        if (frameCount >= p.delay && p.alpha < p.maxAlpha) {
             p.alpha = Math.min(
                 p.maxAlpha,
                 p.alpha + p.fadeInSpeed
@@ -81,7 +127,6 @@ for (let y = -14; y <= 14; y += 1.25) {
         }
 
         if (p.alpha > 0) {
-            ctx.font = `bold ${p.scale}px Tahoma`;
             ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
             ctx.fillText(p.text, p.x, p.y);
         }
