@@ -98,35 +98,50 @@ document.addEventListener("DOMContentLoaded", () => {
     ===================================================== */
     let heartsInterval = null;
 
-    function startFloatingHearts() {
-        if (heartsInterval) return;
+  
+let heartsInterval = null;
 
-        // التحقق من عدم تكرار الحاوية إذا كانت موجودة مسبقاً
-        let heartsContainer = document.querySelector(".hearts-container");
-        if (!heartsContainer) {
-            heartsContainer = document.createElement("div");
-            heartsContainer.classList.add("hearts-container");
-            document.body.appendChild(heartsContainer);
-        }
+function startFloatingHearts() {
+    let container = document.querySelector(".hearts-container");
 
-        const heartSymbols = ["💖", "🌸", "✨", "💕", "🌹", "💗"];
-
-        heartsInterval = setInterval(() => {
-            const heart = document.createElement("span");
-            heart.classList.add("floating-heart");
-            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-            
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.animationDuration = Math.random() * 3 + 4 + "s";
-            heart.style.fontSize = Math.random() * 10 + 16 + "px";
-
-            heartsContainer.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
-        }, 400);
+    if (!container) {
+        container = document.createElement("div");
+        container.className = "hearts-container";
+        document.body.appendChild(container);
     }
+
+    container.style.display = "block";
+
+    if (heartsInterval !== null) return;
+
+    const symbols = ["🤍", "💕", "💗", "🌸", "✨", "🌹"];
+
+    function createHeart() {
+        const heart = document.createElement("span");
+
+        heart.className = "floating-heart";
+        heart.textContent =
+            symbols[Math.floor(Math.random() * symbols.length)];
+
+        heart.style.left = Math.random() * 96 + "vw";
+        heart.style.fontSize = (18 + Math.random() * 16) + "px";
+        heart.style.animationDuration = (5 + Math.random() * 3) + "s";
+
+        container.appendChild(heart);
+
+        heart.addEventListener("animationend", () => {
+            heart.remove();
+        }, { once: true });
+    }
+
+    // إظهار قلوب فورًا بدل انتظار أول فترة
+    for (let i = 0; i < 12; i++) {
+        createHeart();
+    }
+
+    heartsInterval = setInterval(createHeart, 350);
+}
+
 
     /* =====================================================
         🎵 أسماء ملفات الأغاني وإصلاح مشكلة الآيفون
