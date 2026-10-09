@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const MUSIC = {
         confession: "rose.mp3", // تم التبديل هنا
-        memory: "B.m4a",
-        afterDoor: "C.m4a"
+        memory: "B.m4a"
+        
     };
 
     const roseLyrics = [
