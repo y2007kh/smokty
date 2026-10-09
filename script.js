@@ -39,70 +39,83 @@ document.addEventListener("DOMContentLoaded", () => {
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
 const heartScale = 155;
-const lineHeight = 15;
-const fontSize = 11;
-const wordGap = 5;
+const fontSize = 10;
+const lineHeight = 13;
+const wordGap = 4;
 
 ctx.font = `bold ${fontSize}px Tahoma`;
 
 let phraseIndex = 0;
 
-// إنشاء صفوف أفقية تملأ القلب بالكلمات
-for (let row = 0; row <= 28; row++) {
-    const heartY = 1.05 - row * 0.075;
-    const availableX = [];
+// معادلة تحدد المساحة الداخلية للقلب
+function isInsideHeart(x, y) {
+    return Math.pow(x * x + y * y - 1, 3)
+        - x * x * Math.pow(y, 3) <= 0;
+}
 
-    for (let x = -1.3; x <= 1.3; x += 0.005) {
-        const value =
-            Math.pow(x * x + heartY * heartY - 1, 3) -
-            x * x * Math.pow(heartY, 3);
+// نبدأ من أعلى القلب ونتحرك لأسفله
+for (let heartY = 0.98; heartY >= -1.08; heartY -= lineHeight / heartScale) {
+    const intervals = [];
+    let inside = false;
+    let intervalStart = 0;
 
-        if (value <= 0) {
-            availableX.push(x);
+    // نحدد حدود كل جزء ممتلئ في الصف
+    for (let x = -1.2; x <= 1.2; x += 0.003) {
+        const currentInside = isInsideHeart(x, heartY);
+
+        if (currentInside && !inside) {
+            intervalStart = x;
+            inside = true;
+        } else if (!currentInside && inside) {
+            intervals.push([intervalStart, x]);
+            inside = false;
         }
     }
 
-    if (availableX.length === 0) continue;
-
-    const leftX = centerX + availableX[0] * heartScale;
-    const rightX =
-        centerX + availableX[availableX.length - 1] * heartScale;
-
-    const availableWidth = rightX - leftX;
-    const words = [];
-    let usedWidth = 0;
-
-    // ملء الصف بكلمات متتالية حتى حافتي القلب
-    while (usedWidth < availableWidth) {
-        const text = phrases[phraseIndex % phrases.length];
-        phraseIndex++;
-
-        const width = ctx.measureText(text).width;
-
-        if (usedWidth + width > availableWidth) break;
-
-        words.push({
-            text,
-            width,
-            x: usedWidth + width / 2
-        });
-
-        usedWidth += width + wordGap;
+    if (inside) {
+        intervals.push([intervalStart, 1.2]);
     }
 
-    // توسيط الكلمات داخل الصف
-    const startX = centerX - usedWidth / 2;
-    const y = centerY - heartY * heartScale;
+    // نملأ كل جزء من الصف بكلمات كاملة
+    intervals.forEach(([left, right]) => {
+        const leftPixel = centerX + left * heartScale;
+        const rightPixel = centerX + right * heartScale;
+        const availableWidth = rightPixel - leftPixel;
 
-    words.forEach((word) => {
-        particles.push({
-            text: word.text,
-            x: startX + word.x,
-            y,
-            alpha: 0,
-            maxAlpha: 0.92,
-            delay: particles.length * 2,
-            fadeInSpeed: 0.035
+        const rowWords = [];
+        let rowWidth = 0;
+
+        while (true) {
+            const text = phrases[phraseIndex % phrases.length];
+            const textWidth = ctx.measureText(text).width;
+
+            const addedWidth = textWidth + (rowWords.length ? wordGap : 0);
+
+            if (rowWidth + addedWidth > availableWidth) break;
+
+            rowWords.push({ text, width: textWidth });
+            rowWidth += addedWidth;
+            phraseIndex++;
+        }
+
+        if (rowWords.length === 0) return;
+
+        // توسيط الكلمات داخل الجزء المتاح من الصف
+        let x = (leftPixel + rightPixel - rowWidth) / 2;
+        const y = centerY - heartY * heartScale;
+
+        rowWords.forEach((word) => {
+            particles.push({
+                text: word.text,
+                x: x + word.width / 2,
+                y,
+                alpha: 0,
+                maxAlpha: 0.95,
+                delay: particles.length * 1.5,
+                width: word.width
+            });
+
+            x += word.width + wordGap;
         });
     });
 }
@@ -122,7 +135,7 @@ function animate() {
         if (frameCount >= p.delay && p.alpha < p.maxAlpha) {
             p.alpha = Math.min(
                 p.maxAlpha,
-                p.alpha + p.fadeInSpeed
+                p.alpha + 0.035
             );
         }
 
@@ -132,11 +145,7 @@ function animate() {
         }
     });
 
-    const stillAppearing = particles.some(
-        p => p.alpha < p.maxAlpha
-    );
-
-    if (stillAppearing) {
+    if (particles.some(p => p.alpha < p.maxAlpha)) {
         requestAnimationFrame(animate);
     }
 }
