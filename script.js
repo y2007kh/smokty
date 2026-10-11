@@ -25,125 +25,244 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         // معادلة إحداثيات القلب الرياضية المضبوطة بدقة وثبات لإظهار شكل القلب بوضوح
-        function getHeartPoint(t) {
-            const x = 16 * Math.sin(t) ** 3;
-            const y = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
-            return { 
-                x: x * 11.5 + canvas.width / 2, 
-                y: y * 11.5 + canvas.height / 2 + 12 
-            };
-        }
+    
 
-       const particles = [];
+       
+
+// معادلة تحدد المساحة الداخلية للقلب
+
+const particles = [];
 
 const centerX = canvas.width / 2;
 const centerY = canvas.height / 2;
-const heartScale = 155;
-const fontSize = 10;
-const lineHeight = 13;
+const heartScale = 9.8;
+const fontSize = 9;
 const wordGap = 4;
 
 ctx.font = `bold ${fontSize}px Tahoma`;
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+// عبارات متنوعة، مع كلمات قصيرة لملء الفراغات
+const lovePhrases = [
+    "أنا بحبك", "I love you", "Te amo",
+    "Je t'aime", "Ti amo", "بحبك",
+    "smokah", "يا دكتورتي", "قلبي ليكي",
+    "My love", "حبيبتي", "يا روحي",
+    "Seni seviyorum", "Ich liebe dich",
+    "أنتِ قلبي", "Forever", "يا قمري",
+    "Amo te", "كلّي ليكي", "وحشتيني",
+    "Kocham cię", "Mon amour", "يا سموكتي",
+    "بحب قلبك", "يا أجمل حاجة", "روحي",
+    "사랑해", "Aku cinta kamu", "يا حبيبتي",
+    "Ты моя любовь", "معاكي", "لآخر العمر",
+    "I choose you", "كل يوم بحبك أكتر"
+];
 
 let phraseIndex = 0;
 
-// معادلة تحدد المساحة الداخلية للقلب
-function isInsideHeart(x, y) {
-    return Math.pow(x * x + y * y - 1, 3)
-        - x * x * Math.pow(y, 3) <= 0;
+function getHeartPoint(t) {
+    const x = 16 * Math.sin(t) ** 3;
+
+    const y = -(
+        13 * Math.cos(t)
+        - 5 * Math.cos(2 * t)
+        - 2 * Math.cos(3 * t)
+        - Math.cos(4 * t)
+    );
+
+    return {
+        x: centerX + x * heartScale,
+        y: centerY + y * heartScale + 5
+    };
 }
 
-// نبدأ من أعلى القلب ونتحرك لأسفله
-for (let heartY = 0.98; heartY >= -1.08; heartY -= lineHeight / heartScale) {
-    const intervals = [];
-    let inside = false;
-    let intervalStart = 0;
+function nextPhrase(maxWidth = Infinity) {
+    // جرّب العبارات القصيرة لو المساحة ضيقة
+    for (let i = 0; i < lovePhrases.length; i++) {
+        const text = lovePhrases[phraseIndex % lovePhrases.length];
+        phraseIndex++;
 
-    // نحدد حدود كل جزء ممتلئ في الصف
-    for (let x = -1.2; x <= 1.2; x += 0.003) {
-        const currentInside = isInsideHeart(x, heartY);
-
-        if (currentInside && !inside) {
-            intervalStart = x;
-            inside = true;
-        } else if (!currentInside && inside) {
-            intervals.push([intervalStart, x]);
-            inside = false;
+        if (ctx.measureText(text).width <= maxWidth) {
+            return text;
         }
     }
 
-    if (inside) {
-        intervals.push([intervalStart, 1.2]);
-    }
+    return "♥";
+}
 
-    // نملأ كل جزء من الصف بكلمات كاملة
-    intervals.forEach(([left, right]) => {
-        const leftPixel = centerX + left * heartScale;
-        const rightPixel = centerX + right * heartScale;
-        const availableWidth = rightPixel - leftPixel;
-
-        const rowWords = [];
-        let rowWidth = 0;
-
-        while (true) {
-            const text = phrases[phraseIndex % phrases.length];
-            const textWidth = ctx.measureText(text).width;
-
-            const addedWidth = textWidth + (rowWords.length ? wordGap : 0);
-
-            if (rowWidth + addedWidth > availableWidth) break;
-
-            rowWords.push({ text, width: textWidth });
-            rowWidth += addedWidth;
-            phraseIndex++;
-        }
-
-        if (rowWords.length === 0) return;
-
-        // توسيط الكلمات داخل الجزء المتاح من الصف
-        let x = (leftPixel + rightPixel - rowWidth) / 2;
-        const y = centerY - heartY * heartScale;
-
-        rowWords.forEach((word) => {
-            particles.push({
-                text: word.text,
-                x: x + word.width / 2,
-                y,
-                alpha: 0,
-                maxAlpha: 0.95,
-                delay: particles.length * 1.5,
-                width: word.width
-            });
-
-            x += word.width + wordGap;
-        });
+function addParticle(text, x, y, order) {
+    particles.push({
+        text,
+        x,
+        y,
+        alpha: 0,
+        delay: order * 12,
+        maxAlpha: 0.94
     });
 }
+
+// ==================================================
+// المرحلة الأولى: محيط القلب
+// يبدأ من النقطة العلوية، ثم اليمين، ثم الشمال
+// ==================================================
+
+const outline = [];
+const steps = 1600;
+
+for (let i = 0; i <= steps; i++) {
+    const t = (Math.PI * 2 * i) / steps;
+    outline.push(getHeartPoint(t));
+}
+
+// نحسب طول المحيط التقريبي
+const lengths = [0];
+
+for (let i = 1; i < outline.length; i++) {
+    const dx = outline[i].x - outline[i - 1].x;
+    const dy = outline[i].y - outline[i - 1].y;
+
+    lengths.push(lengths[i - 1] + Math.hypot(dx, dy));
+}
+
+const perimeter = lengths[lengths.length - 1];
+const outlineCount = Math.floor(perimeter / 15);
+let outlineOrder = 0;
+
+for (let n = 0; n < outlineCount; n++) {
+    const target = (n / outlineCount) * perimeter;
+
+    let low = 0;
+    let high = lengths.length - 1;
+
+    while (low < high) {
+        const mid = Math.floor((low + high) / 2);
+
+        if (lengths[mid] < target) {
+            low = mid + 1;
+        } else {
+            high = mid;
+        }
+    }
+
+    const i = Math.max(1, low);
+    const a = outline[i - 1];
+    const b = outline[i];
+
+    const segment = lengths[i] - lengths[i - 1];
+    const ratio = segment > 0
+        ? (target - lengths[i - 1]) / segment
+        : 0;
+
+    const x = a.x + (b.x - a.x) * ratio;
+    const y = a.y + (b.y - a.y) * ratio;
+
+    const text = nextPhrase(55);
+
+    addParticle(text, x, y, outlineOrder++);
+}
+
+// ==================================================
+// المرحلة الثانية: ملء القلب بالكامل
+// نستخدم المضلع نفسه لمعرفة حدود كل صف
+// ==================================================
+
+const outlineDuration = outlineOrder * 17;
+const fillRows = [];
+const topY = Math.min(...outline.map(p => p.y));
+const bottomY = Math.max(...outline.map(p => p.y));
+
+// نحدد المساحة الداخلية لكل صف أفقي
+for (let y = Math.ceil(topY + 5); y < bottomY - 3; y += 10) {
+    const intersections = [];
+
+    for (let i = 1; i < outline.length; i++) {
+        const a = outline[i - 1];
+        const b = outline[i];
+
+        if ((a.y <= y && b.y > y) || (b.y <= y && a.y > y)) {
+            const ratio = (y - a.y) / (b.y - a.y);
+            intersections.push(a.x + ratio * (b.x - a.x));
+        }
+    }
+
+    intersections.sort((a, b) => a - b);
+
+    if (intersections.length >= 2) {
+        fillRows.push({
+            y,
+            left: intersections[0] + 5,
+            right: intersections[intersections.length - 1] - 5
+        });
+    }
+}
+
+// نبدأ من الحواف ونتجه إلى الداخل
+// ونتبادل بين النصفين قدر الإمكان
+let fillOrder = 0;
+
+fillRows.forEach((row, rowIndex) => {
+    const middle = centerX;
+    const sections = [
+        { left: middle + 3, right: row.right },
+        { left: row.left, right: middle - 3 }
+    ];
+
+    // عكس ترتيب الجانبين في كل صف
+    if (rowIndex % 2 === 1) sections.reverse();
+
+    sections.forEach(section => {
+        const width = section.right - section.left;
+
+        if (width < 14) return;
+
+        let x = section.left;
+        let safety = 0;
+
+        while (x < section.right - 4 && safety++ < 40) {
+            const available = section.right - x;
+            const text = nextPhrase(available);
+            const textWidth = ctx.measureText(text).width;
+
+            if (textWidth > available) break;
+
+            addParticle(
+                text,
+                x + textWidth / 2,
+                row.y,
+                outlineDuration / 17 + fillOrder++
+            );
+
+            x += textWidth + wordGap;
+        }
+    });
+});
+
+// ==================================================
+// الظهور الرومانسي البطيء
+// ==================================================
 
 let frameCount = 0;
 
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    ctx.font = `bold ${fontSize}px Tahoma`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.font = `bold ${fontSize}px Tahoma`;
 
     frameCount++;
 
-    particles.forEach((p) => {
+    for (const p of particles) {
         if (frameCount >= p.delay && p.alpha < p.maxAlpha) {
-            p.alpha = Math.min(
-                p.maxAlpha,
-                p.alpha + 0.035
-            );
+            p.alpha = Math.min(p.maxAlpha, p.alpha + 0.035);
         }
 
         if (p.alpha > 0) {
-            ctx.fillStyle = `rgba(255, 107, 129, ${p.alpha})`;
+            ctx.fillStyle = `rgba(225, 105, 150, ${p.alpha})`;
             ctx.fillText(p.text, p.x, p.y);
         }
-    });
+    }
 
     if (particles.some(p => p.alpha < p.maxAlpha)) {
         requestAnimationFrame(animate);
@@ -151,8 +270,61 @@ function animate() {
 }
 
 animate();
+
+}
+function butterflies(x, y) {
+    for (let i = 0; i < 8; i++) {
+        const b = document.createElement("img");
+
+        b.src = "butterfly.png";
+        b.className = "butterfly";
+
+        b.style.position = "fixed";
+        b.style.left = `${x}px`;
+        b.style.top = `${y}px`;
+        b.style.width = "28px";
+        b.style.height = "28px";
+        b.style.objectFit = "contain";
+        b.style.pointerEvents = "none";
+        b.style.zIndex = "99999";
+
+        document.body.appendChild(b);
+
+        const angle = (Math.PI * 2 * i) / 8;
+        const distance = 100 + Math.random() * 80;
+        const moveX = Math.cos(angle) * distance;
+        const moveY = Math.sin(angle) * distance - 35;
+
+        b.animate([
+            {
+                transform: "translate(-50%, -50%) scale(0.2)",
+                opacity: 0
+            },
+            {
+                transform: "translate(-50%, -50%) scale(1)",
+                opacity: 1,
+                offset: 0.15
+            },
+            {
+                transform: `translate(calc(-50% + ${moveX}px),
+                    calc(-50% + ${moveY}px)) scale(0.6) rotate(180deg)`,
+                opacity: 0
+            }
+        ], {
+            duration: 1800,
+            easing: "ease-out",
+            fill: "forwards"
+        });
+
+        setTimeout(() => b.remove(), 1900);
+    }
 }
 
+document.addEventListener("click", (e) => {
+    if (!e.target.closest("button")) return;
+
+    butterflies(e.clientX, e.clientY);
+});
     /* =====================================================
         💖 إنشاء قلوب متطايرة في الخلفية (تظهر بانتظام في الصفحة الأخيرة)
     ===================================================== */
@@ -462,70 +634,132 @@ function playMusic(audio) {
     /* =====================================================
         Puzzle 4 (الرقم السري)
     ===================================================== */
-    const lockNumbers = document.querySelectorAll(".lock-number");
-    const lockDigit1 = document.getElementById("lockDigit1");
-    const lockDigit2 = document.getElementById("lockDigit2");
-    const lockDigit3 = document.getElementById("lockDigit3");
-    const lockClear = document.getElementById("lockClear");
-    const lockFeedback = document.getElementById("lockFeedback");
-    const lockNext = document.getElementById("lockNext");
-    const lockBox = document.querySelector(".lock-box");
-    let enteredCode = "";
-    const correctCode = "487";
-    let lockSolved = false;
+/* =====================================================
+   Puzzle 4 (الرقم السري + الاستعانة بصديق)
+===================================================== */
 
-    lockNumbers.forEach((number) => {
-        number.addEventListener("click", () => {
-            if (lockSolved || enteredCode.length >= 3) return;
-            enteredCode += number.dataset.number;
-            updateLockDisplay();
-        });
+const lockNumbers = document.querySelectorAll(".lock-number");
+const lockDigit1 = document.getElementById("lockDigit1");
+const lockDigit2 = document.getElementById("lockDigit2");
+const lockDigit3 = document.getElementById("lockDigit3");
+const lockClear = document.getElementById("lockClear");
+const lockFeedback = document.getElementById("lockFeedback");
+const lockNext = document.getElementById("lockNext");
+const askFriendBtn = document.getElementById("askFriendBtn");
+const lockBox = document.querySelector(".lock-box");
+
+let enteredCode = "";
+const correctCode = "487";
+let lockSolved = false;
+
+lockNumbers.forEach((number) => {
+    number.addEventListener("click", () => {
+        if (lockSolved || enteredCode.length >= 3) return;
+
+        enteredCode += number.dataset.number;
+        updateLockDisplay();
     });
+});
 
-    function updateLockDisplay() {
-        if (lockDigit1) lockDigit1.textContent = enteredCode[0] || "_";
-        if (lockDigit2) lockDigit2.textContent = enteredCode[1] || "_";
-        if (lockDigit3) lockDigit3.textContent = enteredCode[2] || "_";
-        if (enteredCode.length === 3) checkLock();
+function updateLockDisplay() {
+    if (lockDigit1) lockDigit1.textContent = enteredCode[0] || "_";
+    if (lockDigit2) lockDigit2.textContent = enteredCode[1] || "_";
+    if (lockDigit3) lockDigit3.textContent = enteredCode[2] || "_";
+
+    if (enteredCode.length === 3) {
+        checkLock();
     }
+}
 
-    function checkLock() {
-        if (enteredCode === correctCode) {
-            lockSolved = true;
-            if (lockFeedback) {
-                lockFeedback.textContent = "اتفتح! 🔓✨";
-                lockFeedback.classList.add("show");
-            }
-            if (lockBox) lockBox.classList.add("unlocked");
-            if (lockNext) lockNext.classList.add("show");
-            lockNumbers.forEach((n) => n.disabled = true);
-        } else {
-            if (lockFeedback) {
-                lockFeedback.textContent = "تاريخنا المميز 🗝❤";
-                lockFeedback.classList.add("show");
-            }
-            if (lockBox) lockBox.classList.add("wrong");
-            setTimeout(() => {
-                if (lockBox) lockBox.classList.remove("wrong");
-                enteredCode = "";
-                updateLockDisplay();
-            }, 700);
+function checkLock() {
+    if (lockSolved) return;
+
+    if (enteredCode === correctCode) {
+        lockSolved = true;
+
+        if (lockFeedback) {
+            lockFeedback.textContent = "اتفتح! 🔓✨";
+            lockFeedback.classList.add("show");
         }
-    }
 
-    if (lockClear) {
-        lockClear.addEventListener("click", () => {
-            if (lockSolved) return;
-            enteredCode = "";
-            if (lockFeedback) lockFeedback.classList.remove("show");
-            updateLockDisplay();
+        if (lockBox) {
+            lockBox.classList.remove("wrong");
+            lockBox.classList.add("unlocked");
+        }
+
+        // إخفاء زر الاستعانة بصديق
+        if (askFriendBtn) {
+            askFriendBtn.style.display = "none";
+        }
+
+        // إظهار زر الاستمرار
+        if (lockNext) {
+            lockNext.classList.add("show");
+        }
+
+        lockNumbers.forEach((number) => {
+            number.disabled = true;
         });
+
+    } else {
+        if (lockFeedback) {
+            lockFeedback.textContent = "مش هو الرقم 😅 جرّبي تاني!";
+            lockFeedback.classList.add("show");
+        }
+
+        // إظهار زر الاستعانة بصديق
+        if (askFriendBtn) {
+            askFriendBtn.style.display = "inline-flex";
+        }
+
+        if (lockBox) {
+            lockBox.classList.add("wrong");
+        }
+
+        setTimeout(() => {
+            if (lockBox) {
+                lockBox.classList.remove("wrong");
+            }
+
+            if (lockSolved) return;
+
+            enteredCode = "";
+            updateLockDisplay();
+        }, 700);
     }
+}
 
-    if (puzzleNext) puzzleNext.addEventListener("click", () => showScreen(currentScreen + 1));
-    if (codeNext) codeNext.addEventListener("click", () => showScreen(currentScreen + 1));
-    if (lockNext) lockNext.addEventListener("click", () => showScreen(currentScreen + 1));
+if (lockClear) {
+    lockClear.addEventListener("click", () => {
+        if (lockSolved) return;
 
+        enteredCode = "";
+
+        if (lockFeedback) {
+            lockFeedback.classList.remove("show");
+        }
+
+        updateLockDisplay();
+    });
+}
+
+if (puzzleNext) {
+    puzzleNext.addEventListener("click", () => {
+        showScreen(currentScreen + 1);
+    });
+}
+
+if (codeNext) {
+    codeNext.addEventListener("click", () => {
+        showScreen(currentScreen + 1);
+    });
+}
+
+if (lockNext) {
+    lockNext.addEventListener("click", () => {
+        showScreen(currentScreen + 1);
+    });
+}
     /* =====================================================
         Puzzle 5 (الأبواب)
     ===================================================== */
@@ -625,10 +859,13 @@ function playMusic(audio) {
 
     setupConfessionSection();
 
+   
     /* =====================================================
         ظهور عناصر الصفحة تدريجيًا
     ===================================================== */
+
     const storyBlocks = document.querySelectorAll(".story-block");
+
     const revealObserver = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
@@ -640,5 +877,51 @@ function playMusic(audio) {
         { threshold: 0.12 }
     );
 
-    storyBlocks.forEach((block) => revealObserver.observe(block));
+    storyBlocks.forEach((block) => {
+        revealObserver.observe(block);
+    });
+
+    /* =====================================================
+        ⬇️ إظهار السهم و Contact عند الوصول لآخر محتوى
+    ===================================================== */
+
+    const downArrow = document.getElementById("downArrow");
+    const contactUs = document.getElementById("contactUs");
+
+    function showContact() {
+        if (downArrow) {
+            downArrow.hidden = false;
+            downArrow.classList.add("contact-visible");
+        }
+
+        if (contactUs) {
+            contactUs.hidden = false;
+            contactUs.classList.add("contact-visible");
+        }
+    }
+
+    // نخفي العنصرين في البداية
+    if (downArrow) downArrow.hidden = true;
+    if (contactUs) contactUs.hidden = true;
+
+    // نراقب آخر صندوق محتوى في الصفحة
+
+const finalSection = document.querySelector("#love-page .final-love");
+if (finalSection) {
+    const contactObserver = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    showContact();
+                    contactObserver.disconnect();
+                }
+            });
+        },
+        {
+            threshold: 0.9
+        }
+    );
+    contactObserver.observe(finalSection);
+}
+            
 });
