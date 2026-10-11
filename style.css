@@ -810,3 +810,74 @@ body.love-page-open {
     height: 100%;
     display: block;
 }
+/* =====================================
+   Romantic Contact Ending 🤍
+===================================== */
+
+
+.contact-us {
+     background: #302735;
+
+    color: #fff;
+
+    border-radius: 24px;
+
+    padding: 26px 16px;
+
+    margin-top: 30px;
+
+    text-align: center;
+}
+
+.contact-us h2 {
+    font-size: 20px;
+    margin-bottom: 18px;
+}
+
+.social-icons img {
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+    border-radius: 50%;
+}
+
+
+/* إخفاء السهم وقسم التواصل في البداية */
+#downArrow[hidden],
+#contactUs[hidden] {
+    display: none !important;
+}
+#downArrow.contact-visible,
+
+#contactUs.contact-visible {
+
+    animation: contactFadeIn 0.8s ease forwards;
+
+}
+
+@keyframes contactFadeIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(15px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+.flying-butterfly {
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    pointer-events: none;
+    z-index: 99999;
+    will-change: transform, opacity;
+}
