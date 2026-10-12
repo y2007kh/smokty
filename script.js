@@ -646,6 +646,20 @@ const lockClear = document.getElementById("lockClear");
 const lockFeedback = document.getElementById("lockFeedback");
 const lockNext = document.getElementById("lockNext");
 const askFriendBtn = document.getElementById("askFriendBtn");
+if (askFriendBtn) {
+    askFriendBtn.addEventListener("click", () => {
+        const phone = "201068685560";
+
+        const message = encodeURIComponent(
+            "أهلًا ❤️ أنا محتاجة مساعدة في حل اللغز، ممكن تساعدني؟ 🔐"
+        );
+
+        const whatsappURL =
+            `https://wa.me/${phone}?text=${message}`;
+
+        window.open(whatsappURL, "_blank");
+    });
+}
 const lockBox = document.querySelector(".lock-box");
 
 let enteredCode = "";
