@@ -651,7 +651,7 @@ if (askFriendBtn) {
         const phone = "201068685560";
 
         const message = encodeURIComponent(
-            "أهلًا ❤️ أنا محتاجة مساعدة في حل اللغز، ممكن تساعدني؟ 🔐"
+            "رقم القفل موجود قدامك يا دكتوره 487 🔐"
         );
 
         const whatsappURL =
