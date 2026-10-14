@@ -5,13 +5,28 @@ document.addEventListener("DOMContentLoaded", () => {
     ===================================================== */
     let canvasInitialized = false;
 
-    function initLoveHeartCanvas() {
-        if (canvasInitialized) return;
-        canvasInitialized = true;
+    
+function initLoveHeartCanvas() {
+    if (canvasInitialized) return;
 
-        const canvas = document.getElementById("loveHeartCanvas");
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById("loveHeartCanvas");
+    if (!canvas) {
+        console.error("لم يتم العثور على العنصر #loveHeartCanvas");
+        return;
+    }
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+        console.error("تعذر إنشاء Canvas 2D context");
+        return;
+    }
+
+    canvasInitialized = true;
+
+    // كمّل باقي كود رسم القلب هنا كما هو
+
+
+       
 
         canvas.width = 400;
         canvas.height = 400;
