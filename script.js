@@ -382,7 +382,7 @@ function startFloatingHearts() {
     const MUSIC = {
         confession: "rose.mp3", 
         memory: "B.m4a",
-        afterDoor: "A.m4a"
+        afterDoor: "N.m4a"
     };
 
     const roseLyrics = [
