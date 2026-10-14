@@ -806,7 +806,9 @@ if (lockNext) {
             } else {
                 door.classList.add("wrong");
                 if (doorFeedback) {
-                    doorFeedback.textContent = `كل الطرق في الآخر بتؤدي لقلبك 🚪💖`;
+                    doorFeedback.textContent = `عيناك سحرٌ مترفٌ كاد يُهلكني
+ فمَن ذا الذي عن جمال عيناك 
+يصبرُ 🚪💖`;
                     doorFeedback.classList.add("show");
                 }
                 setTimeout(() => door.classList.remove("wrong"), 500);
