@@ -382,6 +382,7 @@ function startFloatingHearts() {
     const MUSIC = {
         confession: "rose.mp3", 
         memory: "B.m4a",
+        afterDor: "A.m4a"
         afterDoor: "N.m4a"
     };
 
@@ -397,7 +398,7 @@ function startFloatingHearts() {
     ];
 
     const roseSound = document.getElementById("roseSound");
-    if (roseSound) roseSound.src = MUSIC.afterDoor;
+    if (roseSound) roseSound.src = MUSIC.afterDor;
 
     const roseLyricsText = document.getElementById("roseLyricsText");
 
