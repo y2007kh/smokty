@@ -769,11 +769,16 @@ if (codeNext) {
     });
 }
 
+
 if (lockNext) {
     lockNext.addEventListener("click", () => {
-        showScreen(currentScreen + 1);
+        // فتح صفحة الحب الطويلة بعد حل القفل
+        startFloatingHearts();
+        stopAllMusic();
+        openLovePage();
     });
 }
+
     /* =====================================================
         Puzzle 5 (الأبواب)
     ===================================================== */
@@ -808,14 +813,15 @@ if (lockNext) {
         });
     });
 
-    if (doorNext) {
-        doorNext.addEventListener("click", () => {
-            // تفعيل القلوب المتطايرة فوراً وبشكل دائم عند الخروج من الأبواب للنهاية
-            startFloatingHearts(); 
-            stopAllMusic();
-            openLovePage();
-        });
-    }
+   
+if (doorNext) {
+    doorNext.addEventListener("click", () => {
+        // إيقاف أغنية الباب والانتقال إلى اللغز الأول
+        stopAllMusic();
+        showScreen(currentScreen + 1);
+    });
+}
+
 
     function openLovePage() {
         screens.forEach((screen) => {
